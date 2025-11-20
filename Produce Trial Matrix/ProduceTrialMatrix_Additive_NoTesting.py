@@ -21,10 +21,9 @@ import matplotlib.pyplot as plt
 mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
-participants = 6
+participants = 2
 save_csv = True
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
-output_dir_pilot = r'C:\Users\Seb\Desktop\P-A Scripts\PrePilot-Files'
 os.makedirs(output_dir, exist_ok=True)
 training_reps = 3
 testing_reps = 1
@@ -169,7 +168,7 @@ def compute_feature_correlations(df):
     """Compute correlations of features and stimulus averages with food needed for training and testing phases."""
     
     participant = df['participant_id'].iloc[0]
-    results = []
+
     for phase in ["training"]:
         df_phase = df[df['phase'] == phase].copy()
         df_phase["tail_num"] = df_phase["tail"].map({"T": 1, "N": 0})
@@ -179,12 +178,6 @@ def compute_feature_correlations(df):
         corr_tail = df_phase["tail_num"].corr(df_phase["food_amount"])
         corr_shape = df_phase["shape_num"].corr(df_phase["food_amount"])
         corr_color = df_phase["color_num"].corr(df_phase["food_amount"])
-        results.append({
-        "participant": participant,
-        "phase": phase,
-        "corr_tail": corr_tail,
-        "corr_shape": corr_shape,
-        "corr_color": corr_color})
 
         print(f"\n{phase.capitalize()} phase correlations for participant {participant}:")
         print(f"  Tail (Has one):  {corr_tail:.3f}")
@@ -199,8 +192,6 @@ def compute_feature_correlations(df):
         print(f"\nAverage food amount per stimulus ({phase}):")
         for _, row in stim_means.iterrows():
             print(f"  {row['image_file']}: {row['mean_food_amount']:.2f}")
-    df_corr = pd.DataFrame(results)
-    return df_corr
 
 # ============================
 # --- Run Experiment Generation ---
@@ -209,9 +200,7 @@ all_data = []
 for participant_id in range(1, participants + 1):
     df = generate_trials(participant_id, training_reps=training_reps, testing_reps=testing_reps)
     all_data.append(df)
-    correlations = correlations_training = compute_feature_correlations(df)
-    out_path2 = os.path.join(output_dir_pilot, f"subj{participant_id:03d}_trials.csv")
-    correlations.to_csv(out_path2, index = False)
+    compute_feature_correlations(df)
         # Below adds the paths to all the images in a randomized order for testing
     fixed_images = [
         "Resources/T_B_S.png", "Resources/T_Y_S.png", "Resources/T_B_C.png", "Resources/T_Y_C.png",
