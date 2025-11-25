@@ -5,8 +5,7 @@ Created on Tue Oct 28 11:05:40 2025
 @author: Sebastian Montesinos
 
 Produces the sequence of trials for each participant, using an additive rule:
-- Tail and Shape each contribute independently to total food.
-- Color is present but does not affect food.
+- What features are assigned to be relevant are randomly assigned
 """
 
 import itertools
