@@ -1,0 +1,7 @@
+﻿consent_survey.block_1/consentChoice,participant,condition,date,expName,psychopyVersion,OS,frameRate,check_response.started,check_response.stopped,Welcome_Screen.started,Welcome_Screen.stopped,button_start_1.numClicks,button_start_1.timesOn,button_start_1.timesOff,Welcome_Screen2.started,Welcome_Screen2.stopped,button_start_2.numClicks,button_start_2.timesOn,button_start_2.timesOff,Welcome_Screen3.started,Welcome_Screen3.stopped,button_start_3.numClicks,button_start_3.timesOn,button_start_3.timesOff,Instruction_Screen.started,Instruction_Screen.stopped,instruct_button.numClicks,instruct_button.timesOn,instruct_button.timesOff
+yes,447807,002,2025-11-17_14h49.15.186,explain2,2025.1.1,Win32,144.092219,,,,,,,,,,,,,,,,,,,,,,
+,447807,002,2025-11-17_14h49.15.186,explain2,2025.1.1,Win32,144.092219,2.296,2.296,,,,,,,,,,,,,,,,,,,,
+,447807,002,2025-11-17_14h49.15.186,explain2,2025.1.1,Win32,144.092219,,,2.296,5.824,1,[0.5289999999999999],[0.5289999999999999],,,,,,,,,,,,,,,
+,447807,002,2025-11-17_14h49.15.186,explain2,2025.1.1,Win32,144.092219,,,,,,,,5.824,9.074,1,[0.2510000000000012],[0.2510000000000012],,,,,,,,,,
+,447807,002,2025-11-17_14h49.15.186,explain2,2025.1.1,Win32,144.092219,,,,,,,,,,,,,9.074,12.351,1,[0.27800000000000225],[0.27800000000000225],,,,,
+,447807,002,2025-11-17_14h49.15.186,explain2,2025.1.1,Win32,144.092219,,,,,,,,,,,,,,,,,,12.351,15.622,1,[0.27800000000000225],[0.27800000000000225]
