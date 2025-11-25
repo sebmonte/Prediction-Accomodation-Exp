@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
-participants = 30
+participants = 6
 save_csv = True
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
 output_dir_pilot = r'C:\Users\Seb\Desktop\P-A Scripts\Pilot-Files'
