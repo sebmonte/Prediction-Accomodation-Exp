@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 28 11:05:40 2025
+Created on Tue Oct 28 2025
 
 @author: Sebastian Montesinos
 
@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
+import random
 
 # ============================
 # --- Parameters ---
@@ -21,13 +22,14 @@ mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
 participants = 6
-save_csv = True
+save_csv = False
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
 output_dir_pilot = r'C:\Users\Seb\Desktop\P-A Scripts\Pilot-Files'
 os.makedirs(output_dir, exist_ok=True)
-training_reps = 3
+training_reps = 1
 testing_reps = 1
 testing = 0 #Turn off testing for now (may not need it)
+visualize = 0
 
 
 # ============================
@@ -48,17 +50,18 @@ low_counts = np.bincount(low_samples, minlength=11)
 high_counts = np.bincount(high_samples, minlength=11) 
 values = np.arange(0, 11)
 
-# Plot histogram
-plt.figure(figsize=(8, 4))
-plt.bar(values - 0.2, low_counts / n_samples, width=0.4, alpha=0.7, label="Low")
-plt.bar(values + 0.2, high_counts / n_samples, width=0.4, alpha=0.7, label="High")
-plt.xticks(values)
-plt.xlabel("Food value")
-plt.ylabel("Probability")
-plt.title("Food Distribution based on features")
-plt.legend()
-plt.tight_layout()
-plt.show()
+if visualize:
+    # Plot histogram
+    plt.figure(figsize=(8, 4))
+    plt.bar(values - 0.2, low_counts / n_samples, width=0.4, alpha=0.7, label="Low")
+    plt.bar(values + 0.2, high_counts / n_samples, width=0.4, alpha=0.7, label="High")
+    plt.xticks(values)
+    plt.xlabel("Food value")
+    plt.ylabel("Probability")
+    plt.title("Food Distribution based on features")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
 
 
 
@@ -80,87 +83,134 @@ for t, c, s in itertools.product(tails, colors, shapes):
 
 stim_df = pd.DataFrame(stimuli)
 
+
+
+# ============================
+# --- Feature Mapping and Counterbalancing ---
+# ============================
+# Randomizing which features are relevant
+
+def feature_mapping():
+    dims = ['tail', 'color', 'shape']
+    relevant_dims = random.sample(dims, 2) #Randomly choose the two relevant dimensions
+    irrelevant_dim = [d for d in dims if d not in relevant_dims][0] #The other dimension is the irrelevant one
+    mapping = {"relevant_dims": relevant_dims, "irrelevant_dim": irrelevant_dim, "assignments": {}}
+    options = {
+        "tail": ["T", "N"],
+        "color": ["B", "Y"],
+        "shape": ["S", "C"]
+    }
+    #Randomly choose which of the dimensions of the feature is relevant
+    for dim in relevant_dims:
+        high_val = random.choice(options[dim]) #Pick the high one randomly
+        low_val = [x for x in options[dim] if x != high_val][0] #The other becomes the low value
+        mapping["assignments"][dim] = {"high": high_val, "low": low_val}
+
+    return mapping
+
 # ============================
 # --- Sampling Function ---
 # ============================
-def sample_additive(tail, shape):
-    """
-    Sample food amount using an additive rule:
-      - Each feature contributes independently.
-      - Tail and Square add positively.
-      - Each contribution is drawn from its respective distribution.
-    """
-    # Sample each feature independently
-    tail_food = np.random.normal(mean_high if tail == "T" else mean_low, std_dev)
-    shape_food = np.random.normal(mean_high if shape == "S" else mean_low, std_dev)
+def sample_additive(tail, shape, color, featuremap):
+    
+    total = 0
+    draw_idx = 1  # to label Draw 1, Draw 2
 
-    # Clip each contribution so it can't be negative
-    tail_food = np.clip(tail_food, 0, 10)
-    shape_food = np.clip(shape_food, 0, 10)
+    print("\nTRIAL:", f"tail={tail}, shape={shape}, color={color}")
+    print("Relevant features:", featuremap["relevant_dims"])
+    print("Assignments:", featuremap["assignments"])
 
-    total = tail_food + shape_food
+    for dim, val in zip(["tail", "shape", "color"], [tail, shape, color]):
 
-    # Round and ensure final value is between 1-10
-    total_rounded = int(np.clip(round(total), 1, 10))
+        if dim in featuremap["relevant_dims"]:
 
-    # Print result (this is just to debug)
-    print(f"tail={tail} ({tail_food:.2f}), shape={shape} ({shape_food:.2f}) → total={total:.2f} → rounded={total_rounded}")
+            if val == featuremap["assignments"][dim]["high"]:
+                contrib = np.random.normal(mean_high, std_dev)
+                level = "HIGH"
+            else:
+                contrib = np.random.normal(mean_low, std_dev)
+                level = "LOW"
+            
+            contrib_clipped = np.clip(contrib, 0, 10)
+            total += contrib_clipped
 
-    return total_rounded
+            print(
+                f"  Draw {draw_idx}: {dim}={val} → {level} → "
+                f"{contrib_clipped:.3f}"
+            )
+
+            draw_idx += 1
+
+    print(f"  Total: {total:.3f} → Final Food = {int(np.clip(round(total), 1, 10))}")
+    print("-" * 50)
+
+    return int(np.clip(round(total), 1, 10))
 
 
 # ============================
 # --- Label Categories in dataframe ---
 # ============================
-def label_category(tail, shape):
-    if tail == "T" and shape == "S":
-        return "high"
-    elif tail == "N" and shape == "C":
-        return "low"
-    else:
-        return "medium"
+def label_category(row, fmap):
+    score = 0
+    for dim in fmap["relevant_dims"]:
+        if row[dim] == fmap["assignments"][dim]["high"]:
+            score += 1
+    return ["low", "medium", "high"][score]
+
 
 # ============================
 # --- Trial Generation ---
 # ============================
-def generate_trials(participant_id, training_reps=2, testing_reps=1):
+def generate_trials(participant_id, training_reps):
     """
-    Create a dataframe with randomized training and testing trials for one participant.
+    Create a dataframe with randomized training trials for one participant.
     """
     training_trials = []
+    fmap = feature_mapping()
+    fmap_str = str(fmap)
+
     for i in range(training_reps):
         shuffled = stim_df.sample(frac=1).reset_index(drop=True)
         shuffled["phase"] = "training"
         shuffled["rep"] = i + 1
         shuffled["trial_num"] = range(1 + i * len(shuffled), 1 + (i + 1) * len(shuffled))
+
+        # Food amounts
         shuffled["food_amount"] = [
-            sample_additive(t, s) for t, s in zip(shuffled["tail"], shuffled["shape"])
+            sample_additive(t, s, c, fmap)
+            for t, s, c in zip(shuffled["tail"], shuffled["shape"], shuffled["color"])
         ]
-        shuffled["category"] = [label_category(t, s) for t, s in zip(shuffled["tail"], shuffled["shape"])]
+
+        # Categories
+        shuffled["category"] = [
+            label_category(row, fmap) for _, row in shuffled.iterrows()
+        ]
+
+        # Save feature mapping
+        shuffled["mapping"] = fmap_str
+
         training_trials.append(shuffled)
 
     training_df = pd.concat(training_trials, ignore_index=True)
+    training_df["participant_id"] = participant_id
+    training_df["food_image_file"] = training_df["food_amount"].astype(str) + "_food.png"
 
-    testing_trials = []
-    start_trial = len(training_df)
-    for i in range(testing_reps):
-        shuffled_test = stim_df.sample(frac=1).reset_index(drop=True)
-        shuffled_test["phase"] = "testing"
-        shuffled_test["rep"] = i + 1
-        shuffled_test["trial_num"] = range(start_trial + 1, start_trial + 1 + len(shuffled_test))
-        shuffled_test["food_amount"] = [
-            sample_additive(t, s) for t, s in zip(shuffled_test["tail"], shuffled_test["shape"])
-        ]
-        shuffled_test["category"] = [label_category(t, s) for t, s in zip(shuffled_test["tail"], shuffled_test["shape"])]
-        start_trial += len(shuffled_test)
-        testing_trials.append(shuffled_test)
+    return training_df
 
-    testing_df = pd.concat(testing_trials, ignore_index=True)
-    all_trials = pd.concat([training_df, testing_df], ignore_index=True)
-    all_trials["participant_id"] = participant_id
-    all_trials["food_image_file"] = all_trials["food_amount"].astype(str) + "_food.png"
-    return all_trials
+all_data = []
+output_dir = r'C:\Users\Seb\Desktop\counterbalancetest'
+os.makedirs(output_dir, exist_ok=True)
 
+for participant_id in range(1, participants + 1):
+    # Generate training trials
+    df = generate_trials(participant_id, training_reps=training_reps)
+    all_data.append(df)
+
+    # Save participant-specific CSV
+    out_path = os.path.join(output_dir, f"subj{participant_id:03d}_training.csv")
+    df.to_csv(out_path, index=False)
+    print(f"Saved CSV for participant {participant_id} to {out_path}")
+'''
 # ============================
 # --- Analysis Function ---
 # ============================
@@ -237,3 +287,4 @@ if testing:
 
 print("\nPreview:")
 print(df[['phase', 'tail', 'shape', 'color', 'food_amount', 'category', 'trial_num']])
+'''
