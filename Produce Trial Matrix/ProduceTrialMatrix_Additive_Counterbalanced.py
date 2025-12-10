@@ -21,13 +21,12 @@ import random
 mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
-participants = 6
+participants = 1
 save_csv = False
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
 output_dir_pilot = r'C:\Users\Seb\Desktop\P-A Scripts\Pilot-Files'
 os.makedirs(output_dir, exist_ok=True)
-training_reps = 1
-testing_reps = 1
+training_reps = 1 
 testing = 0 #Turn off testing for now (may not need it)
 visualize = 0
 
@@ -83,7 +82,7 @@ for t, c, s in itertools.product(tails, colors, shapes):
 
 stim_df = pd.DataFrame(stimuli)
 
-
+print(stim_df)
 
 # ============================
 # --- Feature Mapping and Counterbalancing ---
@@ -112,7 +111,9 @@ def feature_mapping():
 # --- Sampling Function ---
 # ============================
 def sample_additive(tail, shape, color, featuremap):
-    
+    ###FUNCTION FOR SAMPLING THE AMOUNT OF FOOD NEEDED FOR A GIVEN TRIAL
+    #tail, shape, color: the tail/shape/color of the sperk for this trial
+    #featuremap: the mapping between those features and what dimensions are relevant for this participant
     total = 0
     draw_idx = 1  # to label Draw 1, Draw 2
 
@@ -130,7 +131,7 @@ def sample_additive(tail, shape, color, featuremap):
             else:
                 contrib = np.random.normal(mean_low, std_dev)
                 level = "LOW"
-            
+
             contrib_clipped = np.clip(contrib, 0, 10)
             total += contrib_clipped
 
@@ -158,6 +159,22 @@ def label_category(row, fmap):
     return ["low", "medium", "high"][score]
 
 
+def map_relative_features(row, fmap):
+    out = {}
+
+    for dim in ["tail", "color", "shape"]:
+
+        if dim in fmap["relevant_dims"]:
+            if row[dim] == fmap["assignments"][dim]["high"]:
+                out[dim + "_rel"] = "H"
+            else:
+                out[dim + "_rel"] = "L"
+        else:
+            out[dim + "_rel"] = "IR"
+
+    return pd.Series(out)
+
+
 # ============================
 # --- Trial Generation ---
 # ============================
@@ -167,6 +184,7 @@ def generate_trials(participant_id, training_reps):
     """
     training_trials = []
     fmap = feature_mapping()
+    print(fmap)
     fmap_str = str(fmap)
 
     for i in range(training_reps):
@@ -188,6 +206,8 @@ def generate_trials(participant_id, training_reps):
 
         # Save feature mapping
         shuffled["mapping"] = fmap_str
+        relative_cols = shuffled.apply(lambda row: map_relative_features(row, fmap), axis=1)
+        shuffled = pd.concat([shuffled, relative_cols], axis=1)
 
         training_trials.append(shuffled)
 
@@ -196,6 +216,9 @@ def generate_trials(participant_id, training_reps):
     training_df["food_image_file"] = training_df["food_amount"].astype(str) + "_food.png"
 
     return training_df
+
+
+
 
 all_data = []
 output_dir = r'C:\Users\Seb\Desktop\counterbalancetest'
@@ -210,7 +233,10 @@ for participant_id in range(1, participants + 1):
     out_path = os.path.join(output_dir, f"subj{participant_id:03d}_training.csv")
     df.to_csv(out_path, index=False)
     print(f"Saved CSV for participant {participant_id} to {out_path}")
+
+
 '''
+
 # ============================
 # --- Analysis Function ---
 # ============================
