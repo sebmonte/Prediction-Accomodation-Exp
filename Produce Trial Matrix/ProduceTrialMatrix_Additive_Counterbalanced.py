@@ -21,12 +21,11 @@ import random
 mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
-participants = 1
-save_csv = False
+participants = 6
+save_csv = True
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
-output_dir_pilot = r'C:\Users\Seb\Desktop\P-A Scripts\Pilot-Files'
 os.makedirs(output_dir, exist_ok=True)
-training_reps = 1 
+training_reps = 3
 testing = 0 #Turn off testing for now (may not need it)
 visualize = 0
 
@@ -158,21 +157,76 @@ def label_category(row, fmap):
             score += 1
     return ["low", "medium", "high"][score]
 
+def build_relative_label_map(fmap):
+    """
+    Creates an arbitrary but fixed mapping from concrete feature values
+    to relative labels (R1/R2/L1/L2/I1/I2) for one participant.
+    """
+    rel_map = {}
 
+    # Arbitrarily assign R1 / R2 to the two relevant dimensions
+    rel_dims = fmap["relevant_dims"]
+    random.shuffle(rel_dims)  # arbitrary but fixed
+
+    for idx, dim in enumerate(rel_dims, start=1):
+        high = fmap["assignments"][dim]["high"]
+        low  = fmap["assignments"][dim]["low"]
+
+        rel_map[(dim, high)] = f"R{idx}"
+        rel_map[(dim, low)]  = f"L{idx}"
+
+    # Irrelevant dimension
+    ir_dim = fmap["irrelevant_dim"]
+    ir_vals = ["I1", "I2"]
+    random.shuffle(ir_vals)
+
+    for val, label in zip(["T", "N"] if ir_dim == "tail"
+                           else ["B", "Y"] if ir_dim == "color"
+                           else ["S", "C"], ir_vals):
+        rel_map[(ir_dim, val)] = label
+
+    return rel_map
+
+'''
 def map_relative_features(row, fmap):
     out = {}
-
+    labeling = random.randint(0, 1)
     for dim in ["tail", "color", "shape"]:
-
         if dim in fmap["relevant_dims"]:
             if row[dim] == fmap["assignments"][dim]["high"]:
-                out[dim + "_rel"] = "H"
+                out[dim + "_rel"] = "R1"
             else:
-                out[dim + "_rel"] = "L"
+                out[dim + "_rel"] = "L1"
         else:
             out[dim + "_rel"] = "IR"
 
     return pd.Series(out)
+'''
+
+def map_relative_features(row, rel_map):
+    return pd.Series({
+        "tail_rel":  rel_map[("tail", row["tail"])],
+        "color_rel": rel_map[("color", row["color"])],
+        "shape_rel": rel_map[("shape", row["shape"])]
+    })
+
+
+def parse_image_name(img_name):
+    base = os.path.basename(img_name).replace(".png", "")
+    t, c, s = base.split("_")
+    return {"tail": t, "color": c, "shape": s}
+
+def label_image_sequence(images_list_str, fmap):
+    img_list = images_list_str.split(",")
+
+    categories = []
+    for img in img_list:
+        row = parse_image_name(img)
+        cat = label_category(row, fmap)
+        categories.append(cat)
+
+    return ",".join(categories)
+
 
 
 # ============================
@@ -184,7 +238,7 @@ def generate_trials(participant_id, training_reps):
     """
     training_trials = []
     fmap = feature_mapping()
-    print(fmap)
+    rel_map = build_relative_label_map(fmap)
     fmap_str = str(fmap)
 
     for i in range(training_reps):
@@ -206,7 +260,7 @@ def generate_trials(participant_id, training_reps):
 
         # Save feature mapping
         shuffled["mapping"] = fmap_str
-        relative_cols = shuffled.apply(lambda row: map_relative_features(row, fmap), axis=1)
+        relative_cols = shuffled.apply(lambda row: map_relative_features(row, rel_map), axis=1)
         shuffled = pd.concat([shuffled, relative_cols], axis=1)
 
         training_trials.append(shuffled)
@@ -215,24 +269,46 @@ def generate_trials(participant_id, training_reps):
     training_df["participant_id"] = participant_id
     training_df["food_image_file"] = training_df["food_amount"].astype(str) + "_food.png"
 
-    return training_df
+    return training_df, fmap
 
 
-
-
+# ============================
+# --- Run Experiment Generation ---
+# ============================
 all_data = []
-output_dir = r'C:\Users\Seb\Desktop\counterbalancetest'
-os.makedirs(output_dir, exist_ok=True)
-
 for participant_id in range(1, participants + 1):
-    # Generate training trials
-    df = generate_trials(participant_id, training_reps=training_reps)
+    df, fmap = generate_trials(participant_id, training_reps=training_reps)
     all_data.append(df)
+    #correlations = correlations_training = compute_feature_correlations(df)
+    #out_path2 = os.path.join(output_dir_pilot, f"subj{participant_id:03d}_trials.csv")
+    #correlations.to_csv(out_path2, index = False)
+        # Below adds the paths to all the images in a randomized order for testing
+    fixed_images = [
+        "Resources/T_B_S.png", "Resources/T_Y_S.png", "Resources/T_B_C.png", "Resources/T_Y_C.png",
+        "Resources/N_B_S.png", "Resources/N_Y_S.png", "Resources/N_B_C.png", "Resources/N_Y_C.png"
+    ]
 
-    # Save participant-specific CSV
-    out_path = os.path.join(output_dir, f"subj{participant_id:03d}_training.csv")
-    df.to_csv(out_path, index=False)
-    print(f"Saved CSV for participant {participant_id} to {out_path}")
+    rand_images = np.random.permutation(fixed_images).tolist()
+    df["images_list"] = ",".join(rand_images)
+    df["testing_categories"] = df["images_list"].apply(lambda x: label_image_sequence(x, fmap))
+
+
+
+    if save_csv:
+        out_path = os.path.join(output_dir, f"subj{participant_id:03d}_training.csv")
+        df.to_csv(out_path, index=False)
+
+# Combine all participants’ data
+if testing:
+    all_data_df = pd.concat(all_data, ignore_index=True)
+    all_data_df.to_csv(os.path.join(output_dir, "all_trials.csv"), index=False)
+
+print("\nPreview:")
+print(df[['phase', 'tail', 'shape', 'color', 'food_amount', 'category', 'trial_num']])
+
+
+
+
 
 
 '''
