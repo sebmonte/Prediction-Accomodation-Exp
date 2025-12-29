@@ -24,6 +24,7 @@ std_dev = 1   # Spread of each distribution
 participants = 6
 save_csv = True
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
+output_dir = r'C:\Users\Seb\Desktop\counterbalancetest'
 os.makedirs(output_dir, exist_ok=True)
 training_reps = 3
 testing = 0 #Turn off testing for now (may not need it)
