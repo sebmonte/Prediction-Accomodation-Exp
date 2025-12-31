@@ -14,6 +14,7 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import random
+import json
 
 # ============================
 # --- Parameters ---
@@ -24,7 +25,7 @@ std_dev = 1   # Spread of each distribution
 participants = 6
 save_csv = True
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
-output_dir = r'C:\Users\Seb\Desktop\counterbalancetest'
+output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main-12-29'
 os.makedirs(output_dir, exist_ok=True)
 training_reps = 3
 testing = 0 #Turn off testing for now (may not need it)
@@ -240,7 +241,7 @@ def generate_trials(participant_id, training_reps):
     training_trials = []
     fmap = feature_mapping()
     rel_map = build_relative_label_map(fmap)
-    fmap_str = str(fmap)
+    
 
     for i in range(training_reps):
         shuffled = stim_df.sample(frac=1).reset_index(drop=True)
@@ -260,7 +261,13 @@ def generate_trials(participant_id, training_reps):
         ]
 
         # Save feature mapping
-        shuffled["mapping"] = fmap_str
+        shuffled["relevant_dim_1"] = fmap["relevant_dims"][0]
+        shuffled["relevant_dim_2"] = fmap["relevant_dims"][1]
+        shuffled["irrelevant_dim"] = fmap["irrelevant_dim"]
+
+        for dim in fmap["relevant_dims"]:
+            shuffled[f"{dim}_high"] = fmap["assignments"][dim]["high"]
+            shuffled[f"{dim}_low"]  = fmap["assignments"][dim]["low"]
         relative_cols = shuffled.apply(lambda row: map_relative_features(row, rel_map), axis=1)
         shuffled = pd.concat([shuffled, relative_cols], axis=1)
 
