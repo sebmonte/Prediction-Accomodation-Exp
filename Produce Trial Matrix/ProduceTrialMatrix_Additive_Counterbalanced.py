@@ -15,6 +15,7 @@ import os
 import matplotlib.pyplot as plt
 import random
 import json
+from collections import Counter, defaultdict
 
 # ============================
 # --- Parameters ---
@@ -22,14 +23,19 @@ import json
 mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
-participants = 6
-save_csv = True
+participants = 150
+save_csv = False
 output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
-output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main-12-29'
+output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Pilot-1-09'
 os.makedirs(output_dir, exist_ok=True)
 training_reps = 3
 testing = 0 #Turn off testing for now (may not need it)
-visualize = 0
+visualize = 1
+
+
+# --- Summary counters ---
+irrelevant_counts = Counter()  # how often each feature is irrelevant
+relevant_dir_counts = defaultdict(lambda: Counter())
 
 
 # ============================
@@ -58,7 +64,7 @@ if visualize:
     plt.xticks(values)
     plt.xlabel("Food value")
     plt.ylabel("Probability")
-    plt.title("Food Distribution based on features")
+    plt.title("Selection Distributions")
     plt.legend()
     plt.tight_layout()
     plt.show()
@@ -68,7 +74,7 @@ if visualize:
 # ============================
 # --- Stimulus Setup ---
 # ============================
-tails = ["T", "N"]   # Tail / No Tail
+tails = ["T", "N"]   # Curly Tail / Straight Tail
 colors = ["B", "Y"]  # Blue / Yellow (does not affect food)
 shapes = ["S", "C"]  # Square / Circle
 
@@ -153,6 +159,8 @@ def sample_additive(tail, shape, color, featuremap):
 # --- Label Categories in dataframe ---
 # ============================
 def label_category(row, fmap):
+    #3 possible categories for amount of food sperks need: low, medium or high. This function takes in a row and determines what category
+    #A given sperk falls into
     score = 0
     for dim in fmap["relevant_dims"]:
         if row[dim] == fmap["assignments"][dim]["high"]:
@@ -161,8 +169,8 @@ def label_category(row, fmap):
 
 def build_relative_label_map(fmap):
     """
-    Creates an arbitrary but fixed mapping from concrete feature values
-    to relative labels (R1/R2/L1/L2/I1/I2) for one participant.
+    Creates an arbitrary but fixed mapping from feature values
+    to relative labels (H1/H2/L1/L2/I1/I2) for one participant.
     """
     rel_map = {}
 
@@ -174,7 +182,7 @@ def build_relative_label_map(fmap):
         high = fmap["assignments"][dim]["high"]
         low  = fmap["assignments"][dim]["low"]
 
-        rel_map[(dim, high)] = f"R{idx}"
+        rel_map[(dim, high)] = f"H{idx}"
         rel_map[(dim, low)]  = f"L{idx}"
 
     # Irrelevant dimension
@@ -229,6 +237,24 @@ def label_image_sequence(images_list_str, fmap):
 
     return ",".join(categories)
 
+def infer_irrelevant_high_low(df, fmap):
+    """
+    Infer high/low labels for the irrelevant dimension based on
+    empirical mean food amount in training data.
+    """
+    ir_dim = fmap["irrelevant_dim"]
+
+    means = (
+        df.groupby(ir_dim)["food_amount"]
+        .mean()
+        .sort_values()
+    )
+
+    low_val  = means.index[0]
+    high_val = means.index[-1]
+    print(means)
+
+    return {"high": high_val, "low": low_val}
 
 
 # ============================
@@ -254,7 +280,6 @@ def generate_trials(participant_id, training_reps):
             sample_additive(t, s, c, fmap)
             for t, s, c in zip(shuffled["tail"], shuffled["shape"], shuffled["color"])
         ]
-
         # Categories
         shuffled["category"] = [
             label_category(row, fmap) for _, row in shuffled.iterrows()
@@ -274,6 +299,10 @@ def generate_trials(participant_id, training_reps):
         training_trials.append(shuffled)
 
     training_df = pd.concat(training_trials, ignore_index=True)
+    ir_dim = fmap["irrelevant_dim"]
+    ir_assignment = infer_irrelevant_high_low(training_df, fmap)
+    training_df[f"{ir_dim}_high"] = ir_assignment["high"]
+    training_df[f"{ir_dim}_low"]  = ir_assignment["low"]
     training_df["participant_id"] = participant_id
     training_df["food_image_file"] = training_df["food_amount"].astype(str) + "_food.png"
 
@@ -286,6 +315,17 @@ def generate_trials(participant_id, training_reps):
 all_data = []
 for participant_id in range(1, participants + 1):
     df, fmap = generate_trials(participant_id, training_reps=training_reps)
+        # ---- Track irrelevant feature ----
+    irrelevant_counts[fmap["irrelevant_dim"]] += 1
+
+    # ---- Track relevant feature directions ----
+    for dim in fmap["relevant_dims"]:
+        high = fmap["assignments"][dim]["high"]
+        low  = fmap["assignments"][dim]["low"]
+
+        relevant_dir_counts[dim][f"{high}_high"] += 1
+        relevant_dir_counts[dim][f"{low}_low"]  += 1
+
     all_data.append(df)
     #correlations = correlations_training = compute_feature_correlations(df)
     #out_path2 = os.path.join(output_dir_pilot, f"subj{participant_id:03d}_trials.csv")
@@ -313,6 +353,25 @@ if testing:
 
 print("\nPreview:")
 print(df[['phase', 'tail', 'shape', 'color', 'food_amount', 'category', 'trial_num']])
+
+
+
+
+
+print("\n================ SUMMARY ================\n")
+
+print("Times each feature was IRRELEVANT:")
+for dim in ["tail", "color", "shape"]:
+    print(f"  {dim}: {irrelevant_counts[dim]}")
+
+print("\nRelevant feature direction counts:")
+for dim, counts in relevant_dir_counts.items():
+    print(f"\n{dim.upper()}:")
+    for k, v in counts.items():
+        print(f"  {k}: {v}")
+
+
+
 
 
 
