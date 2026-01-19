@@ -1,0 +1,16 @@
+,Coef.,Std.Err.,z,P>|z|,[0.025,0.975]
+Intercept,0.720,0.494,1.457,0.145,-0.249,1.689
+task[T.predict],0.520,0.699,0.744,0.457,-0.850,1.890
+feature_relevance[T.relevant],1.630,0.613,2.660,0.008,0.429,2.831
+irrelevant_dim[T.shape],-1.047,0.692,-1.512,0.130,-2.404,0.310
+irrelevant_dim[T.tail],0.822,0.706,1.163,0.245,-0.563,2.206
+task[T.predict]:feature_relevance[T.relevant],-0.900,0.867,-1.039,0.299,-2.598,0.798
+task[T.predict]:irrelevant_dim[T.shape],0.461,0.979,0.471,0.638,-1.458,2.380
+task[T.predict]:irrelevant_dim[T.tail],-1.499,0.999,-1.501,0.133,-3.457,0.459
+feature_relevance[T.relevant]:irrelevant_dim[T.shape],1.447,0.858,1.686,0.092,-0.235,3.129
+feature_relevance[T.relevant]:irrelevant_dim[T.tail],-0.255,0.876,-0.291,0.771,-1.971,1.461
+task[T.predict]:feature_relevance[T.relevant]:irrelevant_dim[T.shape],-0.177,1.214,-0.146,0.884,-2.556,2.202
+task[T.predict]:feature_relevance[T.relevant]:irrelevant_dim[T.tail],1.598,1.238,1.290,0.197,-0.829,4.025
+Group Var,1.957,0.443,,,,
+Group x feature_relevance[T.relevant] Cov,-2.101,0.475,,,,
+feature_relevance[T.relevant] Var,3.382,0.680,,,,
