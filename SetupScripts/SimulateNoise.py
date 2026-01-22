@@ -27,10 +27,10 @@ participants = 150
 save_csv = False
 output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\SetupScripts\NoiseSimulations' #Output path
 os.makedirs(output_dir, exist_ok=True)
-training_reps = 3
+training_reps = 2
 testing = 0 #Turn off testing for now (may not need it)
 visualize = 1
-trial_sd = 2
+trial_sd = 1
 
 
 # --- Summary counters ---
