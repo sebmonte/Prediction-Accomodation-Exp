@@ -30,7 +30,7 @@ output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\Tria
 os.makedirs(output_dir, exist_ok=True)
 training_reps = 3
 testing = 0 #Turn off testing for now (may not need it)
-visualize = 1
+visualize = 0
 
 
 # --- Summary counters ---
@@ -374,6 +374,46 @@ for dim, counts in relevant_dir_counts.items():
 
 
 
+ir_diff_rows = []
+
+for df in all_data:
+    participant = df["participant_id"].iloc[0]
+    ir_dim = df["irrelevant_dim"].iloc[0]
+
+    high_val = df[f"{ir_dim}_high"].iloc[0]
+    low_val  = df[f"{ir_dim}_low"].iloc[0]
+
+    df_high = df[df[ir_dim] == high_val]
+    df_low  = df[df[ir_dim] == low_val]
+
+    # Sanity check
+    assert len(df_high) == len(df_low) == 12, \
+        f"Participant {participant}: unexpected trial count"
+
+    mean_high = df_high["food_amount"].mean()
+    mean_low  = df_low["food_amount"].mean()
+    diff = mean_high - mean_low
+
+    ir_diff_rows.append({
+        "participant_id": participant,
+        "irrelevant_dim": ir_dim,
+        "mean_high": mean_high,
+        "mean_low": mean_low,
+        "high_minus_low": diff
+    })
+
+ir_diff_df = pd.DataFrame(ir_diff_rows)
+
+print("\n===== Irrelevant Feature High–Low Difference =====\n")
+
+mean_diff = ir_diff_df["high_minus_low"].mean()
+min_diff  = ir_diff_df["high_minus_low"].min()
+max_diff  = ir_diff_df["high_minus_low"].max()
+std_diff  = ir_diff_df["high_minus_low"].std()
+
+print(f"Mean difference (high − low): {mean_diff:.3f}")
+print(f"STD: {std_diff:.3f}")
+print(f"Range: [{min_diff:.3f}, {max_diff:.3f}]")
 
 
 

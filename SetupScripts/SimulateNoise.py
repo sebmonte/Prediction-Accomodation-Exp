@@ -22,7 +22,7 @@ from collections import Counter, defaultdict
 # ============================
 mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
-std_dev = 2   # Spread of each distribution
+std_dev = 1   # Spread of each distribution
 participants = 150
 save_csv = False
 output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\SetupScripts\NoiseSimulations' #Output path
@@ -151,7 +151,7 @@ def sample_additive(tail, shape, color, featuremap):
         
             draw_idx += 1
     #print('total', total)
-    total += trial_noise
+    #total += trial_noise
     #print('total', total)
     #print(f"  Total: {total:.3f} → Final Food = {int(np.clip(round(total), 1, 10))}")
     #print("-" * 50)
@@ -258,7 +258,10 @@ def infer_irrelevant_high_low(df, fmap):
     high_val = means.index[-1]
     #print(means)
 
-    return {"high": high_val, "low": low_val}
+    mean_diff = means.iloc[-1] - means.iloc[0]
+
+
+    return {"high": high_val, "low": low_val}, mean_diff
 
 
 # ============================
@@ -304,13 +307,14 @@ def generate_trials(participant_id, training_reps):
 
     training_df = pd.concat(training_trials, ignore_index=True)
     ir_dim = fmap["irrelevant_dim"]
-    ir_assignment = infer_irrelevant_high_low(training_df, fmap)
-    training_df[f"{ir_dim}_high"] = ir_assignment["high"]
-    training_df[f"{ir_dim}_low"]  = ir_assignment["low"]
+    ir_info, mean_diff = infer_irrelevant_high_low(training_df, fmap)
+    training_df[f"{ir_dim}_high"] = ir_info["high"]
+    training_df[f"{ir_dim}_low"]  = ir_info["low"]
+    redo = mean_diff <= 0.5
     training_df["participant_id"] = participant_id
     training_df["food_image_file"] = training_df["food_amount"].astype(str) + "_food.png"
 
-    return training_df, fmap
+    return training_df, fmap, redo
 
 
 # ============================
@@ -318,7 +322,12 @@ def generate_trials(participant_id, training_reps):
 # ============================
 all_data = []
 for participant_id in range(1, participants + 1):
-    df, fmap = generate_trials(participant_id, training_reps=training_reps)
+    redo = True
+    while redo:
+        df, fmap, redo = generate_trials(
+            participant_id,
+            training_reps=training_reps
+        )
         # ---- Track irrelevant feature ----
     irrelevant_counts[fmap["irrelevant_dim"]] += 1
 
@@ -487,7 +496,9 @@ for sim in range(n_iterations):
 
     all_data = []
     for participant_id in range(1, participants + 1):
-        df, _ = generate_trials(participant_id, training_reps)
+        redo = True
+        while redo:
+            df, _, redo = generate_trials(participant_id, training_reps)
         all_food_values.append(
             pd.DataFrame({
                 "food": df["food_amount"],

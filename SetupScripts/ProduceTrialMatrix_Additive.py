@@ -70,6 +70,13 @@ tails = ["T", "N"]   # Tail / No Tail
 colors = ["B", "Y"]  # Blue / Yellow (does not affect food)
 shapes = ["S", "C"]  # Square / Circle
 
+
+#Coding for relevance neutral to features, 'P' stands for positive (the side of the feature that increases food)
+
+Relevant = ["RP1", 'RN1']
+Irrelevant = ["IP", "IN"] 
+Relevant2 = ["RP2", 'RN2']
+
 stimuli = []
 for t, c, s in itertools.product(tails, colors, shapes):
     stimuli.append({
