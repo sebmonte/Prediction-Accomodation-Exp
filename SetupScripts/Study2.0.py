@@ -24,19 +24,19 @@ mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
 participants = 420
-save_csv = False
-output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
-output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main2-1-30'
+save_csv = True
+mac = 1
+if mac:
+    output_dir = r'/Users/sm6511/Desktop/Prediction-Accomodation-Exp/TrialFiles/Main2-7'
+else:
+    output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main2-1-30'
 os.makedirs(output_dir, exist_ok=True)
 training_reps = 3
 testing = 0 #Turn off testing for now (may not need it)
 visualize = 0
 
 
-# --- Summary counters ---
-irrelevant_counts = Counter()  # how often each feature is irrelevant
-relevant_dir_counts = defaultdict(lambda: Counter())
-irrelevant_dir_counts = defaultdict(lambda: Counter())
+
 
 
 # ============================
@@ -334,6 +334,10 @@ def generate_trials(fmap, training_reps):
 
 
 while True:
+        # --- Summary counters ---
+    irrelevant_counts = Counter()  # how often each feature is irrelevant
+    relevant_dir_counts = defaultdict(lambda: Counter())
+    irrelevant_dir_counts = defaultdict(lambda: Counter())
     all_data = []
     irrelevant_dir_counts['wing'] = Counter()
 
