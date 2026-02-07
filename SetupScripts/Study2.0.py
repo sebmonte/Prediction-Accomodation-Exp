@@ -23,20 +23,18 @@ from collections import Counter, defaultdict
 mean_high = 3.5   # Means of distributions to draw from
 mean_low = 1.5
 std_dev = 1   # Spread of each distribution
-participants = 420
-save_csv = False
-output_dir = r'C:\Users\Seb\Desktop\TestExp\Trial_Files' #Output path
-output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main2-1-30'
+participants = 220
+save_csv = True
+mac = False
+#output_dir = r'/Users/sm6511/Desktop/Prediction-Accomodation-Exp/TrialFiles/Main2-7'
+output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main2-6-30'
 os.makedirs(output_dir, exist_ok=True)
 training_reps = 3
 testing = 0 #Turn off testing for now (may not need it)
 visualize = 0
 
 
-# --- Summary counters ---
-irrelevant_counts = Counter()  # how often each feature is irrelevant
-relevant_dir_counts = defaultdict(lambda: Counter())
-irrelevant_dir_counts = defaultdict(lambda: Counter())
+
 
 
 # ============================
@@ -334,6 +332,10 @@ def generate_trials(fmap, training_reps):
 
 
 while True:
+        # --- Summary counters ---
+    irrelevant_counts = Counter()  # how often each feature is irrelevant
+    relevant_dir_counts = defaultdict(lambda: Counter())
+    irrelevant_dir_counts = defaultdict(lambda: Counter())
     all_data = []
     irrelevant_dir_counts['wing'] = Counter()
 
@@ -420,6 +422,16 @@ for dim, counts in irrelevant_dir_counts.items():
     for k, v in counts.items():
         print(f"  {k}: {v}")
 
+total = participants
+
+print("\n===== RELEVANCE BALANCE CHECK =====\n")
+
+print("Wing relevant:", total - irrelevant_counts["wing"])
+print("Wing irrelevant:", irrelevant_counts["wing"])
+print("Proportion relevant:", 
+      (total - irrelevant_counts["wing"]) / total)
+
+
 
 
 
@@ -453,7 +465,7 @@ for df in all_data:
 
 ir_diff_df = pd.DataFrame(ir_diff_rows)
 
-print("\n===== Relevant Feature High–Low Difference =====\n")
+print("\n===== Irrelevant Feature High–Low Difference =====\n")
 
 mean_diff = ir_diff_df["high_minus_low"].mean()
 min_diff  = ir_diff_df["high_minus_low"].min()
@@ -498,7 +510,7 @@ rel_diff_df = pd.DataFrame(rel_diff_rows)
 
 
 
-print("\n===== Irrelevant Feature High–Low Difference =====\n")
+print("\n===== Relevant Feature High–Low Difference =====\n")
 
 mean_diff = rel_diff_df["high_minus_low"].mean()
 min_diff  = rel_diff_df["high_minus_low"].min()
