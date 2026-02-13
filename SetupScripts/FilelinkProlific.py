@@ -81,7 +81,7 @@ def generate_condition_combined_csv(
     print(f"Saved {n_conditions} conditions to {output_file}")
 
 generate_condition_combined_csv(
-    n_conditions=20,
+    n_conditions=220,
     output_file="/Users/sm6511/Desktop/Prediction-Accomodation-Exp/ConditionFiles-Prolific/conditions_combined.csv",
     base_url="https://run.pavlovia.org/montesinos7/predict2/?condition=",
     base_url2="https://run.pavlovia.org/montesinos7/accommodate2?condition=",

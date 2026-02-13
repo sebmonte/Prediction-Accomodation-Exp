@@ -1,0 +1,36 @@
+---
+title: "test"
+subtitle: "Princeton University"
+author: "Sebastian"
+output: 
+  tufte::tufte_html:
+    css: 
+    tufte_variant: "envisioned"
+    highlight: github-dark
+    fig_height: 10
+    fig_width: 16
+    toc: true
+    toc_depth: 1
+execute: 
+  message: false
+  warning: false
+format: 
+  html:
+    code-fold: true
+    code-overflow: wrap
+engine: knitr
+---
+
+```{r}
+# Refit with squared term
+fit2_improved <- glm(
+  _____
+)
+
+# Compare models
+test_likelihoodratio(fit2, fit2_improved) %>% kable()
+
+# Check binned residuals again
+binned_residuals(fit2_improved, term = "_____") %>% plot(show_dots = TRUE)
+```
+
