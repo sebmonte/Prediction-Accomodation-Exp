@@ -22,15 +22,29 @@ engine: knitr
 ---
 
 ```{r}
-# Refit with squared term
-fit2_improved <- glm(
-  _____
-)
-
-# Compare models
-test_likelihoodratio(fit2, fit2_improved) %>% kable()
-
-# Check binned residuals again
-binned_residuals(fit2_improved, term = "_____") %>% plot(show_dots = TRUE)
+library(tidyverse)
+df <- read.csv("ModelParamSummary.csv")
+```
+```{r}
+head(df)
+str(df)  # Check data types
+df <- df %>%
+  mutate(
+    task = factor(task),
+    intuitive_direction = factor(intuitive_direction),
+    intuitive_relevance = factor(intuitive_relevance),
+    overfit = factor(overfit) 
+  )
+str(df)
 ```
 
+
+```{r}
+# Fit model
+model_interaction3 <- glm(
+  overfit ~ task * intuitive_direction * intuitive_relevance,
+  data = df,
+  family = binomial
+)
+summary(model_interaction3)
+```

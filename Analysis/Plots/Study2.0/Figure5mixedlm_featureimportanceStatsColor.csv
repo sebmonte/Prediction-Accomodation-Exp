@@ -1,0 +1,10 @@
+,Coef.,Std.Err.,z,P>|z|,[0.025,0.975]
+Intercept,0.741,0.630,1.176,0.239,-0.493,1.975
+task[T.predict],1.000,0.831,1.203,0.229,-0.629,2.629
+color_relevant,1.769,0.717,2.466,0.014,0.363,3.175
+task[T.predict]:color_relevant,-1.415,0.732,-1.934,0.053,-2.849,0.019
+color_high,-0.701,0.905,-0.774,0.439,-2.474,1.073
+task[T.predict]:color_high,-0.120,1.239,-0.097,0.923,-2.548,2.308
+color_relevant:color_high,0.711,1.018,0.698,0.485,-1.285,2.706
+task[T.predict]:color_relevant:color_high,0.814,1.172,0.694,0.487,-1.483,3.111
+Group Var,5.353,,,,,
