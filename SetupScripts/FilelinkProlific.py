@@ -83,6 +83,6 @@ def generate_condition_combined_csv(
 generate_condition_combined_csv(
     n_conditions=20,
     output_file="/Users/sm6511/Desktop/Prediction-Accomodation-Exp/ConditionFiles-Prolific/conditions_combined.csv",
-    base_url="https://run.pavlovia.org/montesinos7/predict2/?condition=",
-    base_url2="https://run.pavlovia.org/montesinos7/accommodate2?condition=",
+    base_url="https://run.pavlovia.org/montesinos7/predict3/?condition=",
+    base_url2="https://run.pavlovia.org/montesinos7/accommodate3?condition=",
 )

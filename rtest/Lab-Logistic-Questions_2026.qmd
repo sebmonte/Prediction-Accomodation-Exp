@@ -1,0 +1,50 @@
+---
+title: "test"
+subtitle: "Princeton University"
+author: "Sebastian"
+output: 
+  tufte::tufte_html:
+    css: 
+    tufte_variant: "envisioned"
+    highlight: github-dark
+    fig_height: 10
+    fig_width: 16
+    toc: true
+    toc_depth: 1
+execute: 
+  message: false
+  warning: false
+format: 
+  html:
+    code-fold: true
+    code-overflow: wrap
+engine: knitr
+---
+
+```{r}
+library(tidyverse)
+df <- read.csv("ModelParamSummary.csv")
+```
+```{r}
+head(df)
+str(df)  # Check data types
+df <- df %>%
+  mutate(
+    task = factor(task),
+    intuitive_direction = factor(intuitive_direction),
+    intuitive_relevance = factor(intuitive_relevance),
+    overfit = factor(overfit) 
+  )
+str(df)
+```
+
+
+```{r}
+# Fit model
+model_interaction3 <- glm(
+  overfit ~ task * intuitive_direction * intuitive_relevance,
+  data = df,
+  family = binomial
+)
+summary(model_interaction3)
+```
