@@ -1,0 +1,6 @@
+,Coef.,Std.Err.,z,P>|z|,[0.025,0.975]
+Intercept,1.111,0.226,4.906,0.000,0.667,1.554
+task[T.predict],-0.023,0.320,-0.072,0.943,-0.650,0.604
+feature_relevance[T.relevant],2.618,0.320,8.177,0.000,1.990,3.245
+task[T.predict]:feature_relevance[T.relevant],-0.770,0.453,-1.700,0.089,-1.657,0.118
+Group Var,0.000,0.162,,,,
