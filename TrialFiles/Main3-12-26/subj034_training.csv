@@ -1,0 +1,13 @@
+feet,color,image_file,phase,rep,trial_num,fertility_score,category,relevant_dim,irrelevant_dim,color_high,color_low,feet_high,feet_low,participant_id,rep_image_file,images_list,testing_categories
+F,G,G_F.png,training,1,1,5,high,color,feet,G,Y,C,F,34,5_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+F,Y,Y_F.png,training,1,2,3,low,color,feet,G,Y,C,F,34,3_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+C,Y,Y_C.png,training,1,3,3,low,color,feet,G,Y,C,F,34,3_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+C,G,G_C.png,training,1,4,7,high,color,feet,G,Y,C,F,34,7_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+C,Y,Y_C.png,training,2,5,5,low,color,feet,G,Y,C,F,34,5_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+F,G,G_F.png,training,2,6,5,high,color,feet,G,Y,C,F,34,5_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+F,Y,Y_F.png,training,2,7,1,low,color,feet,G,Y,C,F,34,1_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+C,G,G_C.png,training,2,8,8,high,color,feet,G,Y,C,F,34,8_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+C,G,G_C.png,training,3,9,4,high,color,feet,G,Y,C,F,34,4_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+F,Y,Y_F.png,training,3,10,3,low,color,feet,G,Y,C,F,34,3_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+F,G,G_F.png,training,3,11,9,high,color,feet,G,Y,C,F,34,9_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
+C,Y,Y_C.png,training,3,12,3,low,color,feet,G,Y,C,F,34,3_score.png,"Resources/G_F.png,Resources/G_C.png,Resources/Y_F.png,Resources/Y_C.png","high,high,low,low"
