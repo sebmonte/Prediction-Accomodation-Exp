@@ -11,12 +11,19 @@ df_long <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/Analysis/
   mutate(
     task = relevel(factor(task), ref = "predict"),
     feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
-    feature_dimension = relevel(factor(feature_dimension), ref = "feet")
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
+    color_high = relevel(factor(color_high), ref = "Y"),
+    feet_high = relevel(factor(feet_high), ref = "C")
   )
 ```
 ```{r}
-df_long$feature_relevance <- relevel(factor(df_long$feature_relevance), ref = "irrelevant")
-df_long$feature_dimension <- relevel(factor(df_long$feature_dimension), ref = "feet")
+excluded <- df_long %>%
+  group_by(participant, task) %>%
+  summarise(all_zero = all(feature_importance == 0), .groups = "drop") %>%
+  filter(all_zero)
+n_removed <- nrow(excluded)
+
+print(n_removed)
 ```
 
 
@@ -25,17 +32,46 @@ model <- lmer(feature_importance ~ task * feature_relevance +
                 (1|participant), data = df_long)
 summary(model)
 ```
+
 ```{r}
 emmeans(model, ~ task | feature_relevance) |>
   pairs(adjust = "bonferroni")
 ```
 
+```{r}
+library(dplyr)
+library(lme4)
+
+df_filtered <- df_long %>%
+  group_by(participant, task) %>%
+  filter(!all(reported_relevant == 0)) %>%
+  ungroup()
+
+model <- lmer(
+  feature_importance ~ task * feature_relevance + (1 | participant),
+  data = df_filtered
+)
+
+summary(model)
+```
+
+```{r}
+ggplot(df_filtered, aes(x = feature_importance, fill = task)) +
+  geom_histogram()
+```
+
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
+```
 
 
 ```{r}
 model <- lmer(feature_importance ~ task * feature_relevance * feature_dimension + 
                 (1|participant), data = df_long)
 summary(model)
+performance::icc(model)
 ```
 
 
@@ -49,7 +85,7 @@ emmeans(model, ~ task | feature_relevance * feature_dimension) |>
 
 
 ```{r}
-model <- lmer(abs_feature_importance ~ task * feature_relevance + 
+model <- lmer(feature_importance ~ task * feature_relevance + 
                 (1|participant), data = df_long)
 summary(model)
 ```
@@ -72,7 +108,152 @@ summary(model)
 emmeans(model, ~ task | feature_relevance * feature_dimension) |>
   pairs(adjust = "bonferroni")
 ```
+
+```{r}
+df_feet <- df_long %>%
+  dplyr::filter(feature_dimension == "feet")
+```
+
+
+```{r}
+model <- lm(feature_importance ~ task * feature_relevance * feet_high, data = df_feet)
+summary(model)
+```
+
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance * feet_high) |>
+  pairs(adjust = "bonferroni")
+```
+```{r}
+library(ggplot2)
+
+ggplot(df_feet, aes(x = feature_importance, fill = task)) +
+  geom_histogram(alpha = 0.5, bins = 15, position = "identity") +
+  facet_grid(feature_relevance ~ feet_high) +
+  labs(
+    title = "Feature Importance by Task and Dimension",
+    x = "Feature Importance",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+model <- lm(feature_importance ~ task * feet_high, data = df_feet)
+summary(model)
+```
+
+```{r}
+# emmeans
+emmeans(model, ~ task | task * feet_high) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+df_color <- df_long %>%
+  dplyr::filter(feature_dimension == "color")
+```
+
+```{r}
+model <- lm(feature_importance ~ task * color_high, data = df_color)
+summary(model)
+```
+```{r}
+# emmeans
+emmeans(model, ~ task | color_high) |>
+  pairs(adjust = "bonferroni")
 ```
 
 
 
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+
+df_long <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study3.0/Cleaned/df_long_for_R-Study3Filtered.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
+    color_high = relevel(factor(color_high), ref = "Y"),
+    feet_high = relevel(factor(feet_high), ref = "C")
+  )
+```
+
+```{r}
+model <- lmer(feature_importance ~ task * feature_relevance + 
+                (1|participant), data = df_long)
+summary(model)
+```
+
+
+```{r}
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+df_long <- df_long %>%
+  mutate(abs_feature_importance = abs(feature_importance))
+
+model <- lmer(abs_feature_importance ~ task * feature_relevance + 
+                (1|participant), data = df_long)
+summary(model)
+```
+
+
+
+```{r}
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
+```
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+
+df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study3.0/Cleaned/df_corr_for_R.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
+  )
+```
+
+
+```{r}
+model <- lmer(correlation ~ task * feature_relevance + 
+                (1|participant), data = df_corr)
+summary(model)
+```
+```{r}
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+model <- lmer(abs_correlation ~ task * feature_relevance + 
+                (1|participant), data = df_corr)
+summary(model)
+```
+
+```{r}
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+model <- lmer(correlation ~ task * feature_relevance * feature_dimension + 
+                (1|participant), data = df_corr)
+summary(model)
+```
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance * feature_dimension) |>
+  pairs(adjust = "bonferroni")
+```
