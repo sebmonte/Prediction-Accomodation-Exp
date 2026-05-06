@@ -31,9 +31,14 @@ print(n_removed)
 model <- lmer(feature_importance ~ task * feature_relevance + 
                 (1|participant), data = df_long)
 summary(model)
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
 ```
 
 ```{r}
+model <- lmer(abs_feature_importance ~ task * feature_relevance + 
+                (1|participant), data = df_long)
+summary(model)
 emmeans(model, ~ task | feature_relevance) |>
   pairs(adjust = "bonferroni")
 ```
@@ -72,12 +77,18 @@ model <- lmer(feature_importance ~ task * feature_relevance * feature_dimension 
                 (1|participant), data = df_long)
 summary(model)
 performance::icc(model)
+emmeans(model, ~ task | feature_relevance * feature_dimension) |>
+  pairs(adjust = "bonferroni")
 ```
 
 
 
 ```{r}
 # emmeans
+model <- lmer(abs_feature_importance ~ task * feature_relevance * feature_dimension + 
+                (1|participant), data = df_long)
+summary(model)
+performance::icc(model)
 emmeans(model, ~ task | feature_relevance * feature_dimension) |>
   pairs(adjust = "bonferroni")
 ```
@@ -108,6 +119,21 @@ summary(model)
 emmeans(model, ~ task | feature_relevance * feature_dimension) |>
   pairs(adjust = "bonferroni")
 ```
+```{r}
+ggplot(df_long, aes(x = task, y = feature_importance, fill = task)) +
+  stat_summary(fun = mean, geom = "bar", position = "dodge") +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
+  facet_grid(feature_relevance ~ feature_dimension) +
+  theme_minimal()
+```
+```{r}
+ggplot(df_long, aes(x = task, y = abs_feature_importance, fill = task)) +
+  stat_summary(fun = mean, geom = "bar", position = "dodge") +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
+  facet_grid(feature_relevance ~ feature_dimension) +
+  theme_minimal()
+```
+
 
 ```{r}
 df_feet <- df_long %>%
@@ -157,15 +183,27 @@ df_color <- df_long %>%
 ```
 
 ```{r}
-model <- lm(feature_importance ~ task * color_high, data = df_color)
+model <- lm(feature_importance ~ task * feature_relevance * color_high, data = df_color)
 summary(model)
 ```
 ```{r}
 # emmeans
-emmeans(model, ~ task | color_high) |>
+emmeans(model, ~ task | color_high * feature_relevance) |>
   pairs(adjust = "bonferroni")
 ```
+```{r}
 
+ggplot(df_color, aes(x = feature_importance, fill = task)) +
+  geom_histogram(alpha = 0.5, bins = 15, position = "identity") +
+  facet_grid(feature_relevance ~ color_high) +
+  labs(
+    title = "Feature Importance by Task and Dimension",
+    x = "Feature Importance",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
 
 
 ```{r}
