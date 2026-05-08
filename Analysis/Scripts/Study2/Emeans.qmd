@@ -1,0 +1,202 @@
+
+## Setup
+
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+
+df_long <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study2.0/Cleaned/df_long_for_R-Study2.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    wing_high = relevel(factor(wing_high), ref = "T")
+  )
+```
+
+```{r}
+model <- lmer(feature_importance ~ task * feature_relevance + 
+                (1|participant), data = df_long)
+summary(model)
+```
+```{r}
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
+```
+
+
+
+```{r}
+model <- lmer(feature_importance ~ task * feature_relevance * feature_dimension + 
+                (1|participant), data = df_long)
+summary(model)
+performance::icc(model)
+```
+
+
+
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance * feature_dimension) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Labels
+df_plot <- df_long %>%
+  filter(feature_relevance == "irrelevant" & feature_dimension == 'wing') %>%
+  mutate(
+    combo = paste0(
+      "Wing:", wing_high, " | ",
+      "Tail:", tail_high, " | ",
+      "Color:", color_high
+    )
+  )
+
+# compute means
+df_summary <- df_plot %>%
+  group_by(task, combo) %>%
+  summarise(
+    mean_feature_importance = mean(feature_importance, na.rm = TRUE),
+    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    n = n(),
+    .groups = "drop"
+  )
+
+# plot
+ggplot(df_summary, aes(x = combo, y = mean_feature_importance, fill = task)) +
+  geom_col(position = position_dodge(width = 0.8)) +
+  geom_errorbar(
+    aes(
+      ymin = mean_feature_importance - se,
+      ymax = mean_feature_importance + se
+    ),
+    width = 0.2,
+    position = position_dodge(width = 0.8)
+  ) +
+  labs(
+    x = "Feature combination",
+    y = "Mean feature importance",
+    fill = "Task",
+    title = "Mean Feature Importance by Task and Feature Combination"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+
+```{r}
+df_long <- df_long %>%
+  filter(feature_dimension == 'wing')
+model <- lm(feature_importance ~ task * feature_relevance * wing_high, data = df_long)
+summary(model)
+```
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance * wing_high) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+df_long <- df_long %>%
+  filter(feature_dimension == 'tail')
+model <- lm(feature_importance ~ task * feature_relevance * tail_high, data = df_long)
+summary(model)
+```
+
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance * tail_high) |>
+  pairs(adjust = "bonferroni")
+```
+
+
+```{r}
+model <- lmer(abs_feature_importance ~ task * feature_relevance + 
+                (1|participant), data = df_long)
+summary(model)
+```
+
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+model <- lmer(abs_feature_importance ~ task * feature_relevance * feature_dimension + 
+                (1|participant), data = df_long)
+summary(model)
+```
+
+
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance * feature_dimension) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+df_feet <- df_long %>%
+  dplyr::filter(feature_dimension == "feet")
+```
+
+
+```{r}
+model <- lm(feature_importance ~ task * feature_relevance * feet_high, data = df_feet)
+summary(model)
+```
+
+```{r}
+# emmeans
+emmeans(model, ~ task | feature_relevance * feet_high) |>
+  pairs(adjust = "bonferroni")
+```
+```{r}
+library(ggplot2)
+
+ggplot(df_feet, aes(x = feature_importance, fill = task)) +
+  geom_histogram(alpha = 0.5, bins = 15, position = "identity") +
+  facet_grid(feature_relevance ~ feet_high) +
+  labs(
+    title = "Feature Importance by Task and Dimension",
+    x = "Feature Importance",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+model <- lm(feature_importance ~ task * feet_high, data = df_feet)
+summary(model)
+```
+
+```{r}
+# emmeans
+emmeans(model, ~ task | task * feet_high) |>
+  pairs(adjust = "bonferroni")
+```
+
+```{r}
+df_color <- df_long %>%
+  dplyr::filter(feature_dimension == "color")
+```
+
+```{r}
+model <- lm(feature_importance ~ task * color_high, data = df_color)
+summary(model)
+```
+```{r}
+# emmeans
+emmeans(model, ~ task | color_high) |>
+  pairs(adjust = "bonferroni")
+```
+
+
+```
