@@ -1,6 +1,6 @@
 ,Coef.,Std.Err.,z,P>|z|,[0.025,0.975]
-Intercept,0.177,0.035,5.105,0.000,0.109,0.245
-task[T.predict],-0.070,0.049,-1.420,0.156,-0.166,0.026
-feature_relevance[T.relevant],0.401,0.049,8.167,0.000,0.304,0.497
-task[T.predict]:feature_relevance[T.relevant],0.003,0.069,0.039,0.969,-0.133,0.139
-Group Var,0.000,0.028,,,,
+Intercept,0.169,0.036,4.640,0.000,0.098,0.241
+task[T.accommodate],0.125,0.052,2.421,0.015,0.024,0.226
+feature_dimension[T.color],0.280,0.052,5.430,0.000,0.179,0.381
+task[T.accommodate]:feature_dimension[T.color],-0.113,0.073,-1.550,0.121,-0.256,0.030
+Group Var,0.000,0.033,,,,
