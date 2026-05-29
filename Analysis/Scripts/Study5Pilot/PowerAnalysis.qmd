@@ -368,13 +368,13 @@ power_grid %>%
 ```{r}
 df_long4 <- df_long4 %>%
   mutate(
-    abs_feature_importance_ord = ordered(abs_feature_importance)
+    feature_importance_ord = ordered(feature_importance)
   )
 ```
 
 ```{r}
   base_model <- clm(
-    abs_feature_importance_ord ~ task * feature_relevance * feature_dimension,
+    feature_importance_ord ~ task * feature_relevance * feature_dimension,
     data = df_long4,
     link = "logit"
   )
@@ -394,7 +394,7 @@ run_power_scaled_ordinal <- function(
   
   # Fit base ordinal model on real data
   base_model <- clm(
-    abs_feature_importance_ord ~ task * feature_relevance * feature_dimension,
+    feature_importance_ord ~ task * feature_relevance * feature_dimension,
     data = data,
     link = "logit"
   )
@@ -465,7 +465,7 @@ run_power_scaled_ordinal <- function(
     cat_probs[cat_probs < 0] <- 0
     cat_probs <- cat_probs / rowSums(cat_probs)
     
-    response_levels <- levels(data$abs_feature_importance_ord)
+    response_levels <- levels(data$feature_importance_ord)
     
     sim_data$y_sim <- apply(cat_probs, 1, function(p) {
       sample(response_levels, size = 1, prob = p)
