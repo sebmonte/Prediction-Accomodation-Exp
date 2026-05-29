@@ -1,9 +1,0 @@
-feet,stripes,image_file,phase,rep,trial_num,fertility_score,category,relevant_dim,irrelevant_dim,feet_high,feet_low,stripes_high,stripes_low,participant_id,rep_image_file,images_list,testing_categories
-F,E,E_F.png,training,1,1,6,high,feet,stripes,F,C,W,E,3,6_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
-C,E,E_C.png,training,1,2,4,low,feet,stripes,F,C,W,E,3,4_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
-C,W,W_C.png,training,1,3,4,low,feet,stripes,F,C,W,E,3,4_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
-F,W,W_F.png,training,1,4,8,high,feet,stripes,F,C,W,E,3,8_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
-F,E,E_F.png,training,2,5,6,high,feet,stripes,F,C,W,E,3,6_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
-F,W,W_F.png,training,2,6,8,high,feet,stripes,F,C,W,E,3,8_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
-C,W,W_C.png,training,2,7,5,low,feet,stripes,F,C,W,E,3,5_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
-C,E,E_C.png,training,2,8,2,low,feet,stripes,F,C,W,E,3,2_score.png,"Resources/E_F.png,Resources/E_C.png,Resources/W_C.png,Resources/W_F.png","high,low,low,high"
