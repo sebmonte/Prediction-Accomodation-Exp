@@ -23,12 +23,12 @@ from collections import Counter, defaultdict
 mean_high = 7.5
 mean_low = 3.5
 std_dev = 2
-participants = 40
+participants = 60
 save_csv = True
 mac = False
-output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main4-26-26'
+output_dir = r'C:\Users\Seb\Desktop\P-A Scripts\Prediction-Accomodation-Exp\TrialFiles\Main4-29-26'
 os.makedirs(output_dir, exist_ok=True)
-training_reps = 4
+training_reps = 2
 testing = 0
 visualize = 1
 

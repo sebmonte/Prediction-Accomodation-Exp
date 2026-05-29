@@ -9,6 +9,7 @@ library(lmerTest)
 library(ordinal)
 library(performance)
 library(modelsummary)
+library(lmerTest)
 
 df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study4.csv') |>
   mutate(
