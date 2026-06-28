@@ -1,0 +1,571 @@
+
+## Setup
+
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+library(ordinal)
+library(performance)
+library(modelsummary)
+library(lmerTest)
+
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study5Pilot3.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "accommodate"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "relevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
+    stripes_high = relevel(factor(stripes_high), ref = "E"),
+    feet_high = relevel(factor(feet_high), ref = "C")
+  )
+```
+
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+model <- lmer(feature_importance ~ task * feature_relevance * feature_dimension + 
+                (1|participant), data = df_long4)
+summary(model)
+
+emm <- emmeans(
+  model,
+  ~ task | feature_relevance * feature_dimension
+)
+
+pairs(emm)
+```
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+model_abs <- lmer(abs_feature_importance ~ task * feature_relevance * feature_dimension + 
+                (1|participant), data = df_long4)
+summary(model_abs)
+
+emm <- emmeans(
+  model_abs,
+  ~ task | feature_relevance * feature_dimension
+)
+
+pairs(emm)
+```
+
+
+
+```{r}
+
+library(emmeans)
+library(ggplot2)
+library(dplyr)
+
+model <- lmer(
+  feature_importance ~ task * feature_relevance * feature_dimension + 
+    (1 | participant),
+  data = df_long4
+)
+
+emm <- emmeans(
+  model,
+  ~ task * feature_dimension | feature_relevance
+)
+
+emm_df <- as.data.frame(emm)
+
+ggplot(
+  emm_df,
+  aes(
+    x = feature_dimension,
+    y = emmean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  geom_errorbar(
+    aes(ymin = lower.CL, ymax = upper.CL),
+    width = .12,
+    linewidth = .8
+  ) +
+  facet_wrap(~ feature_relevance) +
+  labs(
+    x = "Feature dimension",
+    y = "Predicted feature importance",
+    color = "Task",
+    title = "Feature importance ratings by task, feature dimension, and relevance"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+```{r}
+
+
+df_long4 <- df_long4 |>
+  mutate(
+    is_important = feature_importance != 0
+  )
+model_bin <- glmer(
+  is_important ~ task * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_long4,
+  family = binomial
+)
+emm <- emmeans(
+  model_bin,
+  ~ task * feature_dimension | feature_relevance,
+  type = "response"
+)
+
+emm_df <- as.data.frame(emm)
+ggplot(
+  emm_df,
+  aes(
+    x = feature_dimension,
+    y = prob,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  geom_errorbar(
+    aes(
+      ymin = asymp.LCL,
+      ymax = asymp.UCL
+    ),
+    width = .12,
+    linewidth = .8
+  ) +
+  facet_wrap(~ feature_relevance) +
+  scale_y_continuous(
+    limits = c(0, 1),
+    labels = scales::percent_format()
+  ) +
+  labs(
+    x = "Feature dimension",
+    y = "Probability feature was rated as important",
+    color = "Task",
+    title = "Probability of assigning a non-zero importance rating"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+
+```{r}
+df_long4_clmm <- df_long4 |>
+  mutate(abs_feature_importance_ord = ordered(abs_feature_importance))
+
+model_clmm <- clmm(abs_feature_importance_ord ~ task * feature_dimension * feature_relevance + (1 | participant), data = df_long4_clmm, link = "logit" )
+
+summary(model_clmm)
+
+
+emm <- emmeans(
+  model_clmm,
+  ~ task | feature_dimension * feature_relevance
+)
+
+pairs(emm)
+```
+
+
+
+
+```{r}
+library(ggeffects)
+library(ggplot2)
+
+emm_probs <- emmeans(
+  model_clmm,
+  ~ task * feature_dimension * feature_relevance * abs_feature_importance_ord,
+  mode = "prob"
+)
+
+emm_probs_df <- as.data.frame(emm_probs)
+
+names(emm_probs_df)
+ggplot(
+  emm_probs_df,
+  aes(x = task, y = prob, fill = abs_feature_importance_ord)
+) +
+  geom_col(position = "stack") +
+  facet_wrap(~ feature_relevance) +
+  labs(
+    x = "Task",
+    y = "Predicted probability",
+    fill = "Importance rating",
+    title = "Predicted Ordinal Rating Probabilities"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+
+
+```{r}
+emm_probs <- emmeans(
+  model_clmm,
+  ~ task * feature_dimension * feature_relevance * abs_feature_importance_ord,
+  mode = "prob"
+)
+
+emm_probs_df <- as.data.frame(emm_probs)
+
+ggplot(
+  emm_probs_df,
+  aes(x = task, y = prob, fill = abs_feature_importance_ord)
+) +
+  geom_col(position = "stack", width = .7) +
+  facet_grid(feature_relevance ~ feature_dimension) +
+  labs(
+    x = "Task",
+    y = "Predicted probability",
+    fill = "Importance rating",
+    title = "Predicted probability of importance ratings"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+
+```{r}
+df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study5Pilot3.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
+  )
+```
+
+
+```{r}
+model_corr_raw <- lmer(
+  correlation ~ task * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_corr
+)
+
+summary(model_corr_raw)
+```
+```{r}
+model_corr_abs <- lmer(
+  abs_correlation ~ task * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_corr
+)
+
+summary(model_corr_abs)
+```
+
+
+```{r}
+library(emmeans)
+
+emm_corr <- emmeans(
+  model_corr_raw,
+  ~ task * feature_dimension * feature_relevance
+)
+
+pairs(
+  emm_corr,
+  by = c("feature_dimension", "feature_relevance")
+)
+
+```
+
+```{r}
+library(emmeans)
+
+emm_corr_abs <- emmeans(
+  model_corr_abs,
+  ~ task * feature_dimension * feature_relevance
+)
+
+pairs(
+  emm_corr_abs,
+  by = c("feature_dimension", "feature_relevance")
+)
+
+```
+
+```{r}
+emm_corr_df_abs <- as.data.frame(emm_corr_abs)
+ggplot(
+  emm_corr_df_abs,
+  aes(
+    x = feature_dimension,
+    y = emmean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL
+    ),
+    width = .1
+  ) +
+  facet_wrap(~ feature_relevance) +
+  labs(
+    x = "Feature dimension",
+    y = "Predicted correlation",
+    title = "Task differences across feature dimensions"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+```{r}
+emm_corr_df <- as.data.frame(emm_corr)
+ggplot(
+  emm_corr_df,
+  aes(
+    x = feature_dimension,
+    y = emmean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL
+    ),
+    width = .1
+  ) +
+  facet_wrap(~ feature_relevance) +
+  labs(
+    x = "Feature dimension",
+    y = "Predicted correlation (abs)",
+    title = "Task differences across feature dimensions"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+
+
+
+
+```{r}
+df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R_Study5Pilot3.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+
+    stripes_relevance = ifelse(irrelevant_dim == "stripes", "irrelevant", "relevant"),
+    feet_relevance    = ifelse(irrelevant_dim == "feet", "irrelevant", "relevant"),
+
+    stripes_match_high = ifelse(stripes == stripes_high, 1, 0),
+    feet_match_high    = ifelse(feet == feet_high, 1, 0)
+  )
+
+model_trial <- lmer(
+  testing_responses ~
+    task * stripes_match_high +
+    task * feet_match_high +
+    (1 | conditionOrder),
+  data = df_merged
+)
+summary(model_trial)
+```
+```{r}
+model_trial2 <- lmer(testing_responses ~
+  task * stripes_match_high * stripes_relevance +
+  task * feet_match_high * feet_relevance +
+  (1 | conditionOrder), data = df_merged)
+summary(model_trial2)
+```
+
+```{r}
+df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R_Study4.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict")
+  )
+df_merged <- df_merged |>
+  mutate(
+    stripes_relevance = ifelse(irrelevant_dim == "stripes", "irrelevant", "relevant"),
+    feet_relevance  = ifelse(irrelevant_dim == "feet", "irrelevant", "relevant")
+  )
+```
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+
+df_cue <- df_merged |>
+  select(
+    task, conditionOrder, item, testing_responses,
+    relevant_dim, irrelevant_dim,
+    stripes_high, feet_high,
+    stripes, feet,
+    stripes_relevance, feet_relevance
+  ) |>
+  pivot_wider(
+    id_cols = c(
+      task, conditionOrder, relevant_dim, irrelevant_dim,
+      stripes_high, feet_high, stripes_relevance, feet_relevance
+    ),
+    names_from = item,
+    values_from = testing_responses
+  ) |>
+  rowwise() |>
+  mutate(
+    # Feet effect: high feet minus low feet, holding stripes constant
+    feet_effect = case_when(
+      feet_high == "F" ~ mean(c(E_F - E_C, W_F - W_C), na.rm = TRUE),
+      feet_high == "C" ~ mean(c(E_C - E_F, W_C - W_F), na.rm = TRUE)
+    ),
+
+    # Stripes effect: high stripes minus low stripes, holding feet constant
+    stripes_effect = case_when(
+      stripes_high == "E" ~ mean(c(E_F - W_F, E_C - W_C), na.rm = TRUE),
+      stripes_high == "W" ~ mean(c(W_F - E_F, W_C - E_C), na.rm = TRUE)
+    )
+  ) |>
+  ungroup() |>
+  select(
+    task, conditionOrder, relevant_dim, irrelevant_dim,
+    stripes_relevance, feet_relevance,
+    feet_effect, stripes_effect
+  ) |>
+  pivot_longer(
+    cols = c(feet_effect, stripes_effect),
+    names_to = "feature_dimension",
+    values_to = "cue_effect"
+  ) |>
+  mutate(
+    feature_dimension = recode(
+      feature_dimension,
+      feet_effect = "feet",
+      stripes_effect = "stripes"
+    ),
+    feature_relevance = case_when(
+      feature_dimension == "feet" ~ feet_relevance,
+      feature_dimension == "stripes" ~ stripes_relevance
+    ),
+    task = relevel(factor(task), ref = "predict"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant")
+  )
+```
+
+```{r}
+model_cue <- lmer(
+  cue_effect ~ task * feature_relevance * feature_dimension +
+    (1 | conditionOrder),
+  data = df_cue
+)
+
+summary(model_cue)
+```
+
+```{r}
+# Task comparisons within each feature × relevance combination
+emm_cue <- emmeans(
+  model_cue,
+  ~ task | feature_dimension * feature_relevance
+)
+
+emm_cue
+pairs(emm_cue, adjust = "bonferroni")
+
+# Optional: all cell means
+emm_all <- emmeans(
+  model_cue,
+  ~ task * feature_dimension * feature_relevance
+)
+
+emm_all
+```
+
+```{r}
+ggplot(df_cue, aes(x = task, y = cue_effect, fill = feature_relevance)) +
+  geom_violin(
+    position = position_dodge(width = 0.8),
+    alpha = 0.45,
+    trim = FALSE
+  ) +
+  geom_jitter(
+    aes(color = feature_relevance),
+    position = position_jitterdodge(jitter.width = 0.12, dodge.width = 0.8),
+    alpha = 0.35,
+    size = 1.3
+  ) +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    position = position_dodge(width = 0.8),
+    shape = 18,
+    size = 4,
+    color = "black"
+  ) +
+  facet_wrap(~ feature_dimension) +
+  labs(
+    x = "Task",
+    y = "High - Low Rating",
+    fill = "Feature relevance",
+    color = "Feature relevance"
+  ) +
+  theme_classic(base_size = 14)
+```
+```{r}
+ggplot(
+  df_cue,
+  aes(
+    x = feature_dimension,
+    y = cue_effect,
+    color = task,
+    group = task
+  )
+) +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    size = 3
+  ) +
+  stat_summary(
+    fun = mean,
+    geom = "line",
+    linewidth = 1
+  ) +
+  stat_summary(
+    fun.data = mean_cl_boot,
+    geom = "errorbar",
+    width = .1
+  ) +
+  facet_wrap(~ feature_relevance) +
+  labs(
+    x = "Feature dimension",
+    y = "Mean cue effect",
+    title = "Task differences across feature dimensions"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+check_model(model_cue)
+```
+
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+model_corr <- lmer(
+  correlation ~ task * feature_dimension * feature_relevance + (1 | participant),
+  data = df_corr
+)
+summary(model_corr)
+emm_corr <- emmeans(
+  model_corr,
+  ~ task | feature_dimension * feature_relevance
+)
+
+emm_corr
+
+pairs(emm_corr, adjust = "bonferroni")
+```

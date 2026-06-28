@@ -1,0 +1,341 @@
+
+## Setup
+
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+library(ordinal)
+library(performance)
+library(modelsummary)
+library(lmerTest)
+
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study5.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "stripes"),
+    time = relevel(factor(time), ref = "mid"),
+    stripes_high = relevel(factor(stripes_high), ref = "E"),
+    feet_high = relevel(factor(feet_high), ref = "C")
+  )
+```
+
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+contrasts(df_long4$task) <- contr.sum(2)
+contrasts(df_long4$feature_relevance) <- contr.sum(2)
+contrasts(df_long4$feature_dimension) <- contr.sum(2)
+contrasts(df_long4$time) <- contr.sum(2)
+
+model_eff <- lmer(
+  feature_importance ~ task * feature_relevance *
+    feature_dimension * time +
+    (1|participant),
+  data = df_long4
+)
+summary(model_eff)
+```
+```{r}
+emm <- emmeans(
+  model_eff,
+  ~ task * feature_relevance * feature_dimension
+)
+
+emm
+pairs(
+  emm,
+  by = c("feature_relevance", "feature_dimension")
+)
+```
+
+
+```{r}
+library(car)
+
+Anova(model_eff, type = 3)
+```
+```{r}
+df_long4_ord <- df_long4 |>
+  mutate(abs_feature_importance_ord = ordered(abs_feature_importance))
+contrasts(df_long4_ord$task) <- contr.sum(2)
+contrasts(df_long4_ord$feature_dimension) <- contr.sum(2)
+contrasts(df_long4_ord$feature_relevance) <- contr.sum(2)
+contrasts(df_long4_ord$time) <- contr.sum(2)
+
+model_clmm_abs <- clmm(
+  abs_feature_importance_ord ~
+    task * feature_dimension * feature_relevance * time +
+    (1 | participant),
+  data = df_long4_ord,
+  link = "logit"
+)
+```
+
+```{r}
+summary(model_clmm_abs)
+```
+
+
+```{r}
+df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study5.csv') |>
+  mutate(
+    task = factor(task),
+    feature_relevance = factor(feature_relevance),
+    feature_dimension = factor(feature_dimension)
+  )
+
+# Effect / sum coding
+contrasts(df_corr$task) <- contr.sum(2)
+contrasts(df_corr$feature_relevance) <- contr.sum(2)
+contrasts(df_corr$feature_dimension) <- contr.sum(2)
+
+model_corr_raw_eff <- lmer(
+  correlation ~ task * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_corr
+)
+
+summary(model_corr_raw_eff)
+```
+
+
+```{r}
+library(tidyverse)
+
+plot_df <- df_corr %>%
+  group_by(task, feature_relevance, feature_dimension) %>%
+  summarise(
+    mean = mean(correlation, na.rm = TRUE),
+    se = sd(correlation, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_dimension,
+    y = mean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  facet_wrap(~ feature_relevance) +
+  theme_classic() +
+  labs(
+    x = "Feature Dimension",
+    y = "Mean Correlation",
+    color = "Task"
+  )
+```
+
+
+```{r}
+df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R_Study5.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+
+    stripes_relevance = ifelse(irrelevant_dim == "stripes", "irrelevant", "relevant"),
+    feet_relevance    = ifelse(irrelevant_dim == "feet", "irrelevant", "relevant"),
+
+    stripes_match_high = ifelse(stripes == stripes_high, 1, 0),
+    feet_match_high    = ifelse(feet == feet_high, 1, 0)
+  )
+```
+
+```{r}
+library(dplyr)
+
+df_merged %>%
+  group_by(task) %>%
+  summarise(
+    n = n(),
+    mean_fertility = mean(fertility_score, na.rm = TRUE),
+    sd_fertility = sd(fertility_score, na.rm = TRUE),
+    se_fertility = sd_fertility / sqrt(n),
+    mean_error = mean(error, na.rm=TRUE)
+  )
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+df_cue <- df_merged |>
+  select(
+    task, conditionOrder, item, testing_responses,
+    relevant_dim, irrelevant_dim,
+    stripes_high, feet_high,
+    fertility_score,
+    stripes, feet,
+    stripes_relevance, feet_relevance
+  ) |>
+  pivot_wider(
+    id_cols = c(
+      task, conditionOrder, relevant_dim, irrelevant_dim,
+      stripes_high, feet_high,
+      stripes_relevance, feet_relevance
+    ),
+    names_from = item,
+    values_from = c(testing_responses, fertility_score)
+  ) |>
+  rowwise() |>
+  mutate(
+    feet_effect_pred = case_when(
+      feet_high == "F" ~ mean(c(testing_responses_E_F - testing_responses_E_C,
+                                testing_responses_W_F - testing_responses_W_C), na.rm = TRUE),
+      feet_high == "C" ~ mean(c(testing_responses_E_C - testing_responses_E_F,
+                                testing_responses_W_C - testing_responses_W_F), na.rm = TRUE)
+    ),
+
+    stripes_effect_pred = case_when(
+      stripes_high == "E" ~ mean(c(testing_responses_E_F - testing_responses_W_F,
+                                   testing_responses_E_C - testing_responses_W_C), na.rm = TRUE),
+      stripes_high == "W" ~ mean(c(testing_responses_W_F - testing_responses_E_F,
+                                   testing_responses_W_C - testing_responses_E_C), na.rm = TRUE)
+    ),
+
+    feet_effect_true = case_when(
+      feet_high == "F" ~ mean(c(fertility_score_E_F - fertility_score_E_C,
+                                fertility_score_W_F - fertility_score_W_C), na.rm = TRUE),
+      feet_high == "C" ~ mean(c(fertility_score_E_C - fertility_score_E_F,
+                                fertility_score_W_C - fertility_score_W_F), na.rm = TRUE)
+    ),
+
+    stripes_effect_true = case_when(
+      stripes_high == "E" ~ mean(c(fertility_score_E_F - fertility_score_W_F,
+                                   fertility_score_E_C - fertility_score_W_C), na.rm = TRUE),
+      stripes_high == "W" ~ mean(c(fertility_score_W_F - fertility_score_E_F,
+                                   fertility_score_W_C - fertility_score_E_C), na.rm = TRUE)
+    )
+  ) |>
+  ungroup() |>
+  transmute(
+    task, conditionOrder, relevant_dim, irrelevant_dim,
+    feet_relevance, stripes_relevance,
+    feet_effect_pred, stripes_effect_pred,
+    feet_effect_true, stripes_effect_true
+  ) |>
+  pivot_longer(
+    cols = c(feet_effect_pred, stripes_effect_pred,
+             feet_effect_true, stripes_effect_true),
+    names_to = c("feature_dimension", ".value"),
+    names_pattern = "(feet|stripes)_effect_(pred|true)"
+  ) |>
+  mutate(
+    feature_relevance = case_when(
+      feature_dimension == "feet" ~ feet_relevance,
+      feature_dimension == "stripes" ~ stripes_relevance
+    ),
+    signed_error = pred - true,
+    abs_error = abs(pred - true),
+    task = relevel(factor(task), ref = "predict"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant")
+  )
+```
+
+```{r}
+
+contrasts(df_cue$task) <- contr.sum(2)
+contrasts(df_cue$feature_relevance) <- contr.sum(2)
+contrasts(df_cue$feature_dimension) <- contr.sum(2)
+
+model_signed <- lmer(
+  signed_error ~ task * feature_relevance * feature_dimension +
+    (1 | conditionOrder),
+  data = df_cue
+)
+
+summary(model_signed)
+```
+
+```{r}
+emm <- emmeans(
+  model_signed,
+  ~ task * feature_relevance * feature_dimension
+)
+
+emm
+pairs(
+  emm,
+  by = c("feature_relevance", "feature_dimension")
+)
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(
+  df_cue,
+  aes(
+    x = feature_dimension,
+    y = signed_error,
+    color = task,
+    group = task
+  )
+) +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    position = position_dodge(width = .2),
+    size = 3
+  ) +
+  stat_summary(
+    fun = mean,
+    geom = "line",
+    position = position_dodge(width = .2)
+  ) +
+  stat_summary(
+    fun.data = mean_se,
+    geom = "errorbar",
+    width = .1,
+    position = position_dodge(width = .2)
+  ) +
+  facet_wrap(~feature_relevance) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    x = "Feature",
+    y = "Error (Participant effect − True effect)",
+    color = "Task"
+  ) +
+  theme_classic()
+```
+```{r}
+df_cue %>%
+  group_by(task, feature_dimension, feature_relevance) %>%
+  summarise(
+    mean_pred = mean(pred),
+    mean_true = mean(true)
+  )
+
+df_merged %>%
+  group_by(task, item) %>%
+  summarise(
+    mean_train = mean(fertility_score),
+    mean_test = mean(testing_responses)
+  )
+summary_item <- df_merged %>%
+  group_by(task, item) %>%
+  summarise(
+    mean_train = mean(fertility_score, na.rm = TRUE),
+    mean_test  = mean(testing_responses, na.rm = TRUE),
+    .groups = "drop"
+  )
+```

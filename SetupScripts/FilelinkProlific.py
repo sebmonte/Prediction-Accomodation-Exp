@@ -75,14 +75,14 @@ def generate_condition_combined_csv(
             cond_str = str(i).zfill(pad)
             url1 = f"{base_url}{cond_str}"
             url2 = f"{base_url2}{cond_str}"
-            writer.writerow([url1])
+            #writer.writerow([url1])
             writer.writerow([url2])
 
     print(f"Saved {n_conditions} conditions to {output_file}")
 
 generate_condition_combined_csv(
-    n_conditions=40,
+    n_conditions=300,
     output_file="/Users/sm6511/Desktop/Prediction-Accomodation-Exp/ConditionFiles-Prolific/conditions_combined.csv",
-    base_url="https://run.pavlovia.org/montesinos7/predict4/?condition=",
-    base_url2="https://run.pavlovia.org/montesinos7/accommodate4?condition=",
+    base_url="https://run.pavlovia.org/montesinos7/predict5-5/?condition=",
+    base_url2="https://run.pavlovia.org/montesinos7/Accommodate5-5/?condition=",
 )

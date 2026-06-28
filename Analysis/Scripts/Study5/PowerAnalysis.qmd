@@ -1,0 +1,587 @@
+
+## Setup
+
+```{r}
+
+library(lme4)
+library(lmerTest) 
+library(tidyverse)
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study4.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "stripes")
+  )
+```
+
+```{r}
+full_model <- tryCatch(
+  lmer(feature_importance ~ task * feature_relevance * feature_dimension +
+         (1 + condition | participant),
+       data = df, REML = FALSE,
+       control = lmerControl(optimizer = "bobyqa")),
+  error = function(e) {
+    message("Full model failed, falling back to random intercepts only")
+    lmer(feature_importance ~ task * feature_relevance * feature_dimension +
+           (1 | participant),
+         data = df_long4, REML = FALSE,
+         control = lmerControl(optimizer = "bobyqa"))
+  }
+)
+summary(full_model)
+
+```
+```{r}
+full_model_abs <- tryCatch(
+  lmer(abs_feature_importance ~ task * feature_relevance * feature_dimension +
+         (1 + condition | participant),
+       data = df, REML = FALSE,
+       control = lmerControl(optimizer = "bobyqa")),
+  error = function(e) {
+    message("Full model failed, falling back to random intercepts only")
+    lmer(abs_feature_importance ~ task * feature_relevance * feature_dimension +
+           (1 | participant),
+         data = df_long4, REML = FALSE,
+         control = lmerControl(optimizer = "bobyqa"))
+  }
+)
+summary(full_model_abs)
+
+```
+
+
+```{r}
+library(tidyverse)
+library(lmtest)
+library(sandwich)
+
+run_power_sim_lm <- function(data, n_participants, n_sims = 1000, alpha = 0.05) {
+  
+  all_participants <- unique(data$participant)
+  
+  sig_condition_x_dim       <- numeric(n_sims)
+  sig_condition_x_dim_x_rel <- numeric(n_sims)
+  
+  for (i in seq_len(n_sims)) {
+    
+    sampled_participants <- sample(
+      all_participants,
+      size = n_participants,
+      replace = TRUE
+    )
+    
+    sim_data <- map_dfr(seq_along(sampled_participants), function(j) {
+      data %>%
+        filter(participant == sampled_participants[j]) %>%
+        mutate(participant = paste0("p", j))
+    })
+    
+    fit <- tryCatch(
+      lm(
+        abs_feature_importance ~ task * feature_relevance * feature_dimension,
+        data = sim_data
+      ),
+      error = function(e) NULL
+    )
+    
+    if (is.null(fit)) next
+    
+    coef_table <- coeftest(
+      fit,
+      vcov = vcovCL(fit, cluster = ~ participant)
+    )
+    
+    rnames <- rownames(coef_table)
+    
+    row_2way <- grep(
+      "task.*feature_dimension|feature_dimension.*task",
+      rnames,
+      value = TRUE
+    )
+    
+    row_3way <- grep(
+      "task.*feature_relevance.*feature_dimension|task.*feature_dimension.*feature_relevance",
+      rnames,
+      value = TRUE
+    )
+    
+    if (length(row_2way) > 0) {
+      sig_condition_x_dim[i] <- any(
+        coef_table[row_2way, "Pr(>|t|)"] < alpha
+      )
+    }
+    
+    if (length(row_3way) > 0) {
+      sig_condition_x_dim_x_rel[i] <- any(
+        coef_table[row_3way, "Pr(>|t|)"] < alpha
+      )
+    }
+  }
+  
+  tibble(
+    n_participants = n_participants,
+    power_2way     = mean(sig_condition_x_dim),
+    power_3way     = mean(sig_condition_x_dim_x_rel)
+  )
+}
+```
+
+
+```{r}
+candidate_ns <- seq(400, 1000, by = 200)
+
+set.seed(42)
+
+power_results_lm <- map_dfr(candidate_ns, function(n) {
+  message("Simulating N = ", n)
+  
+  run_power_sim_lm(
+    data = df_long4,
+    n_participants = n,
+    n_sims = 1000
+  )
+})
+
+power_results_lm
+print(power_results_lm)
+
+```
+
+```{r}
+power_long <- power_results_lm %>%
+  pivot_longer(cols = starts_with("power"),
+               names_to = "interaction",
+               values_to = "power") %>%
+  mutate(interaction = recode(interaction,
+    power_2way = "Condition × Feature Dimension",
+    power_3way = "Condition × Dimension × Relevance"
+  ))
+
+ggplot(power_long, aes(x = n_participants, y = power, color = interaction)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "gray40") +
+  geom_hline(yintercept = 0.95, linetype = "dotted", color = "gray40") +
+  annotate("text", x = max(candidate_ns), y = 0.81, label = "80% power",
+           hjust = 1, size = 3.5, color = "gray40") +
+  annotate("text", x = max(candidate_ns), y = 0.96, label = "95% power",
+           hjust = 1, size = 3.5, color = "gray40") +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  scale_color_manual(values = c("#2563EB", "#DC2626")) +
+  labs(
+    title    = "Power Curves for Interactions (Abs Values)",
+    subtitle = "using simulations resampled from existing data",
+    x        = "Participants",
+    y        = "Estimated Power",
+    color    = "Interaction"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+
+#ggsave("power_curve.png", width = 8, height = 5, dpi = 150)
+```
+
+```{r}
+power_results %>%
+  summarise(
+    n_80_2way  = min(n_participants[power_2way  >= 0.80], na.rm = TRUE),
+    n_95_2way  = min(n_participants[power_2way  >= 0.95], na.rm = TRUE),
+    n_80_3way  = min(n_participants[power_3way  >= 0.80], na.rm = TRUE),
+    n_95_3way  = min(n_participants[power_3way  >= 0.95], na.rm = TRUE)
+  )
+```
+
+```{r}
+# Cohen's d analog for the interactions
+# Divide beta by the residual SD of the model
+
+sigma_resid <- sigma(full_model)  # residual SD
+cat("Residual SD:", sigma_resid, "\n")
+
+betas <- fixef(full_model)
+cat("2-way d:", betas["taskaccommodate:feature_dimensionfeet"] / sigma_resid, "\n")
+cat("3-way d:", betas["taskaccommodate:feature_relevancerelevant:feature_dimensionfeet"] / sigma_resid, "\n")
+```
+
+
+```{r}
+library(tidyverse)
+library(lmtest)
+library(sandwich)
+
+run_power_scaled_lm <- function(
+    data,
+    n_participants,
+    effect_scale = 1.0,
+    n_sims = 1000,
+    alpha = 0.05
+) {
+  
+  all_participants <- unique(data$participant)
+  
+  # Fit base model on collected data
+  base_model <- lm(
+    abs_feature_importance ~ task * feature_relevance * feature_dimension,
+    data = data
+  )
+  
+  true_betas <- coef(base_model)
+  
+  # Identify interaction betas (to scale)
+  interaction_idx <- grep(":", names(true_betas))
+  
+  sig_2way <- numeric(n_sims)
+  sig_3way <- numeric(n_sims)
+  
+  for (i in seq_len(n_sims)) {
+    
+    # Resample participants with replacement
+    sampled_participants <- sample(
+      all_participants,
+      size = n_participants,
+      replace = TRUE
+    )
+    
+    sim_data <- map_dfr(seq_along(sampled_participants), function(j) {
+      data %>%
+        filter(participant == sampled_participants[j]) %>%
+        mutate(participant = paste0("p", j))
+    })
+    
+    # Design matrix
+    X <- model.matrix(
+      ~ task * feature_relevance * feature_dimension,
+      data = sim_data
+    )
+    
+    # Scale interaction effects
+    scaled_betas <- true_betas
+    scaled_betas[interaction_idx] <-
+      scaled_betas[interaction_idx] * effect_scale
+    
+    # Preserve empirical residual structure
+    base_fit_sim <- lm(
+      abs_feature_importance ~ task * feature_relevance * feature_dimension,
+      data = sim_data
+    )
+    
+    sim_data$y_sim <-
+      as.numeric(X %*% scaled_betas) +
+      residuals(base_fit_sim)
+    
+    # Fit simulated model
+    fit <- lm(
+      y_sim ~ task * feature_relevance * feature_dimension,
+      data = sim_data
+    )
+    
+    # Cluster-robust SEs by participant
+    coef_table <- coeftest(
+      fit,
+      vcov = vcovCL(fit, cluster = ~participant)
+    )
+    
+    rnames <- rownames(coef_table)
+    
+    # task × feature_dimension interactions
+    row_2way <- grep(
+      "task.*feature_dimension|feature_dimension.*task",
+      rnames,
+      value = TRUE
+    )
+    
+    # task × feature_relevance × feature_dimension interactions
+    row_3way <- grep(
+      "task.*feature_relevance.*feature_dimension|task.*feature_dimension.*feature_relevance",
+      rnames,
+      value = TRUE
+    )
+    
+    if (length(row_2way) > 0) {
+      sig_2way[i] <- any(
+        coef_table[row_2way, "Pr(>|t|)"] < alpha
+      )
+    }
+    
+    if (length(row_3way) > 0) {
+      sig_3way[i] <- any(
+        coef_table[row_3way, "Pr(>|t|)"] < alpha
+      )
+    }
+  }
+  
+  tibble(
+    n_participants = n_participants,
+    effect_scale   = effect_scale,
+    power_2way     = mean(sig_2way),
+    power_3way     = mean(sig_3way)
+  )
+}
+
+# Grid of sample sizes and effect scales
+candidate_ns  <- seq(400, 1000, by = 200)
+effect_scales <- c(1.0, 1.5, 2.0, 3.0)
+
+set.seed(42)
+
+power_grid <- cross_df(list(
+  n  = candidate_ns,
+  es = effect_scales
+)) %>%
+  pmap_dfr(function(n, es) {
+    
+    message("N = ", n, " | scale = ", es)
+    
+    run_power_scaled_lm(
+      data = df_long4,
+      n_participants = n,
+      effect_scale = es
+    )
+  })
+
+power_grid
+```
+
+```{r}
+# Plot
+power_grid %>%
+  pivot_longer(power_2way:power_3way, names_to = "interaction", values_to = "power") %>%
+  mutate(
+    interaction  = recode(interaction,
+      power_2way = "Condition × Dimension",
+      power_3way = "Condition × Dimension × Relevance"),
+    effect_label = paste0(effect_scale, "× observed effect")
+  ) %>%
+  ggplot(aes(x = n_participants, y = power, color = interaction)) +
+  geom_line(linewidth = 1.1) +
+  geom_point() +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "gray50") +
+  facet_wrap(~ effect_label, nrow = 1) +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  labs(x = "N participants", y = "Power", color = NULL,
+       title = "Power curves across effect sizes")
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+
+```{r}
+df_long4 <- df_long4 %>%
+  mutate(
+    feature_importance_ord = ordered(feature_importance)
+  )
+```
+
+```{r}
+  base_model <- clm(
+    feature_importance_ord ~ task * feature_relevance * feature_dimension,
+    data = df_long4,
+    link = "logit"
+  )
+  summary(base_model)
+```
+
+```{r}
+run_power_scaled_ordinal <- function(
+    data,
+    n_participants,
+    effect_scale = 1.0,
+    n_sims = 1000,
+    alpha = 0.05
+) {
+  
+  all_participants <- unique(data$participant)
+  
+  # Fit base ordinal model on real data
+  base_model <- clm(
+    feature_importance_ord ~ task * feature_relevance * feature_dimension,
+    data = data,
+    link = "logit"
+  )
+  
+  base_coefs <- coef(base_model)
+  
+  # Separate thresholds from regression coefficients
+  threshold_names <- names(base_coefs)[grepl("\\|", names(base_coefs))]
+  beta_names      <- names(base_coefs)[!grepl("\\|", names(base_coefs))]
+  
+  thresholds <- base_coefs[threshold_names]
+  betas      <- base_coefs[beta_names]
+  
+  # Scale only interaction effects
+  interaction_idx <- grep(":", names(betas))
+  betas_scaled <- betas
+  betas_scaled[interaction_idx] <- betas_scaled[interaction_idx] * effect_scale
+  
+  sig_2way <- numeric(n_sims)
+  sig_3way <- numeric(n_sims)
+  
+  for (i in seq_len(n_sims)) {
+    
+    sampled_participants <- sample(
+      all_participants,
+      size = n_participants,
+      replace = TRUE
+    )
+    
+    sim_data <- map_dfr(seq_along(sampled_participants), function(j) {
+      data %>%
+        filter(participant == sampled_participants[j]) %>%
+        mutate(participant = paste0("p", j))
+    })
+        
+    X_full <- model.matrix(
+      ~ task * feature_relevance * feature_dimension,
+      data = sim_data
+    )
+    
+    X_full <- X_full[, colnames(X_full) != "(Intercept)", drop = FALSE]
+    
+    missing_cols <- setdiff(names(betas_scaled), colnames(X_full))
+    
+    if (length(missing_cols) > 0) {
+      stop(
+        "These beta terms are missing from X_full: ",
+        paste(missing_cols, collapse = ", ")
+      )
+    }
+    
+    X <- X_full[, names(betas_scaled), drop = FALSE]
+    
+    eta <- as.numeric(X %*% betas_scaled)
+    
+    # Convert cumulative logits into category probabilities
+    cum_probs <- sapply(thresholds, function(thresh) {
+      plogis(thresh - eta)
+    })
+    
+    # Add 0 and 1 boundaries
+    cum_probs <- cbind(0, cum_probs, 1)
+    
+    # Category probabilities
+    cat_probs <- t(apply(cum_probs, 1, diff))
+    
+    # Clean up any numerical issues
+    cat_probs[cat_probs < 0] <- 0
+    cat_probs <- cat_probs / rowSums(cat_probs)
+    
+    response_levels <- levels(data$feature_importance_ord)
+    
+    sim_data$y_sim <- apply(cat_probs, 1, function(p) {
+      sample(response_levels, size = 1, prob = p)
+    })
+    
+    sim_data$y_sim <- ordered(
+      sim_data$y_sim,
+      levels = response_levels
+    )
+    
+    fit <- tryCatch(
+      clm(
+        y_sim ~ task * feature_relevance * feature_dimension,
+        data = sim_data,
+        link = "logit"
+      ),
+      error = function(e) NULL
+    )
+    
+    if (is.null(fit)) next
+    
+    coef_table <- coef(summary(fit))
+    rnames <- rownames(coef_table)
+    
+    row_2way <- grep(
+      "task.*feature_dimension|feature_dimension.*task",
+      rnames,
+      value = TRUE
+    )
+    
+    row_3way <- grep(
+      "task.*feature_relevance.*feature_dimension|task.*feature_dimension.*feature_relevance",
+      rnames,
+      value = TRUE
+    )
+    
+    if (length(row_2way) > 0) {
+      sig_2way[i] <- any(coef_table[row_2way, "Pr(>|z|)"] < alpha)
+    }
+    
+    if (length(row_3way) > 0) {
+      sig_3way[i] <- any(coef_table[row_3way, "Pr(>|z|)"] < alpha)
+    }
+  }
+  
+  tibble(
+    n_participants = n_participants,
+    effect_scale = effect_scale,
+    power_2way = mean(sig_2way),
+    power_3way = mean(sig_3way)
+  )
+}
+```
+
+```{r}
+candidate_ns  <- seq(400, 1000, by = 200)
+effect_scales <- c(1.0, 1.5, 2.0, 3.0)
+
+set.seed(42)
+
+power_grid_ord <- cross_df(list(
+  n = candidate_ns,
+  es = effect_scales
+)) %>%
+  pmap_dfr(function(n, es) {
+    message("N = ", n, " | scale = ", es)
+    
+    run_power_scaled_ordinal(
+      data = df_long4,
+      n_participants = n,
+      effect_scale = es,
+      n_sims = 1000
+    )
+  })
+
+power_grid_ord
+```
+
+```{r}
+power_long_ord <- power_grid_ord %>%
+  pivot_longer(
+    cols = starts_with("power"),
+    names_to = "interaction",
+    values_to = "power"
+  ) %>%
+  mutate(
+    interaction = recode(
+      interaction,
+      power_2way = "Condition × Feature Dimension",
+      power_3way = "Condition × Relevance × Dimension"
+    )
+  )
+
+ggplot(
+  power_long_ord,
+  aes(
+    x = n_participants,
+    y = power,
+    color = interaction,
+    group = interaction
+  )
+) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2) +
+  facet_wrap(~ effect_scale) +
+  geom_hline(yintercept = 0.80, linetype = "dashed") +
+  geom_hline(yintercept = 0.95, linetype = "dotted") +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  labs(
+    title = "Ordinal Regressiom: Power Curves",
+    subtitle = "Absolute feature-importance rating",
+    x = "Number of participants",
+    y = "Estimated power",
+    color = "Interaction"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+```
+

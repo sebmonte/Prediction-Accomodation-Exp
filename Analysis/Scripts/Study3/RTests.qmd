@@ -123,6 +123,7 @@ df_long4 <- df_long4 |>
   mutate(abs_feature_importance_ord = ordered(abs_feature_importance))
 
 model_clmm <- clmm(abs_feature_importance_ord ~ task * feature_dimension * feature_relevance + (1 | participant), data = df_long4, link = "logit" )
+summary(model_clmm)
 ```
 
 

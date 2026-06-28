@@ -10,7 +10,8 @@ library(lmerTest)
 df_long <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study2.0/Cleaned/df_long_for_R-Study2.csv') |>
   mutate(
     task = relevel(factor(task), ref = "predict"),
-    wing_high = relevel(factor(wing_high), ref = "T")
+    wing_high = relevel(factor(wing_high), ref = "T"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "relevant")
   )
 ```
 
