@@ -1,0 +1,53 @@
+
+## Setup
+
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+library(ordinal)
+library(performance)
+library(modelsummary)
+library(lmerTest)
+
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_by_explanation_for_R-Study5.csv') |>
+  mutate(
+    task = relevel(factor(task_explanation_group), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "stripes"),
+    stripes_high = relevel(factor(stripes_high), ref = "E"),
+    feet_high = relevel(factor(feet_high), ref = "C")
+  )
+```
+
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+contrasts(df_long4$task) <- contr.sum(3)
+contrasts(df_long4$feature_relevance) <- contr.sum(2)
+contrasts(df_long4$feature_dimension) <- contr.sum(2)
+
+model_eff <- lmer(
+  feature_importance ~ task * feature_relevance *
+    feature_dimension +
+    (1|participant),
+  data = df_long4
+)
+summary(model_eff)
+```
+```{r}
+emm <- emmeans(model_eff, ~ feature_relevance * task)
+contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
+```
+
+```{r}
+emm <- emmeans(model_eff, ~ feature_dimension * task)
+contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
+```
+```{r}
+emmip(model_eff,
+      task ~ feature_dimension,
+      CIs = TRUE)
+```
+

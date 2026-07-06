@@ -1,0 +1,366 @@
+
+## Setup
+
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+library(ordinal)
+library(performance)
+library(modelsummary)
+library(lmerTest)
+```
+
+```{r}
+library(tidyverse)
+
+df_corr <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study5.csv"
+)
+
+df_codes <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/explanationcodes/Explanation_Coding_Study5.csv"
+)
+
+# Clean participant IDs in df_corr (extract number)
+df_corr_clean <- df_corr %>%
+  mutate(
+    participant = str_extract(as.character(participant), "(?<=np\\.int64\\()\\d+"),
+    participant = as.integer(participant)
+  )
+
+# Replace NA explanation codes with 0, treat unused explanation column as none
+df_codes_clean <- df_codes %>%
+  mutate(
+    participant = as.integer(participant),
+    None = replace_na(None, 0),
+    Explanation = replace_na(Explanation, 0),
+    Causal_Explanation = replace_na(Causal_Explanation, 0),
+    explanation_type = case_when(
+      Causal_Explanation == 1 ~ "causal_explanation",
+      None == 1 ~ "none",
+      Explanation == 1 ~ "none",   # treat Explanation as none
+      TRUE ~ "other_or_uncoded"
+    )
+  ) %>%
+  select(participant, explanation_type, None, Causal_Explanation)
+
+df_corr_coded <- df_corr_clean %>%
+  left_join(df_codes_clean, by = "participant") %>%
+  mutate(
+    task_explanation_group = case_when(
+      task == "predict" ~ "predict",
+      task == "accommodate" & explanation_type == "none" ~ "accommodate_none",
+      task == "accommodate" & explanation_type == "Explanation" ~ "accommodate_none",
+      task == "accommodate" & explanation_type == "causal_explanation" ~ "accommodate_causal",
+      TRUE ~ "other_or_uncoded"
+    ),
+    task_explanation_group = factor(
+      task_explanation_group,
+      levels = c("predict", "accommodate_none", "accommodate_causal")
+    )
+  )
+
+df_corr_coded %>%
+  count(task_explanation_group)
+
+```
+```{r}
+library(dplyr)
+library(ggplot2)
+
+summary_df <- df_corr_coded %>%
+  filter(!is.na(task_explanation_group)) %>%
+  group_by(task_explanation_group, feature_dimension, feature_relevance) %>%
+  summarise(
+    mean = mean(correlation, na.rm = TRUE),
+    sd = sd(correlation, na.rm = TRUE),
+    n = n(),
+    se = sd / sqrt(n),
+    ci = qt(.975, n - 1) * se,
+    .groups = "drop"
+  )
+
+ggplot(
+  summary_df,
+  aes(x = task_explanation_group,
+      y = mean,
+      color = task_explanation_group)
+) +
+  geom_point(size = 3) +
+  geom_errorbar(
+    aes(
+      ymin = mean - ci,
+      ymax = mean + ci
+    ),
+    width = 0.15
+  ) +
+  facet_grid(feature_dimension ~ feature_relevance) +
+  labs(
+    x = NULL,
+    y = "Correlation"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 20, hjust = 1)
+  ) +
+  labs(title = "Study 5")
+```
+
+```{r}
+
+df_corr <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study3.csv"
+)
+
+df_codes <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/explanationcodes/Explanation_Coding_Study3.csv"
+)
+
+# Clean participant IDs in df_corr (extract number)
+df_corr_clean <- df_corr %>%
+  mutate(
+    participant = str_extract(as.character(participant), "(?<=np\\.int64\\()\\d+"),
+    participant = as.integer(participant)
+  )
+
+# Replace NA explanation codes with 0, treat unused explanation column as none
+df_codes_clean <- df_codes %>%
+  mutate(
+    participant = as.integer(participant),
+    none = replace_na(none, 0),
+    causal_explanation = replace_na(causal_explanation, 0),
+    explanation_type = case_when(
+      causal_explanation == 1 ~ "causal_explanation",
+      none == 1 ~ "none",
+      TRUE ~ "other_or_uncoded"
+    )
+  ) %>%
+  select(participant, explanation_type, none, causal_explanation)
+
+df_corr_coded <- df_corr_clean %>%
+  left_join(df_codes_clean, by = "participant") %>%
+  mutate(
+    task_explanation_group = case_when(
+      task == "predict" ~ "predict",
+      task == "accommodate" & explanation_type == "none" ~ "accommodate_none",
+      task == "accommodate" & explanation_type == "causal_explanation" ~ "accommodate_causal",
+      TRUE ~ "other_or_uncoded"
+    ),
+    task_explanation_group = factor(
+      task_explanation_group,
+      levels = c("predict", "accommodate_none", "accommodate_causal")
+    )
+  )
+
+df_corr_coded %>%
+  count(task_explanation_group)
+
+```
+```{r}
+library(dplyr)
+library(ggplot2)
+
+summary_df <- df_corr_coded %>%
+  filter(!is.na(task_explanation_group)) %>%
+  group_by(task_explanation_group, feature_dimension, feature_relevance) %>%
+  summarise(
+    mean = mean(correlation, na.rm = TRUE),
+    sd = sd(correlation, na.rm = TRUE),
+    n = n(),
+    se = sd / sqrt(n),
+    ci = qt(.975, n - 1) * se,
+    .groups = "drop"
+  )
+
+ggplot(
+  summary_df,
+  aes(x = task_explanation_group,
+      y = mean,
+      color = task_explanation_group)
+) +
+  geom_point(size = 3) +
+  geom_errorbar(
+    aes(ymin = mean - ci,
+        ymax = mean + ci),
+    width = 0.15
+  ) +
+  facet_grid(feature_dimension ~ feature_relevance) +
+  labs(
+    x = NULL,
+    y = "Correlation"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 20, hjust = 1)
+  ) +
+  labs(title = 'study 3')
+```
+```{r}
+df_corr_coded <- df_corr_coded %>% mutate(
+  task_explanation_group = factor(task_explanation_group),
+  feature_relevance = factor(feature_relevance),
+  feature_dimension = factor(feature_dimension)
+  )
+levels(df_corr_coded$task_explanation_group)
+# Effect / sum coding
+contrasts(df_corr_coded$task_explanation_group) <- contr.sum(3)
+contrasts(df_corr_coded$feature_relevance) <- contr.sum(2)
+contrasts(df_corr_coded$feature_dimension) <- contr.sum(2)
+model_corr_raw_eff <- lmer(
+  correlation ~ task_explanation_group * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_corr_coded
+)
+summary(model_corr_raw_eff)
+
+library(emmeans)
+
+emm <- emmeans(model_corr_raw_eff, ~ task_explanation_group)
+pairs(emm)
+```
+
+```{r}
+library(tidyverse)
+
+df_corr <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study4.csv"
+)
+
+df_codes <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/explanationcodes/Explanation_Coding_Study4.csv"
+)
+
+# Clean participant IDs in df_corr (extract number)
+df_corr_clean <- df_corr %>%
+  mutate(
+    participant = str_extract(as.character(participant), "(?<=np\\.int64\\()\\d+"),
+    participant = as.integer(participant)
+  )
+
+# Replace NA explanation codes with 0, treat unused explanation column as none
+df_codes_clean <- df_codes %>%
+  mutate(
+    participant = as.integer(participant),
+    None = replace_na(None, 0),
+    Causal_Explanation = replace_na(Causal_Explanation, 0),
+    explanation_type = case_when(
+      Causal_Explanation == 1 ~ "causal_explanation",
+      None == 1 ~ "none",
+      TRUE ~ "other_or_uncoded"
+    )
+  ) %>%
+  select(participant, explanation_type, None, Causal_Explanation)
+
+df_corr_coded <- df_corr_clean %>%
+  left_join(df_codes_clean, by = "participant") %>%
+  mutate(
+    task_explanation_group = case_when(
+      task == "predict" ~ "predict",
+      task == "accommodate" & explanation_type == "none" ~ "accommodate_none",
+      task == "accommodate" & explanation_type == "causal_explanation" ~ "accommodate_causal",
+      TRUE ~ "other_or_uncoded"
+    ),
+    task_explanation_group = factor(
+      task_explanation_group,
+      levels = c("predict", "accommodate_none", "accommodate_causal")
+    )
+  )
+
+df_corr_coded %>%
+  count(task_explanation_group)
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+summary_df <- df_corr_coded %>%
+  filter(!is.na(task_explanation_group)) %>%
+  group_by(task_explanation_group, feature_dimension, feature_relevance) %>%
+  summarise(
+    mean = mean(correlation, na.rm = TRUE),
+    sd = sd(correlation, na.rm = TRUE),
+    n = n(),
+    se = sd / sqrt(n),
+    ci = qt(.975, n - 1) * se,
+    .groups = "drop"
+  )
+
+ggplot(
+  summary_df,
+  aes(x = task_explanation_group,
+      y = mean,
+      color = task_explanation_group)
+) +
+  geom_point(size = 3) +
+  geom_errorbar(
+    aes(ymin = mean - ci,
+        ymax = mean + ci),
+    width = 0.15
+  ) +
+  facet_grid(feature_dimension ~ feature_relevance) +
+  labs(
+    x = NULL,
+    y = "Correlation"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 20, hjust = 1)
+  ) +
+  labs(title = 'study 4')
+```
+
+```{r}
+df_corr_coded <- df_corr_coded %>% mutate(
+  task_explanation_group = factor(task_explanation_group),
+  feature_relevance = factor(feature_relevance),
+  feature_dimension = factor(feature_dimension)
+  )
+levels(df_corr_coded$task_explanation_group)
+# Effect / sum coding
+contrasts(df_corr_coded$task_explanation_group) <- contr.sum(3)
+contrasts(df_corr_coded$feature_relevance) <- contr.sum(2)
+contrasts(df_corr_coded$feature_dimension) <- contr.sum(2)
+model_corr_raw_eff <- lmer(
+  correlation ~ task_explanation_group * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_corr_coded
+)
+summary(model_corr_raw_eff)
+```
+
+```{r}
+library(emmeans)
+
+emm <- emmeans(model_corr_raw_eff, ~ task_explanation_group)
+pairs(emm)
+```
+
+```{r}
+df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study5.csv') |>
+  mutate(
+    task = factor(task),
+    feature_relevance = factor(feature_relevance),
+    feature_dimension = factor(feature_dimension)
+  )
+
+# Effect / sum coding
+contrasts(df_corr$task) <- contr.sum(2)
+contrasts(df_corr$feature_relevance) <- contr.sum(2)
+contrasts(df_corr$feature_dimension) <- contr.sum(2)
+
+model_corr_raw_eff <- lmer(
+  correlation ~ task * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_corr
+)
+
+summary(model_corr_raw_eff)
+```
+
