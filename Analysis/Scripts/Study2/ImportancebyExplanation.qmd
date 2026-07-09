@@ -11,20 +11,18 @@ library(performance)
 library(modelsummary)
 library(lmerTest)
 
-df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_by_explanation_for_R-Study3.csv') |>
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_by_explanation_for_R-Study2.csv') |>
   mutate(
     task = relevel(factor(task_explanation_group), ref = "predict"),
     feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
     feature_dimension = relevel(factor(feature_dimension), ref = "color"),
-    color_high = relevel(factor(color_high), ref = "Y"),
-    feet_high = relevel(factor(feet_high), ref = "C")
   )
 ```
 
 ```{r}
 contrasts(df_long4$task) <- contr.sum(3)
 contrasts(df_long4$feature_relevance) <- contr.sum(2)
-contrasts(df_long4$feature_dimension) <- contr.sum(2)
+contrasts(df_long4$feature_dimension) <- contr.sum(3)
 
 model_eff <- lmer(
   feature_importance ~ task * feature_relevance *

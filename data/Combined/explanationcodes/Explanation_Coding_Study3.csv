@@ -1,4 +1,4 @@
-participant,none,causal_explanation,color,feet,other
+﻿participant,none,causal_explanation,color,feet,other
 1,0,1,1,1,0
 2,1,0,0,0,0
 3,1,0,0,0,0
@@ -132,7 +132,7 @@ participant,none,causal_explanation,color,feet,other
 131,0,1,1,0,1
 132,0,1,0,1,0
 133,0,1,1,0,0
-134,0,0,0,0,0
+134,0,1,0,1,1
 135,1,0,0,0,0
 136,0,1,1,1,0
 137,1,0,0,0,0

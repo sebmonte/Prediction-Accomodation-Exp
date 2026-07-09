@@ -58,7 +58,16 @@ df_corr_coded <- df_corr_clean %>%
     ),
     task_explanation_group = factor(
       task_explanation_group,
-      levels = c("predict", "accommodate_none", "accommodate_causal")
+      levels = c("predict", "accommodate_causal", "accommodate_none")
+    ),
+    feature_relevance = factor(
+      feature_relevance,
+      levels = c("irrelevant", "relevant")
+    ),
+    feature_dimension = factor(
+      feature_dimension,
+      levels = c("stripes", "feet")
+      
     )
   )
 
@@ -66,6 +75,69 @@ df_corr_coded %>%
   count(task_explanation_group)
 
 ```
+
+
+```{r}
+contrasts(df_corr_coded$task_explanation_group) <- contr.sum(3)
+contrasts(df_corr_coded$feature_relevance) <- contr.sum(2)
+contrasts(df_corr_coded$feature_dimension) <- contr.sum(2)
+
+model_eff <- lmer(
+  correlation ~ task_explanation_group * feature_relevance *
+    feature_dimension +
+    (1|participant),
+  data = df_corr_coded
+)
+summary(model_eff)
+```
+
+```{r}
+emm <- emmeans(model_eff, ~ feature_relevance * task_explanation_group)
+contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
+emm <- emmeans(model_eff, ~ feature_dimension * task_explanation_group)
+contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
+```
+```{r}
+plot_df <- df_corr_coded %>%
+  group_by(task_explanation_group, feature_dimension) %>%
+  summarise(
+    mean = mean(correlation, na.rm = TRUE),
+    se = sd(correlation, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_dimension,
+    y = mean,
+    color = task_explanation_group,
+    group = task_explanation_group
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  theme_classic() +
+  labs(
+    x = "Feature Dimension",
+    y = "Correlation",
+    color = "Task"
+  )
+```
+
 ```{r}
 library(dplyr)
 library(ggplot2)
@@ -151,7 +223,16 @@ df_corr_coded <- df_corr_clean %>%
     ),
     task_explanation_group = factor(
       task_explanation_group,
-      levels = c("predict", "accommodate_none", "accommodate_causal")
+      levels = c("predict", "accommodate_causal", "accommodate_none")
+    ),
+    feature_relevance = factor(
+      feature_relevance,
+      levels = c("irrelevant", "relevant")
+    ),
+    feature_dimension = factor(
+      feature_dimension,
+      levels = c("color", "feet")
+      
     )
   )
 
@@ -159,6 +240,67 @@ df_corr_coded %>%
   count(task_explanation_group)
 
 ```
+```{r}
+contrasts(df_corr_coded$task_explanation_group) <- contr.sum(3)
+contrasts(df_corr_coded$feature_relevance) <- contr.sum(2)
+contrasts(df_corr_coded$feature_dimension) <- contr.sum(2)
+
+model_eff <- lmer(
+  correlation ~ task_explanation_group * feature_relevance *
+    feature_dimension +
+    (1|participant),
+  data = df_corr_coded
+)
+summary(model_eff)
+```
+```{r}
+emm <- emmeans(model_eff, ~ feature_relevance * task_explanation_group)
+contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
+emm <- emmeans(model_eff, ~ feature_dimension * task_explanation_group)
+contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
+```
+
+```{r}
+plot_df <- df_corr_coded %>%
+  group_by(task_explanation_group, feature_relevance) %>%
+  summarise(
+    mean = mean(correlation, na.rm = TRUE),
+    se = sd(correlation, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_relevance,
+    y = mean,
+    color = task_explanation_group,
+    group = task_explanation_group
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  theme_classic() +
+  labs(
+    x = "Feature Relevance",
+    y = "Correlation",
+    color = "Task"
+  )
+```
+
 ```{r}
 library(dplyr)
 library(ggplot2)

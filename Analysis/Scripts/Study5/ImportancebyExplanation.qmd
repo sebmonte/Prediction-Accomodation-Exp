@@ -17,6 +17,7 @@ df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Com
     feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
     feature_dimension = relevel(factor(feature_dimension), ref = "stripes"),
     stripes_high = relevel(factor(stripes_high), ref = "E"),
+    time = relevel(factor(time), ref = "mid"),
     feet_high = relevel(factor(feet_high), ref = "C")
   )
 ```
@@ -45,9 +46,135 @@ contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
 emm <- emmeans(model_eff, ~ feature_dimension * task)
 contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
 ```
+
+
+
 ```{r}
-emmip(model_eff,
-      task ~ feature_dimension,
-      CIs = TRUE)
+plot_df <- df_long4 %>%
+  group_by(task, feature_relevance) %>%
+  summarise(
+    mean = mean(feature_importance, na.rm = TRUE),
+    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_relevance,
+    y = mean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  theme_classic() +
+  labs(
+    x = "Feature Relevance",
+    y = "feature_importance",
+    color = "Task"
+  )
+
+```
+
+
+```{r}
+plot_df <- df_long4 %>%
+  group_by(task, feature_dimension) %>%
+  summarise(
+    mean = mean(feature_importance, na.rm = TRUE),
+    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_dimension,
+    y = mean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  theme_classic() +
+  labs(
+    x = "Feature Dimension",
+    y = "feature_importance",
+    color = "Task"
+  )
+```
+
+```{r}
+library(tidyverse)
+
+plot_df <- df_long4 %>%
+  group_by(task, feature_relevance, feature_dimension) %>%
+  summarise(
+    mean = mean(feature_importance, na.rm = TRUE),
+    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_dimension,
+    y = mean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  facet_wrap(~ feature_relevance) +
+  theme_classic() +
+  labs(
+    x = "Feature Dimension",
+    y = "feature_importance",
+    color = "Task"
+  )
+```
 ```
 

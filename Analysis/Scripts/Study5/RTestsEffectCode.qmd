@@ -51,6 +51,92 @@ pairs(
 )
 ```
 
+```{r}
+library(tidyverse)
+
+plot_df <- df_long4 %>%
+  group_by(task, feature_relevance, feature_dimension) %>%
+  summarise(
+    mean = mean(feature_importance, na.rm = TRUE),
+    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_dimension,
+    y = mean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  facet_wrap(~ feature_relevance) +
+  theme_classic() +
+  labs(
+    x = "Feature Dimension",
+    y = "feature_importance",
+    color = "Task"
+  )
+```
+```{r}
+plot_df <- df_long4 %>%
+  group_by(task, feature_relevance) %>%
+  summarise(
+    mean = mean(feature_importance, na.rm = TRUE),
+    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+ggplot(
+  plot_df,
+  aes(
+    x = feature_relevance,
+    y = mean,
+    color = task,
+    group = task
+  )
+) +
+  geom_point(
+    position = position_dodge(width = .3),
+    size = 3
+  ) +
+  geom_line(
+    position = position_dodge(width = .3)
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean - se,
+      ymax = mean + se
+    ),
+    width = .15,
+    position = position_dodge(width = .3)
+  ) +
+  theme_classic() +
+  labs(
+    x = "Feature Relevance",
+    y = "feature_importance",
+    color = "Task"
+  )
+
+```
+
+
 
 ```{r}
 library(car)
