@@ -1,8 +1,9 @@
 
 ## Setup
 
+
 ```{r}
-library(tidyverse)  
+library(tidyverse)  # read_csv and mutate
 library(lme4)       # lmer
 library(emmeans)    # emmeans and pairs
 library(lmerTest)
@@ -11,78 +12,114 @@ library(performance)
 library(modelsummary)
 library(lmerTest)
 
-df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study1.csv') |>
+df_wing <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study2.0/Cleaned/df_wing_for_R-Study2.csv') |>
   mutate(
     task = relevel(factor(task), ref = "accommodate"),
-    feature_relevance = relevel(factor(feature_relevance), ref = "relevant"),
-    feature_dimension = relevel(factor(feature_dimension), ref = "color"),
+    wing_relevant = relevel(factor(wing_relevant), ref = "1"),
+    wing_high = relevel(factor(wing_high), ref = "1")
   )
 ```
-```{r}
-#| fig-width: 14
-#| fig-height: 10
-contrasts(df_long4$task) <- contr.sum(2)
-contrasts(df_long4$feature_relevance) <- contr.sum(2)
-contrasts(df_long4$feature_dimension) <- contr.sum(3)
 
-model_eff <- lmer(
-  feature_importance ~ task * feature_relevance +
-    (1 + feature_relevance || participant),
-  data = df_long4
+```{r}
+df_params <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study2.0/Cleaned/df_params_study2_for_r.csv')
+
+df_params <- df_params %>%
+  mutate(
+    task              = factor(task),
+    feature_relevance = factor(intuitive_relevance, levels = c(0, 1),
+                                labels = c("irrelevant", "relevant")),
+    feature_direction = factor(intuitive_direction, levels = c(0, 1),
+                                labels = c("no_wing", "wing")),
+    overfit           = factor(overfit, levels = c(0, 1),
+                                labels = c("no_overfit", "overfit")),
+    participant       = factor(participant)
+  )
+
+contrasts(df_params$task)              <- contr.sum(2)
+contrasts(df_params$feature_relevance) <- contr.sum(2)
+contrasts(df_params$feature_direction) <- contr.sum(2)
+
+model_overfit <- glmer(
+  overfit ~ task * feature_relevance * feature_direction +
+    (1 | participant),
+  data    = df_params,
+  family  = binomial,
+  control = glmerControl(optimizer = "bobyqa")
 )
 
-summary(model_eff)
+summary(model_overfit)
 ```
 
-```{r}
-#| fig-width: 14
-#| fig-height: 10
-contrasts(df_long4$task) <- contr.sum(2)
-contrasts(df_long4$feature_relevance) <- contr.sum(2)
-contrasts(df_long4$feature_dimension) <- contr.sum(3)
 
-model_eff <- lmer(
-  feature_importance ~ task * feature_relevance * feature_dimension + 
-    (1 + feature_relevance || participant),
-  data = df_long4
+```{r}
+contrasts(df_wing$task) <- contr.sum(2)
+contrasts(df_wing$wing_relevant) <- contr.sum(2)
+contrasts(df_wing$wing_high) <- contr.sum(2)
+
+model_wing <- lm(
+  feature_importance ~ task * wing_relevant * wing_high,
+  data = df_wing
 )
 
-summary(model_eff)
+summary(model_wing)
 ```
-```{r}
-contrasts(df_long4$feature_dimension)
-emmeans(model_eff, ~ feature_dimension)
-```
-
 ```{r}
 emm <- emmeans(
-  model_eff,
-  ~ task * feature_relevance * feature_dimension
+  model_wing,
+  ~ task * wing_relevant * wing_high
 )
 
 emm
 pairs(
   emm,
-  by = c("feature_relevance", "feature_dimension"),
-  adjust = 'bonferroni'
+  by = c("wing_relevant", "wing_high")
 )
 ```
+
+
+
 ```{r}
-# Filter to irrelevant feature trials only, take absolute value 
-df_irrelevant <- df_long4 |>
-  dplyr::filter(feature_relevance == "irrelevant") |>
-  dplyr::mutate(abs_importance = abs(feature_importance))
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+library(ordinal)
+library(performance)
+library(modelsummary)
+library(lmerTest)
 
-# t-test comparing absolute values
-t_test_result <- t.test(
-  abs_importance ~ task,
-  data = df_irrelevant,
-  var.equal = FALSE  # Welch's t-test
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study2.0/Cleaned/df_long_for_R-Study2.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "color"),
+  )
+```
+
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+contrasts(df_long4$task) <- contr.sum(2)
+contrasts(df_long4$feature_relevance) <- contr.sum(2)
+contrasts(df_long4$feature_dimension) <- contr.sum(3)
+
+model_eff <- lmer(
+  feature_importance ~ task * feature_relevance *
+    feature_dimension +
+    (1|participant),
+  data = df_long4
 )
-
-library(effsize)
-
-cohen.d(abs_importance ~ task, data = df_irrelevant)
+summary(model_eff)
+```
+```{r}
+levels(df_long4$task)
+levels(df_long4$feature_dimension)
+contrasts(df_long4$task)
+contrasts(df_long4$feature_dimension)
+emm_2way <- emmeans(model_eff, ~ task * feature_dimension)
+emm_2way
+contrast(emm_2way, interaction = c("pairwise", "pairwise"))
+emmip(model_eff, task ~ feature_dimension, CIs = TRUE)
 ```
 
 ```{r}
@@ -128,49 +165,6 @@ ggplot(
     color = "Task"
   )
 ```
-```{r}
-library(tidyverse)
-
-plot_df <- df_long4 %>%
-  group_by(task, feature_relevance) %>%
-  summarise(
-    mean = mean(feature_importance, na.rm = TRUE),
-    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
-    .groups = "drop"
-  )
-
-ggplot(
-  plot_df,
-  aes(
-    x = feature_relevance,
-    y = mean,
-    color = task,
-    group = task
-  )
-) +
-  geom_point(
-    position = position_dodge(width = .3),
-    size = 3
-  ) +
-  geom_line(
-    position = position_dodge(width = .3)
-  ) +
-  geom_errorbar(
-    aes(
-      ymin = mean - se,
-      ymax = mean + se
-    ),
-    width = .15,
-    position = position_dodge(width = .3)
-  ) +
-  theme_classic() +
-  labs(
-    x = "Feature Relevance",
-    y = "Mean Feature Importance",
-    color = "Task"
-  )
-```
-
 
 
 ```{r}
@@ -188,45 +182,43 @@ pairs(
 
 
 ```{r}
-library(car)
-
-Anova(model_eff, type = 3)
-```
-
-
-
-```{r}
-df_long4_ord <- df_long4 |>
-  mutate(
-    abs_feature_importance = abs(feature_importance),
-    abs_feature_importance_ord = ordered(abs_feature_importance)
-  )
-
-contrasts(df_long4_ord$task) <- contr.sum(2)
-contrasts(df_long4_ord$feature_dimension) <- contr.sum(3)
-contrasts(df_long4_ord$feature_relevance) <- contr.sum(2)
-
-model_clmm_abs <- clmm(
-  abs_feature_importance_ord ~
-    task * feature_dimension * feature_relevance +
-    (1 | participant),
-  data = df_long4_ord,
-  link = "logit"
-)
-```
-
-```{r}
-summary(model_clmm_abs)
-```
-
-
-```{r}
-df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study1.csv') |>
+#Prereg wing direction correlation analysis
+df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study2.csv') |>
   mutate(
     task = factor(task),
     feature_relevance = factor(feature_relevance),
     feature_dimension = factor(feature_dimension)
   )
+
+df_wing_corr <- df_corr %>%
+  filter(feature_dimension == "wing") %>%
+  mutate(
+    wing_relevant = factor(irrelevant_dim != "wing"),
+    wing_high  = factor(high_value == "T"),
+    task          = factor(task)
+  ) %>%
+  mutate(
+    task          = relevel(task, ref = "accommodate"),
+    wing_relevant = relevel(wing_relevant, ref = "TRUE"),
+    wing_high  = relevel(wing_high, ref = "TRUE")
+  )
+```
+
+```{r}
+contrasts(df_wing_corr$wing_relevant) <- contr.sum(2)
+contrasts(df_wing_corr$task) <- contr.sum(2)
+contrasts(df_wing_corr$wing_high) <- contr.sum(2)
+
+model_corr_raw_eff <- lm(
+  correlation ~ task * wing_relevant * wing_high,
+  data = df_wing_corr
+)
+summary(model_corr_raw_eff)
+
+```
+
+
+```{r}
 
 # Effect / sum coding
 contrasts(df_corr$task) <- contr.sum(2)
@@ -302,24 +294,24 @@ ggplot(
 
 
 ```{r}
-df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R_Study1.csv') |>
+df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R_Study2.csv') |>
   mutate(
     task = relevel(factor(task), ref = "predict"),
 
     color_relevance = ifelse(irrelevant_dim == "color", "irrelevant", "relevant"),
     tail_relevance  = ifelse(irrelevant_dim == "tail",  "irrelevant", "relevant"),
-    shape_relevance  = ifelse(irrelevant_dim == "shape",  "irrelevant", "relevant"),
+    wing_relevance  = ifelse(irrelevant_dim == "wing",  "irrelevant", "relevant"),
 
     color_match_high = ifelse(color == color_high, 1, 0),
     tail_match_high  = ifelse(tail  == tail_high,  1, 0),
-    shape_match_high  = ifelse(shape  == shape_high,  1, 0)
+    wing_match_high  = ifelse(wing  == wing_high,  1, 0)
   )
 ```
 
 ```{r}
 df_cue <- df_merged |>
   pivot_longer(
-    cols = c(color_match_high, tail_match_high, shape_match_high),
+    cols = c(color_match_high, tail_match_high, wing_match_high),
     names_to = "feature_dimension",
     values_to = "match_high"
   ) |>
@@ -328,7 +320,7 @@ df_cue <- df_merged |>
     feature_relevance = case_when(
       feature_dimension == "color" ~ color_relevance,
       feature_dimension == "tail"  ~ tail_relevance,
-      feature_dimension == "shape"  ~ shape_relevance
+      feature_dimension == "wing"  ~ wing_relevance
     )
   ) |>
   group_by(

@@ -1,15 +1,13 @@
 
 ## Setup
 
+
+
 ```{r}
 library(tidyverse)  
-library(lme4)       # lmer
+library(lme4)       # lmer for models
 library(emmeans)    # emmeans and pairs
-library(lmerTest)
-library(ordinal)
-library(performance)
 library(modelsummary)
-library(lmerTest)
 
 df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study1.csv') |>
   mutate(
@@ -67,6 +65,7 @@ pairs(
   adjust = 'bonferroni'
 )
 ```
+
 ```{r}
 # Filter to irrelevant feature trials only, take absolute value 
 df_irrelevant <- df_long4 |>
@@ -170,56 +169,6 @@ ggplot(
     color = "Task"
   )
 ```
-
-
-
-```{r}
-emm <- emmeans(
-  model_eff,
-  ~ task * feature_relevance * feature_dimension
-)
-
-emm
-pairs(
-  emm,
-  by = c("feature_relevance", "feature_dimension")
-)
-```
-
-
-```{r}
-library(car)
-
-Anova(model_eff, type = 3)
-```
-
-
-
-```{r}
-df_long4_ord <- df_long4 |>
-  mutate(
-    abs_feature_importance = abs(feature_importance),
-    abs_feature_importance_ord = ordered(abs_feature_importance)
-  )
-
-contrasts(df_long4_ord$task) <- contr.sum(2)
-contrasts(df_long4_ord$feature_dimension) <- contr.sum(3)
-contrasts(df_long4_ord$feature_relevance) <- contr.sum(2)
-
-model_clmm_abs <- clmm(
-  abs_feature_importance_ord ~
-    task * feature_dimension * feature_relevance +
-    (1 | participant),
-  data = df_long4_ord,
-  link = "logit"
-)
-```
-
-```{r}
-summary(model_clmm_abs)
-```
-
-
 ```{r}
 df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study1.csv') |>
   mutate(
@@ -227,12 +176,15 @@ df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Comb
     feature_relevance = factor(feature_relevance),
     feature_dimension = factor(feature_dimension)
   )
+model_corr_raw_eff <- lmer(
+  correlation ~ task * feature_relevance +
+    (1|participant),
+  data = df_corr
+)
+summary(model_corr_raw_eff)
+```
 
-# Effect / sum coding
-contrasts(df_corr$task) <- contr.sum(2)
-contrasts(df_corr$feature_relevance) <- contr.sum(2)
-contrasts(df_corr$feature_dimension) <- contr.sum(3)
-
+```{r}
 model_corr_raw_eff <- lmer(
   correlation ~ task * feature_relevance * feature_dimension +
     (1 | participant),
@@ -241,6 +193,7 @@ model_corr_raw_eff <- lmer(
 
 summary(model_corr_raw_eff)
 ```
+
 ```{r}
 
 emm <- emmeans(

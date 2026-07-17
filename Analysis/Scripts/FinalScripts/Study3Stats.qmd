@@ -13,9 +13,9 @@ library(lmerTest)
 
 df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study3.csv') |>
   mutate(
-    task = relevel(factor(task), ref = "predict"),
-    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
-    feature_dimension = relevel(factor(feature_dimension), ref = "color"),
+    task = relevel(factor(task), ref = "accommodate"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "relevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet"),
     color_high = relevel(factor(color_high), ref = "Y"),
     feet_high = relevel(factor(feet_high), ref = "C")
   )
@@ -28,13 +28,30 @@ contrasts(df_long4$task) <- contr.sum(2)
 contrasts(df_long4$feature_relevance) <- contr.sum(2)
 contrasts(df_long4$feature_dimension) <- contr.sum(2)
 
+model_eff <- lm(
+  feature_importance ~ task * feature_relevance,
+  data = df_long4
+)
+summary(model_eff)
+```
+
+```{r}
+#| fig-width: 14
+#| fig-height: 10
+contrasts(df_long4$task) <- contr.sum(2)
+contrasts(df_long4$feature_relevance) <- contr.sum(2)
+contrasts(df_long4$feature_dimension) <- contr.sum(2)
+
 model_eff <- lmer(
-  feature_importance ~ task * feature_relevance +
+  feature_importance ~ task * feature_relevance *
+    feature_dimension +
     (1|participant),
   data = df_long4
 )
 summary(model_eff)
 ```
+
+
 ```{r}
 library(tidyverse)
 
@@ -94,31 +111,6 @@ pairs(
 ```
 
 
-```{r}
-library(car)
-
-Anova(model_eff, type = 3)
-```
-
-```{r}
-df_long4_ord <- df_long4 |>
-  mutate(abs_feature_importance_ord = ordered(abs_feature_importance))
-contrasts(df_long4_ord$task) <- contr.sum(2)
-contrasts(df_long4_ord$feature_dimension) <- contr.sum(2)
-contrasts(df_long4_ord$feature_relevance) <- contr.sum(2)
-
-model_clmm_abs <- clmm(
-  abs_feature_importance_ord ~
-    task * feature_dimension * feature_relevance  +
-    (1 | participant),
-  data = df_long4_ord,
-  link = "logit"
-)
-```
-
-```{r}
-summary(model_clmm_abs)
-```
 
 
 ```{r}
@@ -128,11 +120,20 @@ df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Comb
     feature_relevance = factor(feature_relevance),
     feature_dimension = factor(feature_dimension)
   )
-
-# Effect / sum coding
 contrasts(df_corr$task) <- contr.sum(2)
 contrasts(df_corr$feature_relevance) <- contr.sum(2)
 contrasts(df_corr$feature_dimension) <- contr.sum(2)
+
+model_corr_raw_eff <- lm(
+  correlation ~ task * feature_relevance,
+  data = df_corr
+)
+
+summary(model_corr_raw_eff)
+```
+
+```{r}
+# Effect / sum coding
 
 model_corr_raw_eff <- lmer(
   correlation ~ task * feature_relevance * feature_dimension +

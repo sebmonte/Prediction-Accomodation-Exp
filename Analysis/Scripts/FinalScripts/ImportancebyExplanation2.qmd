@@ -11,22 +11,41 @@ library(performance)
 library(modelsummary)
 library(lmerTest)
 
-df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_by_explanation_for_R-Study3.csv') |>
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_by_explanation_for_R-Study2.csv') |>
   mutate(
-    task = relevel(factor(task_explanation_group), ref = "predict"),
+    task = relevel(factor(task_explanation_group), ref = "accommodate_causal"),
     feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
     feature_dimension = relevel(factor(feature_dimension), ref = "color"),
-    color_high = relevel(factor(color_high), ref = "Y"),
-    feet_high = relevel(factor(feet_high), ref = "C")
   )
+
+df_wing <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_wing_byexplanation_for_R-Study2.csv') |>
+  mutate(
+    task = relevel(factor(task_explanation_group), ref = "accommodate_causal"),
+    wing_relevant = relevel(factor(wing_relevant), ref = "1"),
+    wing_high = relevel(factor(wing_high), ref = "1")
+  )
+```
+
+```{r}
+contrasts(df_wing$task) <- contr.sum(3)
+contrasts(df_wing$wing_relevant) <- contr.sum(2)
+contrasts(df_wing$wing_high) <- contr.sum(2)
+
+model_wing <- lm(
+  feature_importance ~ task * wing_relevant * wing_high,
+  data = df_wing
+)
+
+summary(model_wing)
+```
+```{r}
+joint_tests(model_wing)
 ```
 
 ```{r}
 contrasts(df_long4$task) <- contr.sum(3)
 contrasts(df_long4$feature_relevance) <- contr.sum(2)
-contrasts(df_long4$feature_dimension) <- contr.sum(2)
-
-levels(df_long4$task)
+contrasts(df_long4$feature_dimension) <- contr.sum(3)
 
 model_eff <- lmer(
   feature_importance ~ task * feature_relevance *
@@ -37,19 +56,17 @@ model_eff <- lmer(
 summary(model_eff)
 ```
 ```{r}
-emmeans(model_eff, pairwise ~ task)
-```
 
-
-```{r}
-emm <- emmeans(model_eff, ~ feature_relevance * task)
-contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
+joint_tests(model_eff)
+emm_task <- emmeans(model_eff, ~ task)
+pairs(emm_task, adjust = "tukey")
 ```
 
 ```{r}
 emm <- emmeans(model_eff, ~ feature_dimension * task)
 contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
 ```
+
 
 ```{r}
 plot_df <- df_long4 %>%

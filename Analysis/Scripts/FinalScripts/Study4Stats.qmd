@@ -1,0 +1,114 @@
+
+## Setup
+
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+library(ordinal)
+library(performance)
+library(modelsummary)
+library(lmerTest)
+
+df_params <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_params_study4_for_r.csv')
+
+df_params <- df_params %>%
+  mutate(
+    overfit = as.integer(overfit),
+    task = factor(
+      task,
+      levels = c("predict", "accommodate")
+    ),
+    irrelevant_dim = factor(
+      irrelevant_dim,
+      levels = c("feet", "stripes")
+    )
+  )
+```
+
+```{r}
+contrasts(df_params$task)              <- contr.sum(2)
+contrasts(df_params$irrelevant_dim) <- contr.sum(2)
+model_overfit <- glm(
+  overfit ~ task * irrelevant_dim,
+  data = df_params,
+  family = binomial(link = "logit")
+)
+
+summary(model_overfit)
+drop1(model_overfit, test = "Chisq")
+```
+```{r}
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study4.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "accommodate"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "relevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "feet")
+  )
+```
+
+```{r}
+contrasts(df_long4$task) <- contr.sum(2)
+contrasts(df_long4$feature_relevance) <- contr.sum(2)
+contrasts(df_long4$feature_dimension) <- contr.sum(2)
+
+model_eff <- lmer(
+  feature_importance ~ task * feature_relevance *
+    feature_dimension +
+    (1|participant),
+  data = df_long4
+)
+summary(model_eff)
+```
+```{r}
+emm <- emmeans(
+  model_eff,
+  ~ task * feature_relevance * feature_dimension
+)
+
+emm
+pairs(
+  emm,
+  by = c("feature_relevance", "feature_dimension")
+)
+```
+
+```{r}
+
+model_eff <- lmer(
+  abs_feature_importance ~ task * feature_relevance *
+    feature_dimension +
+    (1|participant),
+  data = df_long4
+)
+summary(model_eff)
+```
+
+```{r}
+df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study4.csv') |>
+  mutate(
+    task = factor(task),
+    feature_relevance = factor(feature_relevance),
+    feature_dimension = factor(feature_dimension)
+  )
+contrasts(df_corr$task) <- contr.sum(2)
+contrasts(df_corr$feature_relevance) <- contr.sum(2)
+contrasts(df_corr$feature_dimension) <- contr.sum(2)
+
+model_corr_raw_eff <- lmer(
+  correlation ~ task * feature_relevance * feature_dimension + (1|participant),
+  data = df_corr
+)
+
+summary(model_corr_raw_eff)
+```
+
+```{r}
+model_corr_raw_eff <- lmer(
+  abs_correlation ~ task * feature_relevance * feature_dimension + (1|participant),
+  data = df_corr
+)
+
+summary(model_corr_raw_eff)
+```

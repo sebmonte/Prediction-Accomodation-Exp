@@ -1,0 +1,149 @@
+
+## Setup
+
+```{r}
+# Load data
+df_params <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_params_study5_for_r.csv"
+)
+
+# Prepare variables
+df_params <- df_params %>%
+  mutate(
+    participant = factor(participant),
+
+    task = factor(
+      task,
+      levels = c("predict", "accommodate")
+    ),
+
+    irrelevant_dim = factor(
+      irrelevant_dim,
+      levels = c("stripes", "feet")
+    ),
+
+    time = factor(
+      time,
+      levels = c("mid", "end")
+    ),
+
+    # Overfit is coded as 0/1
+    overfit = as.integer(overfit %in% c(TRUE, 1, "TRUE", "True", "1"))
+  )
+
+# Effect / sum coding
+contrasts(df_params$task) <- contr.sum(2)
+contrasts(df_params$irrelevant_dim) <- contr.sum(2)
+contrasts(df_params$time) <- contr.sum(2)
+
+# Check coding
+contrasts(df_params$task)
+contrasts(df_params$irrelevant_dim)
+contrasts(df_params$time)
+
+# Mixed-effects logistic regression with a participant random intercept
+model_overfit <- glmer(
+  overfit ~ task * irrelevant_dim * time +
+    (1 | participant),
+  data = df_params,
+  family = binomial(link = "logit"),
+  control = glmerControl(
+    optimizer = "bobyqa",
+    optCtrl = list(maxfun = 100000)
+  )
+)
+
+summary(model_overfit)
+```
+```{r}
+emm <- emmeans(model_overfit, ~ task * time, type = "response")
+emm
+
+pairs(emm)
+car::Anova(model_overfit, type = 3)
+```
+
+
+```{r}
+df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study5.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "stripes"),
+    time = relevel(factor(time), ref = "mid"),
+    stripes_high = relevel(factor(stripes_high), ref = "E"),
+    feet_high = relevel(factor(feet_high), ref = "C")
+  )
+```
+
+```{r}
+contrasts(df_long4$task) <- contr.sum(2)
+contrasts(df_long4$feature_relevance) <- contr.sum(2)
+contrasts(df_long4$feature_dimension) <- contr.sum(2)
+contrasts(df_long4$time) <- contr.sum(2)
+
+model_eff <- lmer(
+  feature_importance ~ task * feature_relevance *
+    feature_dimension * time +
+    (1 + feature_relevance|participant),
+  data = df_long4
+)
+summary(model_eff)
+```
+
+```{r}
+emm <- emmeans(model_eff, ~ feature_relevance | time)
+pairs(emm)
+emm <- emmeans(model_eff, ~ time | feature_relevance)
+pairs(emm)
+```
+
+```{r}
+emm_task <- emmeans(model_eff, ~ feature_dimension)
+pairs(emm_task)
+
+```
+
+```{r}
+emm <- emmeans(
+  model_eff,
+  ~ task * feature_relevance * feature_dimension
+)
+
+emm
+pairs(
+  emm,
+  by = c("feature_relevance", "feature_dimension")
+)
+```
+
+```{r}
+df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study5.csv') |>
+  mutate(
+    task = factor(task),
+    feature_relevance = factor(feature_relevance),
+    feature_dimension = factor(feature_dimension)
+  )
+
+# Effect / sum coding
+contrasts(df_corr$task) <- contr.sum(2)
+contrasts(df_corr$feature_relevance) <- contr.sum(2)
+contrasts(df_corr$feature_dimension) <- contr.sum(2)
+
+model_corr_raw_eff <- lmer(
+  correlation ~ task * feature_relevance * feature_dimension +
+    (1 | participant),
+  data = df_corr
+)
+
+summary(model_corr_raw_eff)
+```
+
+```{r}
+model_corr_raw_eff <- lmer(
+  abs_correlation ~ task * feature_relevance * feature_dimension + (1|participant),
+  data = df_corr
+)
+
+summary(model_corr_raw_eff)
+```

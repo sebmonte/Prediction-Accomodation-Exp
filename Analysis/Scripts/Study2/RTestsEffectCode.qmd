@@ -1,6 +1,52 @@
 
 ## Setup
 
+
+```{r}
+library(tidyverse)  # read_csv and mutate
+library(lme4)       # lmer
+library(emmeans)    # emmeans and pairs
+library(lmerTest)
+library(ordinal)
+library(performance)
+library(modelsummary)
+library(lmerTest)
+
+df_wing <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study2.0/Cleaned/df_wing_for_R-Study2.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "accommodate"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "relevant"),
+    wing_high = relevel(factor(wing_high), ref = "1")
+  )
+```
+
+```{r}
+contrasts(df_wing$task) <- contr.sum(2)
+contrasts(df_wing$feature_relevance) <- contr.sum(2)
+contrasts(df_wing$wing_high) <- contr.sum(2)
+
+model_wing <- lm(
+  feature_importance ~ task * feature_relevance * wing_high,
+  data = df_wing
+)
+
+summary(model_wing)
+```
+```{r}
+emm <- emmeans(
+  model_wing,
+  ~ task * feature_relevance * wing_high
+)
+
+emm
+pairs(
+  emm,
+  by = c("feature_relevance", "wing_high")
+)
+```
+
+
+
 ```{r}
 library(tidyverse)  # read_csv and mutate
 library(lme4)       # lmer
