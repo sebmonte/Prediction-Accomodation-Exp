@@ -1,0 +1,408 @@
+
+## Setup
+
+```{r}
+library(tidyverse)
+
+# 1. File paths for all studies
+
+study_paths <- tribble(
+  ~study,    ~path,
+  "Study 1", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study1.csv",
+  "Study 2", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Study2.0/Cleaned/df_long_for_R-Study2.csv",
+  "Study 3", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study3.csv",
+  "Study 4", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study4.csv",
+  "Study 5", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study5.csv"
+)
+
+
+# ------------------------------------------------------------
+# 2. Load and combine
+# ------------------------------------------------------------
+
+df_all <- study_paths |>
+  mutate(
+    data = map(
+      path,
+      ~ read_csv(.x, show_col_types = FALSE)
+    )
+  ) |>
+  select(study, data) |>
+  unnest(data) |>
+  mutate(
+    study = factor(
+      study,
+      levels = paste("Study", 1:5)
+    ),
+
+    # Standardize task labels (to all lowercase)
+    task = str_to_lower(as.character(task)),
+    task = case_when(
+      task %in% c("predict", "predictor", "prediction") ~ "Predictor",
+      task %in% c("accommodate", "accommodator", "accommodation") ~ "Accommodator",
+      TRUE ~ task
+    ),
+
+    task = factor(
+      task,
+      levels = c("Accommodator", "Predictor")
+    ),
+
+    # Standardize relevance labels (same as above)
+    feature_relevance = str_to_lower(
+      as.character(feature_relevance)
+    ),
+
+    feature_relevance = case_when(
+      feature_relevance == "relevant"   ~ "Relevant",
+      feature_relevance == "irrelevant" ~ "Irrelevant",
+      TRUE ~ feature_relevance
+    ),
+
+    feature_relevance = factor(
+      feature_relevance,
+      levels = c("Relevant", "Irrelevant")
+    ),
+
+    # Clean dimension labels for plotting
+    feature_dimension = str_to_sentence(
+      as.character(feature_dimension)
+    )
+  )
+
+
+```
+
+```{r}
+# ------------------------------------------------------------:
+# collapse across time (for study 5) and feature relevance
+# ------------------------------------------------------------
+
+participant_summary <- df_all |>
+  group_by(
+    study,
+    participant,
+    task,
+    feature_dimension
+  ) |>
+  summarise(
+    mean_importance = mean(
+      feature_importance,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  )
+```
+
+```{r}
+# ------------------------------------------------------------
+# 4. Means by task/dimension
+# ------------------------------------------------------------
+
+task_summary <- participant_summary |>
+  group_by(
+    study,
+    task,
+    feature_dimension
+  ) |>
+  summarise(
+    mean_importance = mean(
+      mean_importance,
+      na.rm = TRUE
+    ),
+    n = n(),
+    sd = sd(
+      mean_importance,
+      na.rm = TRUE
+    ),
+    se = sd / sqrt(n),
+    .groups = "drop"
+  )
+
+
+# ------------------------------------------------------------
+# 5. Find the difference (Accommodate - Predict)
+# ------------------------------------------------------------
+
+
+difference_summary <- task_summary |>
+  select(
+    study,
+    feature_dimension,
+    task,
+    mean_importance,
+    n,
+    se
+  ) |>
+  pivot_wider(
+    names_from = task,
+    values_from = c(mean_importance, n, se)
+  ) |>
+  mutate(
+    difference =
+      mean_importance_Accommodator -
+      mean_importance_Predictor,
+
+    difference_se = sqrt(
+      se_Predictor^2 +
+      se_Accommodator^2
+    ),
+
+    lower = difference - difference_se,
+    upper = difference + difference_se
+  )
+
+difference_summary
+```
+
+```{r}
+# ------------------------------------------------------------
+# Plot collapsed across relevance and time
+# ------------------------------------------------------------
+
+difference_plot <- ggplot(
+  difference_summary,
+  aes(
+    x = study,
+    y = difference,
+    group = feature_dimension,
+    shape = feature_dimension
+  )
+) +
+  geom_hline(
+    yintercept = 0,
+    linewidth = 0.8,
+    linetype = "dashed",
+    color = "grey45"
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = lower,
+      ymax = upper
+    ),
+    width = 0.10,
+    linewidth = 0.8,
+    position = position_dodge(width = 0.45)
+  ) +
+  geom_point(
+    size = 4,
+    stroke = 1.1,
+    position = position_dodge(width = 0.45)
+  ) +
+  scale_shape_discrete(
+    name = "Feature dimension"
+  ) +
+  labs(
+    x = NULL,
+    y = paste0(
+      "Mean Importance Rating Difference"
+    ),
+    title = "Accommodate - Predict across studies") +
+  theme_classic(base_size = 16) +
+  theme(
+    axis.text.x = element_text(
+      angle = 35,
+      hjust = 1
+    ),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    plot.title = element_text(face = "bold")
+  )
+
+difference_plot
+```
+
+
+```{r}
+library(tidyverse)
+
+# ------------------------------------------------------------
+# Load correlation data from all studies
+# ------------------------------------------------------------
+
+study_paths <- tribble(
+  ~study,    ~path,
+  "Study 1", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study1.csv",
+  "Study 2", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study2.csv",
+  "Study 3", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study3.csv",
+  "Study 4", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study4.csv",
+  "Study 5", "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study5.csv"
+)
+
+df_corr_all <- study_paths |>
+  mutate(
+    data = map(
+      path,
+      ~ read_csv(.x, show_col_types = FALSE)
+    )
+  ) |>
+  select(study, data) |>
+  unnest(data) |>
+  mutate(
+    study = factor(
+      study,
+      levels = paste("Study", 1:5)
+    ),
+
+    # Standardize task labels
+    task = str_to_lower(as.character(task)),
+    task = case_when(
+      task %in% c("predict", "predictor", "prediction") ~ "Predictor",
+      task %in% c("accommodate", "accommodator", "accommodation") ~ "Accommodator",
+      TRUE ~ task
+    ),
+    task = factor(
+      task,
+      levels = c("Accommodator", "Predictor")
+    ),
+
+    # Standardize dimension labels
+    feature_dimension = str_to_sentence(
+      as.character(feature_dimension)
+    )
+  ) |>
+  filter(
+    task %in% c("Predictor", "Accommodator"),
+    !is.na(participant),
+    !is.na(feature_dimension),
+    !is.na(correlation)
+  )
+
+
+# ------------------------------------------------------------
+# Participant-level means
+#
+# Because feature_relevance and time are omitted from group_by(),
+# this collapses across relevant versus irrelevant features
+# ------------------------------------------------------------
+participant_summary_corr <- df_corr_all |>
+  group_by(
+    study,
+    participant,
+    task,
+    feature_dimension
+  ) |>
+  summarise(
+    mean_correlation = mean(
+      correlation,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  )
+
+
+# ------------------------------------------------------------
+# Descriptive task means
+# ------------------------------------------------------------
+
+task_summary_corr <- participant_summary_corr |>
+  group_by(
+    study,
+    task,
+    feature_dimension
+  ) |>
+  summarise(
+    mean_correlation = mean(
+      mean_correlation,
+      na.rm = TRUE
+    ),
+    n = sum(!is.na(mean_correlation)),
+    sd = sd(
+      mean_correlation,
+      na.rm = TRUE
+    ),
+    se = sd / sqrt(n),
+    .groups = "drop"
+  )
+
+
+# ------------------------------------------------------------
+# Predictor minus Accommodator
+# ------------------------------------------------------------
+
+difference_summary_corr <- task_summary_corr |>
+  select(
+    study,
+    feature_dimension,
+    task,
+    mean_correlation,
+    n,
+    se
+  ) |>
+  pivot_wider(
+    names_from = task,
+    values_from = c(mean_correlation, n, se)
+  ) |>
+  mutate(
+    difference =
+      mean_correlation_Accommodator -
+      mean_correlation_Predictor,
+
+    difference_se = sqrt(
+      se_Predictor^2 +
+      se_Accommodator^2
+    ),
+
+    lower = difference - difference_se,
+    upper = difference + difference_se
+  )
+
+
+# ------------------------------------------------------------
+# Plot Predictor - Accommodator correlation differences
+# ------------------------------------------------------------
+
+difference_plot_corr <- ggplot(
+  difference_summary_corr,
+  aes(
+    x = study,
+    y = difference,
+    group = feature_dimension,
+    shape = feature_dimension
+  )
+) +
+  geom_hline(
+    yintercept = 0,
+    linewidth = 0.8,
+    linetype = "dashed",
+    color = "grey45"
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = lower,
+      ymax = upper
+    ),
+    width = 0.10,
+    linewidth = 0.8,
+    position = position_dodge(width = 0.45)
+  ) +
+  geom_point(
+    size = 4,
+    stroke = 1.1,
+    position = position_dodge(width = 0.45)
+  ) +
+  scale_shape_discrete(
+    name = "Feature dimension"
+  ) +
+  labs(
+    x = NULL,
+    y = paste0(
+      "Difference in mean correlation"
+    ),
+    title = "Accommodate - Predict correlation") +
+  theme_classic(base_size = 16) +
+  theme(
+    axis.text.x = element_text(
+      angle = 35,
+      hjust = 1
+    ),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    plot.title = element_text(face = "bold")
+  )
+
+difference_plot_corr
+```
+
+
+

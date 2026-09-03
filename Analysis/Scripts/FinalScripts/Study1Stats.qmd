@@ -1,21 +1,22 @@
 
-## Setup
-
-
+## Setup for tests on importance scores
 
 ```{r}
 library(tidyverse)  
 library(lme4)       # lmer for models
 library(emmeans)    # emmeans and pairs
 library(modelsummary)
+library(lmerTest)
 
 df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study1.csv') |>
   mutate(
-    task = relevel(factor(task), ref = "accommodate"),
+    task = relevel(factor(task), ref = "predict"),
     feature_relevance = relevel(factor(feature_relevance), ref = "relevant"),
     feature_dimension = relevel(factor(feature_dimension), ref = "color"),
   )
 ```
+#Importance score test #1 (only condition and relevance)
+
 ```{r}
 #| fig-width: 14
 #| fig-height: 10
@@ -31,7 +32,7 @@ model_eff <- lmer(
 
 summary(model_eff)
 ```
-
+#Importance score test #2 (+dimension)
 ```{r}
 #| fig-width: 14
 #| fig-height: 10
@@ -48,24 +49,23 @@ model_eff <- lmer(
 summary(model_eff)
 ```
 ```{r}
+joint_tests(model_eff)
+```
+#Followup comparisons
+```{r}
 contrasts(df_long4$feature_dimension)
 emmeans(model_eff, ~ feature_dimension)
 ```
 
 ```{r}
-emm <- emmeans(
-  model_eff,
-  ~ task * feature_relevance * feature_dimension
-)
+emm_dim <- emmeans(model_eff, ~ feature_dimension)
 
-emm
-pairs(
-  emm,
-  by = c("feature_relevance", "feature_dimension"),
-  adjust = 'bonferroni'
-)
+pairs(emm_dim, adjust = "holm")
 ```
 
+
+
+##Absolute value of importance scores on irrelevnat trials (supplement)
 ```{r}
 # Filter to irrelevant feature trials only, take absolute value 
 df_irrelevant <- df_long4 |>
@@ -79,11 +79,14 @@ t_test_result <- t.test(
   var.equal = FALSE  # Welch's t-test
 )
 
+t_test_result
 library(effsize)
 
 cohen.d(abs_importance ~ task, data = df_irrelevant)
 ```
 
+
+##Plots
 ```{r}
 library(tidyverse)
 
@@ -127,6 +130,9 @@ ggplot(
     color = "Task"
   )
 ```
+
+
+
 ```{r}
 library(tidyverse)
 
@@ -169,10 +175,13 @@ ggplot(
     color = "Task"
   )
 ```
+
+
+##Correlation tests and plots
 ```{r}
 df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study1.csv') |>
   mutate(
-    task = factor(task),
+    task = relevel(factor(task), ref = "predict"),
     feature_relevance = factor(feature_relevance),
     feature_dimension = factor(feature_dimension)
   )
@@ -253,7 +262,20 @@ ggplot(
   )
 ```
 
+#Looking at associations between actual correlation of feature with food amount in training (supplement in preregistration)
+```{r}
+df_irrelevant <- subset(df_corr,
+                        feature_relevance == "irrelevant")
 
+model <- lm(
+    correlation ~ task * actual_correlation,
+    data = df_irrelevant
+)
+summary(model)
+```
+
+
+##Error tests and plots
 ```{r}
 df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R_Study1.csv') |>
   mutate(
@@ -267,6 +289,20 @@ df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Co
     tail_match_high  = ifelse(tail  == tail_high,  1, 0),
     shape_match_high  = ifelse(shape  == shape_high,  1, 0)
   )
+```
+```{r}
+df_error <- df_merged |>
+  mutate(
+    error = testing_responses - food_amount
+  ) |>
+  group_by(conditionOrder, task) |>
+  summarise(
+    mean_error = mean(error, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Compare error between conditions
+t.test(mean_error ~ task, data = df_error)
 ```
 
 ```{r}
@@ -314,18 +350,18 @@ contrasts(df_cue$task) <- contr.sum(2)
 contrasts(df_cue$feature_relevance) <- contr.sum(2)
 contrasts(df_cue$feature_dimension) <- contr.sum(3)
 
-model_signed <- lmer(
-  signed_error ~ task * feature_relevance * feature_dimension +
+model_abs <- lmer(
+  abs_error ~ task * feature_relevance * feature_dimension +
     (1 | conditionOrder),
   data = df_cue
 )
 
-summary(model_signed)
+summary(model_abs)
 ```
 
 ```{r}
 emm <- emmeans(
-  model_signed,
+  model_abs,
   ~ task * feature_relevance * feature_dimension
 )
 
@@ -342,8 +378,8 @@ library(ggplot2)
 ggplot(
   df_cue,
   aes(
-    x = feature_dimension,
-    y = signed_error,
+    x = feature_relevance,
+    y = abs_error,
     color = task,
     group = task
   )
@@ -365,7 +401,7 @@ ggplot(
     width = .1,
     position = position_dodge(width = .2)
   ) +
-  facet_wrap(~feature_relevance) +
+  facet_wrap(~feature_dimension) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   labs(
     x = "Feature",

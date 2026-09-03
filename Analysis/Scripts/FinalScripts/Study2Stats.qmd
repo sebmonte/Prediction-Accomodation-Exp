@@ -2,6 +2,7 @@
 ## Setup
 
 
+#Model parameter/complexity score tests
 ```{r}
 library(tidyverse)  # read_csv and mutate
 library(lme4)       # lmer
@@ -18,6 +19,27 @@ df_wing <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Stud
     wing_relevant = relevel(factor(wing_relevant), ref = "1"),
     wing_high = relevel(factor(wing_high), ref = "1")
   )
+```
+
+```{r}
+df_wing_irrelevant <- df_wing |>
+  filter(wing_relevant == 0) |>
+  mutate(
+    reported_relevant = if_else(feature_importance != 0, 1, 0),
+    task = factor(task),
+    wing_high = factor(wing_high)
+  )
+
+contrasts(df_wing_irrelevant$task) <- contr.sum(2)
+contrasts(df_wing_irrelevant$wing_high) <- contr.sum(2)
+
+model_overfit <- glm(
+  reported_relevant ~ task * wing_high,
+  data = df_wing_irrelevant,
+  family = binomial
+)
+
+summary(model_overfit)
 ```
 
 ```{r}
@@ -51,6 +73,7 @@ summary(model_overfit)
 ```
 
 
+#Importance score test #1 (including direction)
 ```{r}
 contrasts(df_wing$task) <- contr.sum(2)
 contrasts(df_wing$wing_relevant) <- contr.sum(2)
@@ -63,6 +86,7 @@ model_wing <- lm(
 
 summary(model_wing)
 ```
+
 ```{r}
 emm <- emmeans(
   model_wing,
@@ -76,7 +100,7 @@ pairs(
 )
 ```
 
-
+#Importance score test #2 (all features, no direction)
 
 ```{r}
 library(tidyverse)  # read_csv and mutate
@@ -111,6 +135,21 @@ model_eff <- lmer(
 )
 summary(model_eff)
 ```
+
+#Followup tests
+```{r}
+joint_tests(model_eff)
+emm_task_by_dimension <- emmeans(
+  model_eff,
+  ~ task | feature_dimension
+)
+
+pairs(
+  emm_task_by_dimension,
+  adjust = "holm"
+)
+```
+
 ```{r}
 levels(df_long4$task)
 levels(df_long4$feature_dimension)
@@ -121,6 +160,7 @@ emm_2way
 contrast(emm_2way, interaction = c("pairwise", "pairwise"))
 emmip(model_eff, task ~ feature_dimension, CIs = TRUE)
 ```
+
 
 ```{r}
 library(tidyverse)
@@ -180,9 +220,8 @@ pairs(
 )
 ```
 
-
-```{r}
 #Prereg wing direction correlation analysis
+```{r}
 df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study2.csv') |>
   mutate(
     task = factor(task),
@@ -218,6 +257,7 @@ summary(model_corr_raw_eff)
 ```
 
 
+#correlation test 2 (no direction, include all features)
 ```{r}
 
 # Effect / sum coding
@@ -233,6 +273,22 @@ model_corr_raw_eff <- lmer(
 
 summary(model_corr_raw_eff)
 ```
+
+#Followup tests
+```{r}
+# Estimated marginal means of relevance in each dimension
+emm_rel_dim <- emmeans(
+  model_corr_raw_eff,
+  ~ feature_relevance | feature_dimension
+)
+
+# Relevant vs. irrelevant separately for each dimension
+pairs(
+  emm_rel_dim,
+  adjust = "holm"
+)
+```
+
 ```{r}
 
 emm <- emmeans(
@@ -293,6 +349,19 @@ ggplot(
 ```
 
 
+#Supplement in prereg (look at actual associations)
+```{r}
+
+df_irrelevant <- subset(df_corr,
+                        feature_relevance == "irrelevant")
+
+model <- lm(
+    correlation ~ task * actual_correlation,
+    data = df_irrelevant
+)
+summary(model)
+```
+
 ```{r}
 df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R_Study2.csv') |>
   mutate(
@@ -307,6 +376,176 @@ df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Co
     wing_match_high  = ifelse(wing  == wing_high,  1, 0)
   )
 ```
+
+
+###PREREG WING DIRECTIONAL ERROR ANALYSIS
+
+```{r}
+
+df_wing_cue <- df_merged |>
+  mutate(
+    #First, error for each exemplar
+    # Positive = participant predicted more food than observed
+    # Negative = participant predicted less food than observed
+    error = testing_responses - food_amount,
+    abs_error = abs(error),
+
+    # Whether wings are objectively relevant in this condition
+    wing_relevance = if_else(
+      irrelevant_dim == "wing",
+      "irrelevant",
+      "relevant"
+    ),
+
+    # Intuitive direction:
+    # T = wings
+    # N = paws/no wings
+    intuitive_direction = case_when(
+      wing == "T" ~ "wings",
+      wing == "N" ~ "legs",
+      TRUE ~ NA_character_
+    )
+  ) |>
+  filter(
+    !is.na(error),
+    !is.na(intuitive_direction),
+    !is.na(wing_relevance)
+  ) |>
+  group_by(
+    task,
+    conditionOrder,
+    relevant_dim_1,
+    relevant_dim_2,
+    irrelevant_dim,
+    wing_relevance,
+    intuitive_direction
+  ) |>
+  summarise(
+    signed_error = mean(error, na.rm = TRUE),
+    abs_error = mean(abs_error, na.rm = TRUE),
+    n_exemplars = sum(!is.na(error)),
+    .groups = "drop"
+  ) |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+
+    wing_relevance = factor(
+      wing_relevance,
+      levels = c("irrelevant", "relevant")
+    ),
+
+    intuitive_direction = factor(
+      intuitive_direction,
+      levels = c("legs", "wings")
+    ),
+
+    # A participant identifier unique across conditions/tasks
+    participant = interaction(
+      task,
+      conditionOrder,
+      drop = TRUE
+    )
+  )
+```
+
+```{r}
+library(lme4)
+model_wing_error <- lm(
+  abs_error ~
+    task *
+    wing_relevance *
+    intuitive_direction, 
+  data = df_wing_cue)
+
+summary(model_wing_error)
+```
+```{r}
+library(tidyverse)
+
+#summary stats
+plot_summary <- df_wing_cue |>
+  group_by(wing_relevance, intuitive_direction) |>
+  summarise(
+    mean_signed = mean(signed_error, na.rm = TRUE),
+    se_signed = sd(signed_error, na.rm = TRUE) / sqrt(n()),
+
+    mean_abs = mean(abs_error, na.rm = TRUE),
+    se_abs = sd(abs_error, na.rm = TRUE) / sqrt(n()),
+
+    .groups = "drop"
+  )
+
+# Consistent ordering
+plot_summary$wing_relevance <-
+  factor(plot_summary$wing_relevance,
+         levels = c("irrelevant", "relevant"))
+
+plot_summary$intuitive_direction <-
+  factor(plot_summary$intuitive_direction,
+         levels = c("legs", "wings"))
+ggplot(
+  plot_summary,
+  aes(
+    x = wing_relevance,
+    y = mean_signed,
+    fill = intuitive_direction
+  )
+) +
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean_signed - se_signed,
+      ymax = mean_signed + se_signed
+    ),
+    width = .18,
+    position = position_dodge(width = 0.8)
+  ) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed",
+    linewidth = 0.8
+  ) +
+  labs(
+    x = "Wing relevance",
+    y = "Signed error",
+    fill = "Intuitive direction"
+  ) +
+  theme_classic(base_size = 18)
+ggplot(
+  plot_summary,
+  aes(
+    x = wing_relevance,
+    y = mean_abs,
+    fill = intuitive_direction
+  )
+) +
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean_abs - se_abs,
+      ymax = mean_abs + se_abs
+    ),
+    width = .18,
+    position = position_dodge(width = 0.8)
+  ) +
+  labs(
+    x = "Wing relevance",
+    y = "Absolute error",
+    fill = "Intuitive direction"
+  ) +
+  theme_classic(base_size = 18)
+```
+
+
+###REGULAR ERROR ANALYSIS
+
+
 
 ```{r}
 df_cue <- df_merged |>
@@ -348,23 +587,33 @@ df_cue <- df_merged |>
 ```
 
 ```{r}
+contrasts(df_cue$feature_dimension)
+```
+```{r}
 
 contrasts(df_cue$task) <- contr.sum(2)
 contrasts(df_cue$feature_relevance) <- contr.sum(2)
 contrasts(df_cue$feature_dimension) <- contr.sum(3)
 
-model_signed <- lmer(
-  signed_error ~ task * feature_relevance * feature_dimension +
-    (1 | conditionOrder),
+model_error <- lm(
+  abs_error ~ task * feature_relevance * feature_dimension,
   data = df_cue
 )
 
-summary(model_signed)
+summary(model_error)
+```
+
+```{r}
+joint_tests(model_signed)
+```
+
+```{r}
+emmeans(model_signed, pairwise ~ feature_relevance | feature_dimension)
 ```
 
 ```{r}
 emm <- emmeans(
-  model_signed,
+  model_error,
   ~ task * feature_relevance * feature_dimension
 )
 
@@ -382,7 +631,7 @@ ggplot(
   df_cue,
   aes(
     x = feature_dimension,
-    y = signed_error,
+    y = abs_error,
     color = task,
     group = task
   )
@@ -410,6 +659,45 @@ ggplot(
     x = "Feature",
     y = "Error (Participant effect − True effect)",
     color = "Task"
+  ) +
+  theme_classic()
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(
+  df_cue,
+  aes(
+    x = feature_dimension,
+    y = abs_error,
+    color = feature_relevance,
+    group = feature_relevance
+  )
+) +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    position = position_dodge(width = .2),
+    size = 3
+  ) +
+  stat_summary(
+    fun = mean,
+    geom = "line",
+    position = position_dodge(width = .2)
+  ) +
+  stat_summary(
+    fun.data = mean_se,
+    geom = "errorbar",
+    width = .1,
+    position = position_dodge(width = .2)
+  ) +
+  facet_wrap(~feature_relevance) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    x = "Feature",
+    y = "Error (Participant effect − True effect)",
+    color = "Relevance"
   ) +
   theme_classic()
 ```

@@ -1,0 +1,70 @@
+
+## Setup
+
+```{r}
+library(lme4)
+library(emmeans)
+library(lmerTest)
+library(tidyverse)
+# Load data
+df_params <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/Study6.0Ratings.csv"
+) |>
+  mutate(
+    explanationCategory = relevel(
+      factor(explanationCategory),
+      ref = "Feet_Study4"
+    )
+  )
+```
+
+```{r}
+# Check if feet differed in studies 3 and 4-5 with respect to the goodness salient gap
+df_feet <- df_params |>
+  filter(
+    explanationCategory %in% c("Feet_Study3", "Feet_Study4")
+  ) |>
+  select(
+    participant,
+    explanationCategory,
+    good_minus_obvious
+  ) |>
+  pivot_wider(
+    names_from = explanationCategory,
+    values_from = good_minus_obvious
+  )
+# Paired-samples t-test
+t.test(
+  df_feet$Feet_Study4,
+  df_feet$Feet_Study3,
+  paired = TRUE
+)
+```
+
+
+```{r}
+model <- lmer(
+  good_minus_obvious ~ explanationCategory + (1 | participant),
+  data = df_params
+)
+summary(model)
+```
+
+
+```{r}
+model <- lmer(
+  good ~ explanationCategory + (1 | participant),
+  data = df_params
+)
+summary(model)
+```
+
+```{r}
+model <- lmer(
+  obvious ~ explanationCategory + (1 | participant),
+  data = df_params
+)
+summary(model)
+```
+
+

@@ -1,0 +1,2222 @@
+Study1.0 | 3.
+It's round
+it's yellow
+it's blue
+it's yellow
+it's yellow with a curly tail
+it's yellow with a rectangle body
+it has a rectangle body
+it's round with a curly tail
+round body with curly tail
+round body with curly tail
+rectangle body
+rectangle with curly tail
+rectangle body with curly tail
+yellow with rectangle body and straight tail
+straight tail
+round body with straight tail
+round with straight tail
+blue with curly tail
+round with curly tail
+yellow with straight tail
+round body with curly tail
+rectangle body with straight tail
+rectangle with straight tail
+rectangle with curly tail
+
+Study1.0 | 22.
+Maybe because they have a curly tail?
+This one ate more because of the curly tail and round body.
+Hm, maybe the straight tail eats less.
+The curly tail definitely seems to relate to more food.
+The tail is straight, so less food.
+The tail is straight, so still less food. Color doesn't seem to matter.
+Hm, maybe it has to be curly tail and round body overall eats more food, so this one eats less with a square body.
+Straight tail and square body.
+Curly tail and round body made it eat more food.
+Curly tail but square body so it ate less.
+Straight tail, round body... maybe color also matters, or none of them actually do.
+I'm starting to think none of them matter. This one is curly tail, square body, and yellow.
+Curly tail, round body, and blue, I would expect it to eat more unless the features don't matter.
+I think the sperk just eats what it wants.
+I'm struggling to find a reason unless the features aren't related.
+I don't know.
+I think sperks just eat what they want.
+Round, yellow, but with a straight tail... but blue ones also eat a lot, and apparently so do straight tails and square bodies.
+I don't know.
+Curly tail, round body, yellow, I would think back at the beginning that this is way it ate a lot.
+Straight tail, square body, blue, I thought at the beginning why it would eat so little.
+Blue, but round and curly tail, so maybe it eats a "medium" amount?
+But this one also eats a medium amount, and it's the exact opposite with a curly tail, square body, and yellow.
+Maybe blue with a square body eats less?
+
+Study1.0 | 37.
+BLUE
+YELLOW
+BLUE
+RED EYE
+CURLY TAIL
+BLUE
+YELLOW
+YELLOW
+BLUE STRAIGHT TAIL
+BLUE CURLY TAIL
+BLUE CURLY TAIL RED EYE
+BLUE STRAIGHT TAIL
+YELLOW STRAIGHT TAIL
+YELLOW CURLY TAIL
+YELLOW STRAIGHT TAIL
+CURLY TAIL
+CURLY TAIL BLUE
+CURLY TAIL
+BLUE
+YELLOW
+YELLOW
+BLUE
+IT WAS HUNGRY
+YELLOW
+
+Study1.0 | 42.
+He's hungry for the peppers 
+The tail needs less energy
+the square body and the curled tail invoke the least amount of energy needs
+Blue skin requires this food for them
+Blue skin with straight tail is a small amount of
+straight tail requires enegy for a square and yelloww
+He is stealth
+Curled tail takes the most energy
+square needs good food.
+tail and square body
+oval body ans straight tail
+square body, straight tail, blue
+curled tail
+curled tail again
+orange/yellow and curled tail
+A small man
+Small and likes it eat a lot
+Square body
+blue and square
+curly tail orange
+tail body and color
+curly tail
+curly tail and a decent amouht of blut
+curly tail and square body
+
+Study1.0 | 43.
+Because it has a square body
+It has a round body
+It has a round body
+It round body and color
+It’s body shape, color and tail
+Square body and curly tail 
+Square body
+Square body, yellow, curly tail 
+Square body straight tail
+Square body, curly tail
+Round body, straight tail
+Square body
+Round body, straight tail
+Round body
+Yellow, round body curly tail
+Yellow, straight tail
+Square body straight tail
+Square body, curly tail
+Round body, straight tail
+Square body
+Round body, curly tail
+Square body, straight tail
+Round body, straight tail
+Round body, curly tail
+
+Study1.0 | 48.
+Color, body shape, and tail.
+Blue color, squiggly tail, round body.
+Blue color, straight tail, round body.
+yellow color, round body, straight tail.
+squiggly tail, blue color, rectangular body.
+round body, yellow color, squiggly tail.
+yellow color, rectangular body, squiggly tail.
+straight tail, rectangular body, blue color
+squiggly tail, round body, yellow color
+rectangular body, blue color, squiggly tail
+yellow color, round body, straight tail.
+round body, blue color
+yellow color
+yellow color
+blue color
+blue color, round body
+blue color, straight tail.
+blue color, squiggly tail, round body
+yellow color, straight tail
+square body?
+yellow color 
+blue color with curly tail?
+round body with straight tail?
+yellow color with curly tail?
+
+Study1.0 | 52.
+Because of its color.
+Because of the body shape.
+The body shape
+Because of the colour
+Because of the color and body shape.
+Because of the color
+Because of the body shape
+Because of its color
+Because of the color and body shape.
+Because of the color
+Because of its color of the eyes
+Because of the color
+Because of the color of the eyes
+Because of its colors
+Because of the body shape and number of legs
+Because of its color
+Because of its shape of the body
+Because of the color of the eyes
+Because of its colors
+Because of the number of legs
+Because of its colors
+Because of its body shape
+Because of its color and body shape
+Because of its color
+
+Study1.0 | 61.
+It was hungry.
+It wasn't very hungry.
+It was very hungry.
+It was hungry.
+It was hungry.
+It was hungry.
+It was very hungry.
+It was very hungry.
+It was hungry.
+It was sort of hungry.
+It was hungry.
+It was a little hungry.
+It was a little hungry.
+It was hungry.
+It was hungry.
+It was hungry.
+It was hungry.
+It wasn't very hungry.
+It was hungry.
+It was very hungry.
+It was very hungry.
+It was hungry.
+It was hungry.
+It was hungry.
+
+Study1.0 | 85.
+It was hungry
+It was hungry
+Round body?
+square body?
+blue?
+yellow color?
+yellow?
+color/shape/tail
+straight tail
+straight tail
+straight tail?
+blue
+curly and yellow
+curly
+blue/round/straight
+curly/yellow
+blue/round/curly
+round
+all the above
+body color straight
+blue
+yellow yet round
+yellow with curly
+yellow with straight
+
+Study1.0 | 115.
+His body shape and maybe his color is why he ate this much food.
+The body shape and maybe the tail influenced how much it ate
+possibly because his tail made him eat less than if it were straight instead of curled
+his body shape and shape of the tail made him each more
+the color is why it ate more than the blue one of the same shape
+the color and shape made him eat a lot but the curve of the tail means he ate less than if it were staright
+his color, shape and tail shape
+blue eats less than yellow and curved tails mean less food than straight tails
+the shape of his body made him eat more than the previous
+the shape of the body and maybe the color is why he hate this much
+maybe the shape and color as well as the shape of his tail
+I believe the body shape and the shape of the tails is why it ate this much
+the shape of the tail means less food
+This tail shape seems to mean less food
+the body shape  and shape of the tail seem to mean more food
+the tail shape means less food
+the body shape and tail shape mean effects the amount of food
+I believe the body shape would usually mean more food but this tail shape means less food
+The tail shape means less food
+I'm not sure because I felt this body shape and tail as well as the color would mean more food
+I believe the combination of body shape, tail shape and color is why
+The same as the last one, but i feel like blue means less food than yellow
+This shape, color and tail shape seem to be the ones that eat the most
+the body shape and tail shape for the yellow colored ones means less food
+
+Study1.0 | 124.
+because of its tail
+because its yellow
+because of its rectangular body
+because of its rectangular body
+because of its circular body
+because of its circular body
+because its blue
+because its yellow
+because of its tail
+its rectangular body
+its tail
+because its blue
+because of its body
+because its yellow
+because of its rectangular body
+because its yellow and its circular body
+because its yellow and its tail
+because of the tail and rectangular body
+because of its tail and rectangular body
+because its yellow and its circular body
+because its blue and its tail
+because its blue and rectangular body
+because its yellow and its circular body
+because its blue and its circular body
+
+Study1.0 | 130.
+He eats this amount because his body has 4 sides.
+Because it's yellow.
+Because it has a curly tail.
+Because it's blue.
+Because it has a straight tail.
+Because it has an oval body.
+Because it's oval with a straight tail.
+Because it's oval with a curly tail.
+Because it's blue, rectangle with a straight.
+Because it's yellow oval with a curly tail.
+Because it's yellow, rectangle and a straight tail.
+It's oval yellow and a straight tail.
+It's oval, blue and has a straight tail.
+It's blue, a rectangle with a curly tail.
+It's yellow, a rectangle with a curly tail.
+It's blue and oval with a curly tail
+It's a blue rectangle with a straight tail
+It's a blue oval with a straight tail.
+It's yellow with a straight tail.
+It's blue with a curly tail.
+It's yellow with a straight tail.
+It's blue with a curly tail.
+It's a yellow rectangle with a curly tail.
+It's yellow with a curly tail.
+
+Study1.0 | 136.
+he wasnt very hungry
+he was really hungry
+he was extremely hungry
+he was not hungry at all 
+he was really hungry
+he was hungry just a little bit
+he wasnt that hungry that day
+he was so very hungry!
+he was sick and not eating
+he was not that hungry that day
+he was hungry that day
+he was not that hungry that day
+he was hungrier than usual that day
+he was hungry that day
+just hungry a little bit
+he was extrememly hungry
+not that hungry that day
+not feeling well that day so he didnt eat that much
+he was feeling good that day so he ate alot
+he was hungrier that day more than usual
+not that hungry that day
+he was pretty hungry that day
+he was pretty hungry at that time
+he was pretty hungry that time of the day
+
+Study1.0 | 142.
+because he has a straight tail
+because it is yellow
+because it is blue
+because it has a curly tail
+because it has a round body
+because it has a curly tail
+because it is blue
+because it is yellow
+because it has a curly tail
+because it has a straight tail
+because it has a round body
+because it has a straight tail
+because it is blue and has a straight tail
+because it has a curly tail
+because it has a round body and curly tail
+because it has a square body and curly tail
+because it is blue with a curly tail
+because it has a curly tail
+because it's square with a straight tail
+because it's yellow with a round body and straight tail
+because it's blue with a straight tail
+because it's blue with a straight tail
+because it's square with a curly tail
+because it's yellow with a curly tail and round body
+
+Study1.0 | 149.
+It's a young sperk and needs additional food to get the right nutrients to continue growing to adult size.
+This sperk might be a female who is pregnant and needs additional food for her litter.
+The food is so good, and it's a new crop, so the sperk ate more than usual.
+Based on the sperk's weight, this might be all the food it needs for the day.
+This sperk has a larger stomach and went on a hunt with other sperks and needs extra energy.
+The sperk knows that when extra food is available, it's best to have a little more. There might not be as much the next day.
+This amount seems average for a sperk.
+It's a very hot day, and the sperk doesn't feel so hungry.
+To keep up with the other sperks, this one ate this much food so it wouldn't have to fight for its fair share.
+This is an older adult sperk and doesn't need as much food.
+This is a very young sperk and eats a ratio of less food than older ones.
+There wasn't any food available on a hunt, so this sperk ate more when the hunt was over.
+A baby sperk is getting used to the texture of the food.
+This is an adult male who typically needs more food for hunting and general survival.
+This sperk could be recovering from an illness and wants less food.
+This sperk is average in size and weight and needs to maintain its health.
+This sperk wants to keep up with the others of its kind, so more food will give it more energy.
+This type of sperk is usually hungry all the time.
+On a day when the sperk drinks more water than usual, this one will eat less.
+This is a typical daily consumption for this type of sperk.
+When a sperk is left alone in a strange place, it relies less on food and more on survival instincts.
+This is an older type of sperk who needs to hunt more to provide for others.
+This sperk might have a larger than normal stomach and will need more food.
+
+Study2.0 | 18.
+They have wings
+they have a tail
+they have a tail
+they have wings and a tail
+they have wings and a tail and are blue
+they are blue and have wings and a tail
+they are blue and have a tail and legs
+they are blue and have legs and a tail
+they are yellow and have legs and a tail
+they are blue and have legs and a tail
+they are yellow and have legs and a tail
+they are yellow and have wings and a tail
+they are yellow and have wings and a tail
+they are blue and have wings and a tail
+they are blue and have legs and a tail
+they are blue and have wings and a tail
+they are blue and have legs and a tail
+they are blue and have legs and a tail
+they are yellow and have legs and a tail
+they are yellow and have wings and a tail
+they are blue and have wings and a tail
+they are yellow and have legs and a tail
+they are yellow and have wings and a tail
+they are blue and have wings and a tail
+
+Study2.0 | 20.
+It has a straight tail and is yellow, no wings
+It has wings, which require additional energy, thus it ate more than the sperk with no wings
+This sperk has wings, thus required the amount of food it ate.
+The only difference between this sperk and the previous one is the color. And it ate half as much. I believe yellow sperks may consume less food than blue sperks.
+I remember the yellow sperk with a straight tail consuming 5 peppers. This is a blue sperk with the same characteristics. It consumed nearly twice as much, which is comparable to the sperks with wings and a curly tail, but different colors. Since there is variance in how much food they eat each day, 1 pepper less than double what a yellow sperk with these characteristics makes sense.
+Yellow sperk, so consumes about half of what a blue sperk does. This is slightly less than what a yellow sperk with no wings and a straight tail consumed, but that might be due to normal variance.
+Yellow sperk with wings, hungrier than usual.
+Blue sperk, no wings, maybe not quite as hungry as normal
+Yellow sperk, no wings, normal amount of food
+I thought yellow sperks and sperks with wings ate more, but this is an outlier relative to that. Either the sperk just isn't hungry, or maybe something else is going on with it (sick?).
+This is aligned with what I would expect of a sperk with wings, but on the hungrier side for a yellow sperk.
+This is a higher amount of food, but the sperk is blue, so that is expected. Not the max amount of food though, which makes sense because no wings.
+Seems average for a yellow sperk with no wings
+This is significantly less than what I would expect from a blue sperk. Not having wings makes sense. Could be that this sperk just isn't that hungry.
+This is a slightly more amount of food than the last blue sperk, but this one has wings, which I would expect to require more food.
+Same as the last sperk, but this one has a curly tail. Only slightly less food, which could be due to normal variance, but this is low food for a blue sperk.
+Relatively normal amount of food for a yellow sperk, maybe on the lower side since this one has wings.
+Yellow sperk, no wings, low food - makes sense.
+Hungry blue sperk, not the most food they consume but this one lacks wings.
+Yellow sperk, lower amount of food. Makes sense. This one is slightly hungrier than the yellow sperk without wings, which makes sense.
+Blue sperk, so required more food on average than the yellow sperks.
+Something might be wrong with this sperk. This is a very low amount of food for a blue sperk. Or perhaps it had a large meal the previous day.
+Yellow sperk, no wings, normal amount of food.
+Blue sperk, no wings - nearly double the amount of food. Makes sense.
+
+Study2.0 | 30.
+It ate this amount because it is yellow and has a straight tail. 
+This sperk ate that amount of food because it is blue and has a curly tail. 
+This sperk ate that amount of food because it is yellow.
+This sperk ate that amount of food because it is blue, has a curly tail, and has wings. 
+This sperk ate that amount of food because it is blue, has a straight tail, and wings. 
+This sperk ate that amount of food because it has wings.
+This sperk ate that amount of food because it doesn't have wings.
+This sperk ate that amount of food because it doesn't have wings
+This sperk ate that amount of food because it doesn't have wings
+This sperk ate that much food because it was extra hungry I have no idea what's going on
+This sperk ate that amount of food because it has wings
+This sperk ate this amount because curly tailed sperks eat less and it has no wings
+This sperk ate that amount of food because it has a curly tail and does not have wings
+This sperk ate that amount of food because it has wings 
+This sperk ate that amount because straight tailed sperks and ones with wings eat more
+This sperk ate that amount of food because it is blue 
+This sperk ate that amount of food because it has a straight tail
+This sperk ate that amount of food because it has a curly tail
+This sperk ate that amount of food based on its hunger in that moment
+This sperk ate that amount of food because of its hunger in that moment
+This sperk ate that amount of food because of its hunger in that moment
+This sperk ate that amount of food because of its hunger in that moment
+This sperk ate that amount of food based on its hunger in that moment
+This sperk ate that amount of food based on its hunger in that moment
+
+Study2.0 | 47.
+this sperk is blue and has front paws. sperks like this usually eat a medium amount of food. that is why it ate five peppers today
+this sperk is blue and has wings. sperks with wings often eat a bit more food. that is why it ate six peppers today
+this sperk has wings and a curly tail. sperks like this eat less food. so it ate two peppers today
+this sperk has front paws and a straight tail. sperks like this eat a medium amount of food. that is why it ate four peppers today
+this sperk has a curly tail and front paws. this type of sperk needs more food, so it ate six peppers
+this sperk is yellow and has wings. sperks with wings often eat a medium amount of food. that is why it ate five peppers today
+this sperk has wings and a curly tail so it uses more energy. because of that, it ate six peppers today
+sperks like this often eat more food, so it ate six peppers
+this sperk has front paws and a straight tail. sperks like this usually eat more food. that is why it ate seven peppers today
+sperks like this often eat more food. that is why it ate seven peppers today
+this sperk has front paws and a straight tail. sperks like this usually eat a medium amount of food. that is why it ate four peppers today
+sperks like this usually eat a medium amount of food. that is why it ate five peppers today
+this sperk has wings and a curly tail. sperks like this often eat less food. that is why it ate three peppers today
+this sperk has wings and a straight tail, so it does not need much food. because of that, it ate only two peppers today
+sperks like this usually eat a medium amount of food. that is why it ate four peppers today
+perks like this use more energy and need more food. that is why it ate seven peppers today
+this sperk can fly and has a curly tail. it does not need much food today. so it ate only three peppers
+this sperk has a curly tail and front paws. it moves around a lot and needs more energy. so it ate seven peppers today
+it uses some energy but not too much. so it ate five peppers today
+it moves around a lot and needs more food. so it ate seven peppers today
+this sperk has wings and a straight tail. it moves a lot and uses more energy. so it ate six peppers today
+it uses a lot of energy during the day. that is why it ate six peppers today
+this sperk has front paws and a straight tail. it stays active and moves a lot. because of that, it ate seven peppers today
+this sperk has front paws and a straight tail. it stays active most of the day. so it needed more food and ate six peppers today
+
+Study2.0 | 54.
+Something about its tail, paws and color
+Either its tail or color
+Either its wings, tail or color
+Maybe curly tails eat less than straight tails
+Curly tails eat less than straight ones
+Yellow ones eat less than blue ones
+Straight tail means it eats more
+Curly, yellow and wings seems to eat the least
+It has a straight tail, yellow color and paws so it eats a moderate amount
+It's blue
+This is a hungry yellow one, I would have expected it eat less
+Curly tail and yellow color means it eats less
+Blue means it eats more
+The wings and yellow color means it eats less than most
+This is the hungriest combination of tail, color and feet
+The wings. I would have expected this eats more
+This is the hungriest combination: paws, blue, straight tail
+This is the least hungry combination: wings, yellow and curly tail
+This is because of the yellow color
+This is because of the blue color and straight tail
+Wings and curly tail
+Curly tail
+This yellow one is hungrier than I would expect because it has a curly tail. It must be the paws
+Straight tail
+
+Study2.0 | 58.
+Has wi gs and a tail and is yellow
+It's yellow and has a tail, no wings
+Blue ,tail no wings
+Yellow, tail and wings
+Yellow, tail, no wings
+Blue, wings and tail
+Blue, tail, no will gs
+Blue, wings and tail
+Blue, wings and tail
+Yellow wings a d tail
+Because it was hungry
+Yellow, tail
+Yellow, tail
+Blue, wi gs and tail
+Didn't eat enough yestrrday
+It was hungry
+To fill it's belly
+Because it was available
+Blue no wings
+To be able to fly
+Just because
+It didn't  est enough yesterday
+To fill it's tummy
+It was hungry
+
+Study2.0 | 63.
+He was hungry from tanning to get his skin yellow. 
+He is a special angel sperk that others are required to share food with. 
+He need more food for energy because his tail will not wrap around the tree easily and he expends more energy. 
+He is cold and trying to change his color. 
+He is a special variety similar to a queen bee and requires less food. 
+He need more peppers for energy to fly. 
+He used his tail to climb the tree to get the peppers and ate a lot. 
+His wings allow him to fly up anytime and get food so he eats less more frequently. 
+He needs more energy to turn himself yellow. 
+He eats less frequently than the spreks with wings.
+He eat often and he can beat other sperks to the food with his wings and climbing tail. 
+It took lots of energy to climb the tree with his tail. 
+He tried to climb the tree but is slower than the yellow sperks 
+He could only hover with his wings long enough to grab five peppers. 
+He eats frequently due to his ability to fly up or use his tail. 
+He has to hoard food because he doesn't have wings or a tail. 
+He hoards food. 
+He beat everyone to the tree climbing up with his tail. 
+He is hoarding food because he has not wings or climbing tail. 
+He eats all the time. He flies up and grabs a few peppers 
+He is cold and weak. 
+He is cold but expends less energy with his wings and tail. 
+He is a special sperk. He is yellow with wings and a curly tail. 
+Blue sperks are weak. But wings help them overcome
+
+Study2.0 | 86.
+I believe this sperk ate this much amount of food because of its white wings and long curly tail, giving it the opportunity to digest more than a typical sperk
+This sperk can eat the most having a straight tail and white wings, which gives it the best possible outcomes for great and fast digestion.
+This sperk is a smaller one with no wings so therefore it doesn't have as much of a digestion as a curly tailed, winged sperk would.
+This sperk doesn't have wings either, and is yellow meaning it has the least active digestive system and it wasn't very hungry at the time.
+This sperk like the last one is yellow, but this one has a curly tail which means that it's digestive tract is the weakest out of any of the other sperks.
+This sperk is yellow, and has wings but only a straight tail. Therefore it can eat a little bit but not a ton
+This sperk is blue, and has a curly tail but no wings so they are not able to eat as much as other sperks.
+Because this sperk is blue, has wings, and a curly tail so it can digest quite a bit of food!
+This is the same exact sperk as the last one, so it will have a very similar digestive system as it does.
+This sperk ate a ton of food because of his straight tail, he doesn't have any wings however, he was very hungry at the time.
+This sperk ate 5 food because it is yellow, and the sperk now are evolving to achieve stronger digestion with less prominent features.
+This sperk only ate 2 because it is not hungry anymore, it already had a ton of food earlier.
+This sperk ate this much food because, it wanted to grow bigger and stronger, and finally get its wings.
+This sperk ate 7 food because it is evolving and has a more proper amount of digestive ability.
+This sperk wasn't hungry so it only ate one food.
+This sperk has a curly tail and has been evolving quite nicely, so therefore his digestion has expanded.
+This sperk wasn't too hungry after all of the food he's already eatdn
+This sperk wanted to go back and have some more food as he becomes hungrier the more he evolves.
+Because this sperk was still hungry even after all of the food its already eaten
+Because this sperk was finally less hungry after having a full tummy of food
+Because this sperk was full after all of the food it had already consumed
+Because this is the sperk with the best digestion so it can eat a lot more than the others
+Because it wasn't hungry
+Because it was still extremely hungry even after all the food it consumed.
+
+Study2.0 | 90.
+She was hungry today!
+Less hungry, do not need to flap his wings.
+Has wings and a tail, which usually suggests a need for a high number of calories, but she ate recently.
+No wing, just a tail; she ate a snack just before she found these peppers.
+She’s already full, she’s wingless, she’s trying to cut down, so two peppers it is.
+Needing to power those little wings AND that tail just makes them work up an appetite!
+Wingless, but this is her big meal of the day.
+Winged and tailed, she must feed those muscles and begin her busy day!
+Tailed only, and blue (so a bit down), going to opt for a good square meal to try to lift her spirits without wings!
+Cheerful, winged, and tailed — she is up for anything and a low calorie diet of peppers, please!
+Sad, blue, forlorn, and tailed — it’s been a long winter.  The heat from these peppers will ignite her soul.
+Sad, but burdened with wings and tail — she turns to a snack to brighten her day.
+Cautious, but alert and lively, these two peppers will suffice as nutrition for the morning ahead.
+Feeling at the end of her patience, entrusted with both wings and tail, the depressive Sperk eats her emotions.
+Happy and willing, she nibbles these peppers while sh waits.
+Happy and energetic, wings fluffed and tail strong, she bulks for strength.
+Downhearted with tail only, she sadly nibbles some peppers from her pocket.
+Happy and satisfied with wings and tail, she doesn’t need much for lunch today.
+Sad but conveniently equipped with and tail, she finds solace in a big pepper order.
+Happy and confident herself, she doesn’t really like peppers.
+Happy, the whole package, dines on a moderate amount.
+Sad, but winged and tailed, she eats these only to be polite.
+Ravenous, our sad littl Sperk gobbled up thes peppers.
+
+Study2.0 | 96.
+wings and tail and yellow
+not sure
+not sure yet
+not sure
+unsure
+blue
+blue wings tail
+legs blue tail
+yellow tail wings legs
+blue tail
+blue wings tail
+blue tail legs
+yellow tail legs
+yellowtaillegs
+bluewingslegstail
+yellowwingstaillegs
+bluetaillegs
+yellowtaillegs
+blue tail legs
+bluewingstaillegs
+unsure
+not sure
+unsure
+yellow
+
+Study2.0 | 106.
+No idea.
+No idea.
+No idea.
+Another blue, curly-tailed sperk ate the same amount.
+No idea.
+Another sperk with front paws and a straight tail also ate 5.
+No idea.
+Straight-tailed sperks eat 5.
+It was hungry.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+That's what it was hungry for.
+
+Study2.0 | 110.
+Yellow, Wings, and Straight Tail
+Curly Tail
+Blue, Paws, Curly Tail
+Straight tail, blue, paws
+Yellow, curly tail, paws
+Blue, Wings, Curly tail
+Yellow, paws, straight tail
+Wings, blue, straight tail
+Wings, blue
+Yellow
+Blue
+Wings
+Paws
+Wings, curly tail
+Curly tail, blue, paws
+Yellow
+Curly tail
+Paws, straight tail
+Paws, curly tail
+Straight tail, yellow, wings
+Yellow, curly tail
+Blue, wings
+Blue, wings, curly tail
+Yellow, paws, straight tail
+
+Study2.0 | 141.
+Because it was blue and has paws. 
+Because it has wings so I expends more energy
+Because of its curly tail, and its yellow
+Becuase it has a curly tail, is yellow and has wings
+Because its yellow and has wings, but does not have a curly tail or paws. 
+It has a curly tail is blue and has wings
+It is yellow has a straight tail and paws
+It has a curly tail, is blue and has paws. 
+It has wings and is blue
+It has a curly tail, is yellow, and has paws. 
+It is blue and has paws with a straight tail
+It is yellow with paws and a straight tail
+It has wings, is blue and has a curly tail
+It is yellow, has a curly tail and wings
+It is blue, has a curly tail and paws. 
+It is yellow has wings and a straight tail
+It has a curly tail, is blue and has wings 
+It is yellow has wings and a straight tail
+It is blue and has paws with a straight tail
+It is yellow with wings and a curly tail
+It is yellow with a curly tail and paws
+It has wings is blue and has a straight tail
+It is blue has a curly tail and paws
+It is yellow with paws and a straight tail
+
+Study2.0 | 160.
+It has wings and a curly tail and is yellow so it eats 2
+It eats 3 because it is blue
+Straight tails eat more food than curly tails, so it has 5.
+Straight tails tend to eat more peppers
+It is blue so it eats 5 peppers
+Straight tails signal it eats more.
+Curly tails tend to eat less than straight tails
+It eats more because it is both blue and straight tailed.
+It eats less than blue colors but still more than curly tails, so it eats 3
+It is not blue and does not have paws so it eats less than blue or paws eats
+It has paws and a curly tail so it eats more than winged sperks
+It is blue and straight tailed which both eat more than yellow or curly tailed sperks.
+It is blue and curly tailed so it eats more
+Blue and curly tailed sperks seem to eat more.
+Winged and straight tail eats more than winged and curly tails?
+Blue sperks with straight tails seem to eat more
+It is blue which seem to eat more, but I think winged may not have anything to do with it, it also has a straight tail
+Straight tails seem to eat more than their curly tailed counterparts
+It eats 5 because it is straight tailed and winged
+Blue tends to eat more than yellow, but this one has a curly tail so doesnt seem like it would eat as much as it would with a straight tail?
+Yellow and curly tails tend to eat less than blue and straight tails, it seems anyway
+It's yellow and curly tailed so eats less than a blue or straight tail would.
+Blue and straight tails tend to eat more it seems.
+Curly tailed sperks seem to eat less than straight tailed ones with all other things being equal.
+
+Study2.0 | 164.
+Perhaps winged sperks have a moderate appetite
+Perhaps curly tailed sperks require less food
+Maybe blue sperks have a high enough appetite that it overcomes the non-winged lack of appetite 
+Blue and winged sperks both eat more than other, combining those traits they eat twice as much 
+The straight tail makes sperks slightly more hungry than their curt tailed companions 
+Yellow plus curl is an appetite suppressant 
+Blue winged sperks eat a lot, but the curly tail subtracts some appetite 
+Blue straight tailed sperks have the strongest appetite 
+Curly tailed and winged sperks require the least food, regardless of color 
+Blue winged straight tailed sperks always eat the most 
+I suppose he was just very hungry that day. Similar sperks were observed eating much less
+He was particularly hungry. Some days he may eat less
+His appetite was merely lower this day 
+Other blue non-winged straight-tailed sperks were also very hungry 
+I’m starting to think that a sperks physical traits aren’t related to their intake. He was just not very hungry 
+This same type of sperk has eaten substantially less in the past. He wasn’t hungry today 
+Appetite was above average today. Nothing todo with other traits
+Although, blue non-winged curly-tailed sperks tend to eat a solid amount 
+This sperks was simply moderately hungry today
+And this one had barely an appetite 
+Moderate appetite. Unrelated to physical traits 
+He was starving today. But not related to physical traits 
+Extreme appetite today. No relation to color, wingedness, or tail
+Low to moderate appetite today. No link to physical traits 
+
+Study2.0 | 172.
+Unclear! Cute animal, though. It has a long tail and wings, maybe it needs more food for flight? 
+Shorter tail, flight capable. Seems that tail length impacts food needs heavily
+Daily varation, it appears to be similar in tail length to the last one
+less food due to shorter tail and no wings
+non-curved tails HEAVILY impact food needs
+Now I'm stumped. That's a big varation for one with a short, curved tail and no wings. I do not know. 
+Tail that does not curve, wings
+Uncurved tail seems to always equal lots of food needs
+The one that reliably stumps me. Front paws, no wings, curley tail but still lots of food need. I do not get it.
+Straight tails seem to always mean lots of food consumption
+Curley tail and no front paws seems to reliably mean less food.
+Straight tail, no front paws
+I'm not sure. This one should be eating more because they have no front paws and they have a straight tail...
+Curley tail means less food
+Curley tail! 
+Straight tail. More food.
+Simple varation in daily needs. Nothing to it. In the range of normal for curley tail/wings/no front paws
+Straight tail always, always means more food.
+Straight tail is at it again. if you have one, you need more food!!!
+They have a curly tail!
+Front paws seem to equal an extra two food a day. Otherwise, this is normal for paws/curly tail
+Straight tail
+Curley tail, one food extra food for paws!
+They have paws, which means more food and they have a straight tail.
+
+Study2.0 | 183.
+Because it has wings and straight tail.
+Because it is blue with a straight tail.
+Because it is blue with wings and a straight tail.
+Because it is yellow with a curled tail.
+Because it is yellow with a straight tail.
+Because it is blue with a curled tail.
+Because it is blue with wings.
+Because it has wings and a curled tail.
+Because it is blue with a curled tail. May also be eating a different amount on a different day.
+Because it is yellow with a curled tail.  May also be eating a different amount on a different day.
+Because it is yellow with wings and a straight tail.
+Because it is blue with a straight tail.  May be eating a different amount on a different day.
+Because it is blue with wings and curled tail.  May be eating a different amount on a different day.
+Because it is yellow with a straight tail.  May be eating a different amount on a different day.
+Because it is blue with wings and a straight tail.
+Because it is yellow with wings and curled tailed.  May be eating a different amount on a different day.
+Because it is yellow with a curled tail.  May be eating a different amount on a different day.
+Because it's blue with wings and a straight tail.
+Because it's blue with a curled tail.  May be eating a different amount on a different day.
+Because it's yellow with a straight tail.  May be eating a different amount on a different day.
+Because it is yellow with wings and a curled tail.
+Because is is yellow with wings and a straight tail.  May be eating a different amount on a different day.
+Because it is blue with wings.
+Because it is blue with a straight tail.  May be eating a different amount on a different day.
+
+Study2.0 | 189.
+His tail requires extra energy
+Wings require more energy than no wings
+He doesn't need to fly so yellow isn't the determining factor
+yellow needs less energy
+blue wing curly tail needs more energy
+blue wing needs more than the tail
+Wings need more than everything else
+curly tail
+wings
+blue curly tail
+blue wings
+curly tail
+wings curly tail
+wings curly tail
+yellow
+blue
+yellow
+wings
+blue wings
+yellow wings curly tail
+blue wings curly tail
+yellow
+blue
+curly tail
+
+Study2.0 | 203.
+It is yellow
+It is yellow
+It has a curvy tail
+It has a curvy tail
+It is blue
+It has a curvy tail and wings
+It has wings
+It is yellow with wings
+It is blue with wings and curvy tail
+It has 4 legs 
+It has 4 legs and straight tail
+It is yellow with 4 legs
+It has wings and curvy tail
+It has wings
+It has 4 legs and curvy tail
+It has wings
+It has wings
+It is blue with pointy ears
+It is yellow
+It has wings
+It has 4 legs and curvy tail
+It has wings
+It has wings and straight tail
+It has 4 legs and curvy tail
+
+Study2.0 | 204.
+They are growing and need the nutrition. 
+They need the energy to fly. 
+They are going through a grow spurt.
+They are hungry sometimes, but off another. 
+They love food and cannot get enough of it. 
+They enjoy eating a lot to feel full. 
+They are on a select diet. 
+Limiting their intake to start fasting. 
+They love indulging in food. 
+They have a small stomach
+They are on a diet. 
+They have a food disorder. 
+They love food too much
+They enjoy feasting every day
+They are eating sporadically. 
+They eat in sporadic intervals 
+They love food at all times through the day
+They cannot stop eating
+They love snacks through out the day 
+They are careful with their daily food intake. 
+They have a small stomach and slowly growing.
+Growing and only eat little bits at a time. 
+They are saving space for desert. 
+They want to manage their weight. 
+
+Study2.0 | 207.
+It has more features included like color, paws and tail
+The color, paws and the tail is pointed rather than curled
+the wings and blue color seem to be eating less than yellow and sperks with more paws
+The color and wings, tail doesn't seem to play a role 
+The yellow color and wings
+The paws and tail, yellow seems to eat more
+the straight tail added on more food. The blue and paws play a part
+the wings and color
+The color, paws and tail
+The color and wings
+yellow and straight tail seem to eat more
+the color yellow, wings and tail
+blue seems to eat less
+blue and curly tail is less than yellow and straight tail
+the yellow color, paws and tail 
+blue eats less
+blue and wings
+the yellow color, paws and tail combo sems to eat more
+the tail and color
+blue color eats less
+blue and curly tails added more
+yellow with wings
+blue eats less than yellow and wings are added, straight tail seems to eat more
+the blue color eats less
+
+Study3.0 | 2.
+Bright green color
+Bright green color
+Red color makes it less fertile
+Red color makes it less fertile
+Bright green color
+Red color makes it less fertile
+Bright green color = fertile
+red color makes it less color
+bright green color = more fertile
+red color = less fertile
+bright color = more fertile
+red color = less fertile
+red color = less fertile
+red color = less fertile
+bright green color = more fertile
+bright green color = more fertile
+
+Study3.0 | 5.
+Because it's vibrant color makes it more noticeable to predators which is an undesirable trait 
+Red can be a warning indicator so predators are not interested making this a desirable trait 
+The color of this critter can serve as a warning which is a desirable trait 
+The fingers of this little guy are pointy which aids in protection and is a desirable trait 
+I am getting very confused and having a hard time finding correlations, maybe rounded fingers are bad? 
+The colors and fingers don't seem to matter I am not sure 
+Okay maybe pointy fingers and spots are a postitve thing 
+Again pointy fingers and sport regardless of color seem to have high fertility scores 
+This rules out spots I am only seeing a difference in round and pointy fingers 
+It has pointy fingers this could be used for foraging or protection 
+Now this one has a somewhat high score and rounded fingers so I am confused again
+Pointy fingers and is still high, is this a social experiment? 
+If the next one is five maybe that is the pattern 
+This is pretty frustrating I am missing what the common traits are 
+How many of these are there? 
+Are there outside factors? 
+
+Study3.0 | 9.
+It's lack of spines
+The claws
+The color red
+The claws and spots
+The claws and spots and lack of red
+lack of claws
+lack of claws and not being red
+Claws and color
+lack of claws
+lack of claws
+claws but not green
+claws
+lack of claws and red color
+no claws
+not being red
+claws and being red
+
+Study3.0 | 17.
+the reptile appears to be a juvenile, so perhaps its ability to procreate is under-developed
+this reptile appears to be a juvenile, so perhaps its ability to procreate is under-developed; however, it looks the same as the prior reptile, only this one is red and is rated slightly higher fertility. so perhaps it is slightly older than the previous, or this specimen is considered healthier than the previous.
+this reptile appears to be a juvenile and only moderate level of fertility
+this reptile also appears to be a juvenile, and as a result may not be able to reproduce
+this reptile appears to be a juvenile, and as such its reproductive organs may be under-developed
+this reptile may be relatively young but may be slightly more mature than the previous and perhaps healther due to diet or environment
+this reptile has a shiny smooth exterior which may be a sign of health and verility
+this reptile appears to be the same as the others and these ratings are totally subjective
+this reptile appears to be a juvenile and its sexual organs may be under-developed
+this reptile also appears to be a juvenile and as a result may lack mature enough reproductive organs to mate
+this reptile appears to be the same as several others and i am beginning to wonder if this exercise is not about reptile traits rather instead it is about human perception and cognitive bias
+this reptile's fertility appears to be arbitrarily assigned
+this experiment clearly has more to do with human perception rather than changes in the imagery. this reptile has been shown a few times previously with much lower fertility. at this time, I am the reptile in the study, not the image
+I think this reptile is the same as several others and the fertility score was selected in order to examine how humans react to the same picture of a cartoon lizard over and over again :)
+this reptile clearly played a major part in the victory at D-Day and returned home to America a triumphant and verile sailor ready to sow his wild oats and celebrate freedom from tyranny
+this reptile must have lived too close to a large radio tower
+
+Study3.0 | 20.
+This reptile wasn’t as fertile in this breeding season because his physical characteristics are very average and may not match up with what is most desirable for breeding among female reptiles.
+This reptile is considered very fertile during this specific breeding season because of a concept in evolution where those with more “flashy” features (Like bright colors) though would be considered a liability actually shows to potential mates that they are strong enough to essentially have a disadvantage and still be strong enough to survive.
+This reptile has relatively average fertility success in this particular breeding season because the physical characteristics are common features within the species population.
+Just like I mentioned with the previous reptile with a fertility of 8. This reptile has the debilitating physical feature of a bright skin color because they are considered strong enough to have a relatively harmful trait that make them more susceptible to being hunted.
+This reptile had relatively low fertility rate during this specific breeding season because the features are relatively average like the other two and this specific population has favored the rare traits rather then the common traits.
+This reptile has had a good fertility breeding season this time around because rarer, more exotic traits are being favored and seen as a sign of strength, these bright colors are more likely to attract a female mate.
+This specific reptile has had a bad fertility in this specific breeding season because the physical features presented on the reptile wasn’t flashy enough to attract a female mate.
+This reptile, like a lot of the bright orange reptiles, are having a great fertility breeding season because they are seen as having more favorable traits that will not only help the offspring survive and reproduce but also so a physical symbol of strength and superiority (bright skin color).
+This reptile has an average fertility breeding season because there is more demand then supply and I think this reptile is fully capable of attracting a mate but finds it harder since there are probably less females then males.
+Like a lot of the green reptiles, they are seen as having less traits that indicate they are better suited for survival.
+This is relatively expected considering green reptiles have not been successful with mating compared with bright orange reptiles.
+This is on trend with the bright orange reptiles since they have had overall better chance of mating with female reptiles.
+This reptile has been deemed to have relatively unfavorable traits and thus has caused them to have less of a chance to mate with females.
+Bright orange reptiles have been deemed to have more favorable traits that make them more likely to survive thus they reproduce more and have more mates.
+This green reptile has relatively good fertility outcome compared to reptiles matching this reptiles physical characteristics.
+The bright orange reptiles have been having a better breeding season on average so this checks out.
+
+Study3.0 | 23.
+It looks fairly young.
+It looks young.
+It may have aged
+It may have aged
+It may naturally fluctuate
+It may fluctuate
+Perhaps it got older, or unluckier with mates, caught a disease
+Unlucky with mates, older, fluctuating cycles, or caught a disease
+Good year, perhaps it was more active this time
+average year/cycle, maybe less active 
+Color maybe
+Not color, lucky year
+Average year, perhaps it wasn't active as much 
+Red reptiles seem to naturally score higher, I can't recall one with an average score. Perhaps red-pink reptiles are more fertile?
+Green reptiles are sporadic in their scores, numerous unknown factors could contribute to fertility
+Higher-average year, could be normal?
+
+Study3.0 | 34.
+this type of reptile do not birth as much
+the different type of frog it is
+the female set the nunber of eggs in the water
+the naked release sperm over the eggs
+the size of it
+
+Study3.0 | 40.
+Being red and sitting on a branch
+Being green
+Green with lighter green spots on back
+Softer red with almost same red spots on back
+Bright green, back spots
+Gradient  bright green
+Gradient soft red
+Soft red, white chin, orangish stomach
+Bright green rounded digits
+Soft red, gradient feet, rounded digits
+Lower due to green, but higher due to gradient and pointed digits
+Red, pointed digits, no gradient
+Green, no gradient, rounded digits
+Soft red, pointed digits, no gradient
+rounded digits, red, light feet
+Green, rounded digits, no gradient
+
+Study3.0 | 52.
+Perhaps this reptile received this score due to it's size and spotted skin.
+Perhaps this reptile has a lesser fertility score due to it's color
+Again, this reptile is orange and has spots.
+This reptile is a different color associated with a lesser fertility score.
+This reptile continues the trend of being orange with spots.
+This one is green, which in the past had lower fertility rates.  The spots are more visible.
+I noticed that although this reptile is orange with spots, the feet are more like claws.
+I am going back to my theory on color for this one.
+This one is like the previous one but has claw-like feet allowing it to grasp hold of a branch,
+This one is orange with spots and also has claws for better gripping.
+This one is green with rounded feet- green have typically had a lower score.
+This reptile received a mid fertility score due to it being tired.
+This one, like the last one, has similar characteristics.  The difference is the clawed feet.
+This one got a nap and was ready to go! 
+This one wasn't feeling particularly attractive today.
+This one has given up on mating since they all look alike.
+
+Study3.0 | 57.
+He had 7 offspring survive to maturity
+he only has 3 toes
+he only has 3 toes
+3 toes and they are pointed
+3 toes and red
+3 toes pointed and red 
+3 toes pointed and green
+3 toes round and green
+no idea now. 3 toes green is 5?
+pointed toes red
+pointed toes green
+round toes red
+3 toes round and red
+toes pointed green
+toes rounda dn green
+toes pointed and red
+
+Study3.0 | 60.
+It's bright color attracts mates
+It's color is noticeable but not bright, so it did fairly well
+This reptile has a bright color, which attracts mates
+The reptile has a noticeable color, which attracts mates, but it does not do as well as brighter reptiles
+This reptile has an eye condition that hinders it
+The reptile has a noticable color, which helps attract mates
+The bright color of this reptile attracts mates
+The bright color of this reptile attracts mates
+The bright color of this reptile attracts mates
+The reptile's visual appearance and lack of bright color does not attract mates as effectively
+The reptile's bright color attracts mates
+The reptiles visual appearance does not attract many mates
+The bright color of the reptile attracts mates easily
+The visual appearance of the reptile is less attractive to mates
+The color is not as effective for attracting mates
+The bright color attracts mates
+
+Study3.0 | 61.
+Looks young as it has a tail
+Finally I can type.  Red can be seen
+Green is female
+Female
+Male
+Male
+Male
+Female
+Female
+Female
+Male
+Male
+Female
+
+Study3.0 | 87.
+FIt is brightly colored to attract mates. Also he is smiling lol
+He's plain looking 
+Big eye
+Bright
+Big smile
+Not bright 
+Bright 
+Bright
+Bright
+Plain
+Plain 
+B bright
+Bright and big
+Plain 
+Plain
+Bright
+
+Study3.0 | 103.
+Because this reptile reproduced 4 offsprings that grew into maturity
+because this reptile reproduced 6 offsprings
+Because this reptile reproduced 5 offsprings
+Because this reptile reproduced 6 offsprings in that season
+Because this reptile reproduced 2 offsprings during that season
+Because this reptile reproduced 5 offsprings
+Because this reptile reproduced 9 offsprings that season
+Because this reptile reproduced 8 offsprings that season
+Because this reptile reproduced 1 offspring that season
+Because this reptile reproduced 8 offsprings that season
+Because this reptile reproduced 9 offsprings that season
+Because this reptile reproduced 1 offspring that season
+Because this reptile reproduced 7 offsprings that season
+Because this reptile reproduced 1 offspring that season
+Because this reptile reproduced 4 offsprings that season
+Because this reptile reproduced 4 offsprings that season
+
+Study3.0 | 108.
+It is green.
+It is a spotted red.
+It is a spotted red.
+It is just a spotted green.
+It is a spotted red with claws.
+It is a spotted red with webbed feet.
+It is a spotted green with webbed feet.
+It is a spotted green with claws.
+It is a spotted red with claws.
+It is a spotted green with claws.
+It is a spotted red with webbed feet.
+It is a spotted green with webbed feet.
+It is a spotted green with claws.
+It is a spotted red with webbed feet.
+It is a spotted green with webbed feet.
+It is a spotted red with claws.
+
+Study3.0 | 115.
+The reptile appears to be lively and healthy, eyes are bright, and the timing of the breeding for the season was good! 
+This reptile does not appear to be as bright. It seems to lack the energy needed to help in the breeding process 
+This reptile received such a low score due to its inability to reproduce during a critical mating period. 
+The reptile received a standard fertility score due to its ability to mate and provide nourishment to its offspring during the time of year it was conceived 
+This reptile received a low fertility score due to the lack of effort and ability to create a healthy environment for growth of offspring 
+This reptile gained a fertility score of 7 due to its energy, overall brightness, and ability to maintain a steady environment for possible offspring 
+This reptile received a really low score due to the lack of overall health, strength, and endurance.
+This reptile was able to create a so-called perfect environment for offspring to grow and thrive that just happened to line up with a perfect mating season 
+This reptile created the most ideal environment for offspring to thrive- they picked an ideal habitat, and their bodies were in peak health so they could properly produce offspring 
+This reptile gained a reputable fertility score of 7 by keeping its own health in line as well as timing the mating season adequately enough to ensure some offspring 
+This reptile only received a fertility score of 3 due to its overall lack of nutrients, energy, and inability to time the mating season 
+This reptile did a standard job; it was able to mate, and create/produce an adequate number of offspring 
+This reptile did just a step better than the one before at keeping its own health in a good condition, and somewhat timing the mating season along with providing a stable environment to thrive 
+This reptile received a 6 since it had some ability to time the mating season and help offspring grow
+This reptile received a score of 3 because it did not factor the timing involved with the mating season adequately 
+This reptile received a score of 4 because it lacked the general knowledge of timing with the correct mating conditions, and it only had a substandard way of keeping offspring healthy
+
+Study3.0 | 129.
+its color is vibrant so it attracts a lot of attention
+its another vibrant colored reptile
+the spots are very subtle
+the color is unique 
+the color is unique and you can see the spots quite clearly
+its a bit yellow on the chin in combination with the unique color of the reptile itself
+it has a very green and radiant look
+it has rounded fingers
+the fingers are pointy
+its tail is short
+the tips of the fingers are muilticolored
+its clear in detail with pointy fingers
+it has an orange belly
+it is normal
+spots are barely visible
+its normal
+
+Study3.0 | 141.
+It is a brightly colored reptile that really stands out and can be seen.
+This reptile can easily blend in being able to hide easier from predators.
+This one while able to easily blend in from enemies he is small making him an easy target.
+This one is larger and reallly stands out for mates to see him/her better
+This reptile is small and easily hidden and is not stand out for mates.
+Very easily seen among other reptiles of his kind and attracts many more mates.
+Attracts mates with the bright colors but wrong season for mating.
+To much competition and does not stand out for mates to see .
+Smaller reptile that easily blends in. Not the right mating season
+Attracts a lot of mates with the bright colors.
+Not the right season or atmosphere for breeding. Good bright colors to stand out when it is right time.
+Plain dull green doesn't stand out among all the shrubbery.
+Good size bright colors to be noticed. Wrong season.
+Bright color and nice size to attract a lot of mates.
+Not a very noticable color. Blends into background to much to be noticed.
+Good size and color is able to easily hide from predators to stay safe for breeding.
+
+Study3.0 | 159.
+It seems to be a younger reptile and it doesn’t seem to be very colorful, so mates might not be as attracted to him.
+It has a more striking color compared to the green male. Red is also a general attraction for females in the while when an animal has that color.
+This male has spots and its feet are sharper. It also might have been a different breeding season.
+It has this fertility rating because it is not a spectacular color and also seems to be younger.
+It is similar to a reptile already show, so I would assume a different breeding season.
+It has rounded claws, which might make it be less able to fight properly for a mate in spite of it being a red color.
+This reptile is the same a one a few times ago, so a different mating seasons.
+This one had the same score a few ago, so either same breeding seasons or a combination of sharper claws and a red color isn’t attractive.
+This one has been shown several times, and each score has been different, so different breeding seasons.
+Unlike the clawed, red version, the rounded edges da of the feet seem to be better with red colored reptiles.
+The claws and the color red don’t seem to attract mates as much as the rounded toes and red color.
+This one has been shown previously with a higher score, so different breeding season.
+Another red reptile with clawed feet means a lower breeding score.
+Fertility seems to fortunate for red colored, claw toed reptiles, so a higher score here.
+The rounded toes seems to be a better fertility score overall, potentially with color not mattering in the slightest.
+The claws seem to mean a lower fertility score and this reptile’s score is extremely low for even that metric.
+
+Study3.0 | 177.
+Because it's red
+because it's green
+whole body is green
+whole body is red
+green
+red
+light green with spots
+red with spots
+red with darker spots
+green with light spots
+green with darker spots
+red with light spots
+green with darker spots
+red with lighter spots
+green with light spots
+
+Study3.0 | 199.
+This reptile appears to be young and healthy. The fertility level should be high.
+The fertility level is lower due to the color of the reptile.
+The reptile is healthy and young. The green color may not affect it the same as others like it.
+The reptile has an underlying condition that gives it a lower fertility level than other reptiles similar to it.
+This reptile is an outlier. It has more mates than others, giving it a higher chance of laying eggs.
+This reptile has better genes than some similar reptiles. It lives in an area of the forest that gives its eggs a stronger chance of being hatched.
+This reptile lives in an area of the forest that could negatively affect the chance of eggs being hatched and offspring reaching maturity.
+This reptile has a lower mating level than other reptiles, making it harder for it to lay eggs.
+This reptile lays more eggs than similar ones. This gives it a higher fertility level since there are more opportunities for offspring to hatch.
+This reptile has an average fertility level. There is nothing special about the reptile in question. 
+This reptile has a hormonal imbalance that makes it more difficult to produce eggs.
+This reptile lives in an environment that is not ideal for reproducing.
+This reptile lives in an area that has plenty of water and nutrients to keep it healthy. This benefits the fertility level of the reptile.
+This reptile has multiple mates, giving it a better chance at reproducing than some others.
+This reptile has good genetics, hormones, and lives in a good environment that allows for a large amount of its eggs to be hatched.
+This reptile lives in an environment that supports egg hatching, it also has multiple mates and good genetics.
+
+Study3.0 | 216.
+Bright coloring that draws a mate.
+Again, bright coloring is the only thing obvious. 
+Green is not as attractive as the pink.
+Adding lighter areas to the base green makes this reptile less attractive to a mate.
+Bright pinkish orange attracts a mate better. I did not notice the lighters areas before. 
+No obvious reason. The coloring is less attractive perhaps but I am biased by my own reaction to the coloring.
+Slightly more noticeable to a mate by color. 
+Perhaps a different season. Nothing obvious.
+History tends to show that this coloration is more attractive to a mate thus improving fertility.
+Different season perhaps for this reptile.
+No good reason other than the fact that the red or pick one seems to do better. 
+Unusually low score most likely just an outlier and not relevant. 
+Just seems that this coloration is not as attractive to a mate. It could be this species coloration is just not as fertile period. 
+Coloration is good as it attracts more mates and shows good or better health.
+The green ones just lag behind the red ones. 
+Fairly low for a red one. May have had a stressed season.
+
+Study4.0 | 1.
+Seems to be green and healthy
+Has diagonal stripes
+has diagonal stripes in the other direction
+has stripes and extra toes
+has one eye thats smaller than the other
+has darker green stripes
+has more stripes
+has lighter green stripes
+has lighter stripes
+has light and dark stripes
+stripes are going the other direction
+dark green stripes
+dark green stripes
+light green stripes in the other direction
+dark green stripes in the first direction
+light green stripes
+
+Study4.0 | 13.
+He looks happy and full of energy
+This guy looks charming and ready to go.
+He must have been having a bad day.
+This one doesn't seem as energetic as the other ones.
+5 is a middling score so this could have gone either way.
+This one has attractive stripes.
+Not sure why this one didn't do so well.
+I think it's the stripes. 
+I can't tell this one has the stripes he should have done better
+It's the stripes
+The stripes are too pale on this one.
+This one has ok-looking stripes. 
+Good strong stripes makes a fertile reptile
+I thin this one has weaker stripes than the others but I cant be sure.
+Maybe it's the stripes, maybe it's something else.
+It has something to do with the direction of the stripes maybe
+
+Study4.0 | 25.
+This reptile is small and agile, and thus able to climb up to safe places to deposit eggs. He is quick and able to avoid and/or get away from predators. Also, the stripes on his back are useful in attracting a mate. This is why he achieved a pretty decent score.
+This is the same reptile from the previous slide. His fertility score went down because he is much quicker and more agile in warmer weather. This study took place in cooler temperatures, so he is not as fast, or as able to climb to the same heights as previously.  
+This creature (whose name is "Green Gigliotti") is continuing to receive lower fertility scores, and in this case, there are two main reasons.  In this study, the temperature is cooler, so again, he is not functioning at top speed or agility.  But also, the availability of mates is greatly decreased since the last study.
+So, the Green Gigliotti has gone full circle, through one full year, and we are back where we started in the first study. We've got warmer temperatures, and he is operating at peak capacity, once again achieving a "7", which is not bad.
+It is not often that a reptile species achieves a fertility score of 10, but in this case, here is what happened with the Green Gigliotti...   The researchers recording the data became sort of enchanted by this particular species, and they began to subconsciously root for him to achieve higher scores each time.  They counted offspring that were technically dead, or close to dead, as surviving. Their bias eventually resulted in this inaccurate score.  
+So - when the researchers over-counted in the last study, resulting in a "10" - the mistake was not discovered in time for the next count - resulting in a second inaccurate score of 10. Now that the error has been revealed and discussed, this abberration should not occur going forward.  
+So, a number of things contributed to this dip. The time of year is now cooler weather once again, which has the effect of lowering the score in general.. But also, the researchers - being told of their mistake - overcompensated while trying to correct it and went way too low.  
+This super low score is an extension, a continuation, if you will, of the "2" that we observed in the previous study.  With warmer weather coming, and more accurate counting - we should start to see the numbers get back to "normal" soon... 
+So - since the last study - a certain species of raccoon literally invaded the area where the study was taking place, devouring nearly all of the eggs that were attempting to hatch.  
+After the issue with the raccoon infestation, the Green Gigliotti adapted and started depositing its eggs into small crevices/openings in trees, where the predators could not access.  This number is still high, and is expected to drop soon. 
+With normal temperatures, and other variables now under control, the score is now settling back into its average, expected range. 
+Again, we are now cruising in the usual, expected range of fertility for a Green Gigliotti.  
+So, it appears the raccoons adapted and figured out a way to get to the eggs. This has been an unfortunate setback for the GG reptile.  
+The Green Giggy (as it has now become affectionately known) has once again figured out a way to evade the troublesome raccoons. It developed an annoying chemical "spray" that is sprayed around the eggs, which the raccoons do NOT like.. so our number has returned to its usual baseline. 
+It seems the new "spray" technique is very effective, and many offspring are now surviving. THis is good news for Green Giggy fans everywhere.  
+We are now operating at the usual baseline. The expected score now is around 6 to 8.  
+
+Study4.0 | 40.
+It looks healthy. No visible signs of sickness. 
+Left eye circle less black. 
+Slight smile meaning it is happy 
+Stripes moving across body and legs. (I haven't noticed a difference.)
+Stripe direction from right to left instead of left to right. 
+Stripes from left to right more faded. 
+Stripes from left to right. 
+Stripes from right to left. (from my view) Toes more rounded less pointy. 
+Toes more pointy and left to right stripes. 
+Stripes from right to left good but pointy toes bring down fertility slightly. 
+This one must just be lucky because it doesn't have the right stripes or toes. Maybe they are more faded. 
+Well this one has small toes and stripes from right to left so I would have thought it was good. Is the leaf smaller. 
+Meidum leaf. 
+Small leaf but stripes and toes good. 
+Stripes right to left, good. Leave medium, good. Toes long, bad. 
+Stripes left to right, bad. Toes small, good. Leaf small, bad. 
+
+Study4.0 | 61.
+It is striped.
+Stripes are slightly more visible.
+Looks more fully developed in the hands and feet
+stripes
+good development
+not fully developed, webbed feet
+no webbed feet, short tail
+webbed feet
+longer tail and webbed feet
+no webbed feet
+fully developed
+under-developed, webbed feet
+webbed feet
+no webbed feet, stripes halfway 
+webbed feet, stripe pattern
+no webbed feet
+
+Study4.0 | 68.
+I don't know. Maybe the stripes.
+A different breeding season.
+I don't know
+It has more stripes on it, further up to the head.
+It has less stripes and at a different angle.
+The stripes are diagonal and they go all the way up to the head.
+The feet and mouth area have more light areas and the striped are in a different direction than a more fertile reptile.
+The stripes and probably in a high fertile season.
+The stripes going all the way up to the head and further down on the legs.
+The direction of the stripes and a low fertility season.
+The stripes indicate a high fertility.
+The stripes indicate a low fertility.
+The direction of the stripes.
+The stripes and fertility season.
+The stripes and the direction on the reptile.
+The stripes direction and the shape of the feet.
+
+Study4.0 | 71.
+It was friendly and attractive to others of the species
+It wasn't the right season
+It looked ready
+It looked ready
+It wasn't of age
+it was too young
+it was ther season
+it was the season
+it was entering the breeding season
+it was ready
+it wasn't ready
+it was peak season
+it had just bred
+it was peak season
+it had just bred
+it was ready to mate
+
+Study4.0 | 80.
+The reptile has stripes and looks very happy. It has sharp claws.
+The reptile has webbed feet and darker stripes than the previous reptile. This allows it to better find a mate.
+This reptile has stripes that go a different direction but claws similar to the first reptile. This means that the claws did not have as much an impact than the stripes.
+This reptile has the same webbed feet as reptile number two but different stripes. This means that the stripes in this case have a negative impact on fertility.
+This frog has similar stripes and clawed feet. I am not sure the difference in fertility score. It could have to do with the mix in claws and stripes.
+This direction of stripes is having a negative impact on the fertility score. It appears the claws do not have much impact.
+Again, the webbed feet doesn't appear to be the difference. The direction of the stripes across the body seems to be an issue.
+This reptile has the preferred stripe arrangement compared to the other reptiles. Webbed feet may have a negative impact?
+This frog has the wrong direction stripes which is why the fertility is low.
+Yes, finally a frog with claws and vertical stripes. These are the desirable traits of the reptile.
+This reptile has webbed feet, so it appears that the stripes are the most important factor.
+This frog has the wrong direction stripes.
+This frog has the right direction stripes, but may have other traits unseen.
+This reptile has wrong direction stripes, so there must be another trait unseen.
+This frog has the wrong stripes, so its fertility is low.
+This frog has the right stripes, which helps. It is unclear what is making the fertility average.
+
+Study4.0 | 83.
+This reason for the for the visual features. The color is bright with fine lines
+The reptile has more white around the mouth area so the visual features are different.
+The reptile visibly have more defined stripes going up the back and legs.
+The reptile appears to be smaller.
+The reptile appears to be fair size with a nice amount of bold stripes.
+The reptile seems to be fair size with bold white on the toe area.
+The reptile has less white on toe area, bold stripes, white area around mouth.
+The reptile is of large size. Bold white spots on toes, bright eyes, bold stripes on back and legs.
+Reptile has bold stripes up back and legs, white on toes, bright eyes, smaller in size.
+Reptile is small in size.
+Reptile stature is changing, bright eyes, bold stripes on back, no whiting on toes.
+Reptile is fair size, bold stripes on back, white on toes, alert, white around mouth area.
+This reptile is not fertile, small, not fully developed with visual traits.
+This reptile is fertile based on sizing and bold stripes.
+This reptile is fertile based on sizing and boldness of stripes.
+This reptile is fertile based on color and stripes.
+
+Study4.0 | 86.
+This reptile probably received an 8 because it appears healthy and strong. Along with the alert posture.
+The reptile has bright vibrant colors and stripes along with longer nails/claws. Suggesting it is physically fit and capable of successful reproduction.
+Shorter claws/nails less prominent features.
+This reptile may have some positive traits but not enough to support high reproductive success. While it appears healthy, certain features such as less prominent physical traits or weaker characterisitics.
+Strong features but could lack competitiveness
+lack competitiveness or survival advantage
+less prominent physical traits may reduce its competitiveness.
+lack of claws/nails may reduce its competitiveness
+While not perfect, it likely has strong traits that contribute to higher fertility 
+prominent physical traits but may lack competitiveness
+it appears healthy, but with less prominent physical traits that may reduce its competitiveness
+Longer nails/claws may increase its competitiveness or survival
+the shorter claws/nails could reduce its competitiveness.
+strong prominent physical features 
+Strong prominent physical features and traits leading to an advantage
+shorter claws/nails but with alertness could increase competitiveness
+
+Study4.0 | 103.
+I think this reptiles stripes and big circle eyes might have given this reptile lower fertility.
+I think this reptile is a little larger and had a bit more successful fertility as a result.
+I think this reptile had a better shade of their stripes which gave them more success in their fertility.
+I think this reptiles stubbed fingers and whiter chin could have given this reptile more success in their fertility. I think their head is also rounder and less pointy than the previous ones so maybe it's more intelligent or something.
+I think the pointed snout and fingers on this reptile made it a little less successful in it's fertility.
+I think this reptile is larger than the others and has rounder features. It has the rounded fingers and toes and a rounder face which might have aided it in getting maximum fertility.
+I think this reptile is a lot smaller than the others. It also has pointed features in it's snout and fingers and toes so it received the lowest fertility. 
+I think this reptile is also very large and mostly round in it's features which gave it a lot of success in it's fertility. It has the rounded fingers and toes again but it's face has a bit of a snout so maybe that's why it didn't get the max score.
+I think this reptile is fairly large which contributed to it's success in it's fertility score but it's pointed features like it's pointed fingers and toes and it's pointed snout might have held this reptile back from getting a higher score.
+I think this reptile just had a bad season. It's fairly large, maybe medium size and has pointed features on it's fingers and toes so that might've been why had more of a middling score.
+I think this reptile is also really large and has the right features so it probably also had a bad season. It has rounded fingers and toes and a bit of a snout on it's face but I think normally it would've scored an 8 or 9.
+I think this reptile is fairly large and has round features. I think this reptile also has less stripes than most other reptiles which might've helped it's fertility score a lot.
+I think this reptile has a decent size and light stripes. It's features are really pointed and sharp with it's snout and fingers and toes being very pointed. Overall I think this reptile had a bad season, I don't think it should've scored that low. Maybe light stripes and pointed features don't go together well.
+This reptile is pretty large and has a rather large head which might make it smarter. It has very round features on it's fingers and toes and has a light shade of stripes. It does have a lot of stripes though so that might have lowered it's fertility score a bit.
+This frog is rather large and has very round features all over it's fingers, toes and head. It has light stripes but a lot of stripes and had a fairly high fertility score as a result.
+I think the darker shade of stripes and pointed fingers and toes on this reptile contributed to it's very low score.
+
+Study4.0 | 115.
+Stripes indicate fertility
+reptiles that are overweight are less fertile
+A clear stomach indicates fertility
+thin stripped reptiles are fertile
+sharp claws indicate infertility
+stripes and sharp claws indicate medium fertility
+Dull claws are a good sign of fertility
+webbed feet and strips indicated moderate fertility
+sharp claws and stripes are a sign of moderate to low fertility.
+thinner reptiles tend to me moderate to high fertilie
+dull webbed toes are a good sign of at least medium fertility
+dull webbed toes 
+thin close stripes indicate fertility
+webbed toes help fertility
+a stripped and dull web toes creature has high fertility
+sharp claws are an indicator of low fertility.
+
+Study4.0 | 122.
+big round eyes, 3 toes on each foot, green with darker green stripes. Fertility 7
+big round eye, 3 toes, diagonal darker green on green stripes Fertility 1
+Diagonal stripes to the right, green on green, webbed toes. Fertility 9
+Diagonal to the left, webbed toes. Fert. 1
+diagonal to the left, free toes Fert 6
+diagonal to the right webbed toes fert 4
+diag to the right, free toes, fert 10
+diag to the left, webbed toes. fert 3
+diagonal to the left webbed toes. fert 4
+diag to the right, free toes, fert 8
+diag left, free toes, fert 2
+diag right, webbed toes, fert 8
+diag left, free toes, fert 3
+diag left, web toes, fert 7
+diag right, web, yellow, fert 6
+right, free, yellow, 10
+
+Study4.0 | 135.
+They received that score because the are young and agile and bright in color 
+Because it is older
+Because the environment was conducive for raising offspring, more food availability 
+Wrong season to breed
+Reptile was in top shape and the season was friendly to offspring
+Older specimen and season very difficult for offspring 
+Same as last #7
+Environment starting to get harsher for offspring 
+Dominant reptile in season for reproduction and raising offspring 
+Same as last#2
+Dominant reptiles in the group with perfect weather conditions for reproduction and survival of offspring 
+Same as last #2
+In the group of dominant reptiles coupling in the right season conducive to offspring survival
+Starving reptile copulating in the wrong season 
+Same as #5
+Same as #5
+
+Study4.0 | 161.
+Their offspring has a less chance of survival
+They produce more offspring that is more likely to survive
+Their offspring is less likely to survive
+They will produce more offspring than average
+They will produce offspring slightly less than average reptiles
+They are more likely to produce more offspring than the average reptile. The reptile has stripes with webbed feet
+The reptiles stripes are slanting down to the right. It also has individual digits on their feet
+The reptile produces close to the highest amount a reptile can. The reptile stripes are are slanting downward to the left while having individual digits.
+The reptile has individual digits with the stripes going downward to the right. They have a high fertility rate
+The reptile has webbed feet with stripes going downward to the right. They have a lower than average fertility rate.
+The reptile has the lowest fertility rate among reptiles. They have webbed feet with stripes going downward to the left.
+The reptile's fertility rate is slightly above average. They have individual digits on their feet with stripes going downward to the left
+The reptile produces offspring slightly lower than the average. They have individual digits with stripes going downward to the right
+The reptile has webbed feet with stripes going downward tot he right. They produce offspring lower than average
+The reptile has webbed feet with stripes going downward to the left. The have a low fertility rate
+The reptile has individual digits with stripes going downward to the left. They produce close to highest amount reptiles can produce
+
+Study4.0 | 167.
+Reptile looks healthy and normal
+Reptile has a small disfigurement (eyes)
+Reptile is healthy and large
+Reptile is normal looking, no noticeable disfigurements
+Reptiles claws smaller? Looks very similar though
+Reptile has healthy feet (larger, can swim or walk to mates)
+Reptiles feet are healthy and large, but could be larger
+Reptile has very skinny toes. Might struggle to get around
+Reptile has very skinny toes
+Reptile has smaller toes, can’t move as well
+Reptile has large and healthy feet. Can move quickly 
+Reptile feet are large and healthy, but as much so as those with fertility of 10
+Reptile has medium sized feet
+Reptile has skinny feet, but this season was generous to him
+Healthy, large feet for reptile
+Very skinny feet
+
+Study4.0 | 173.
+This reptile may be less fertile because its bright green body and clear stripes make it easy to notice. That could make it more vulnerable to predators or less successful during breeding season. Since it received a 1, these traits may be connected to very low offspring survival.
+This reptile may be very fertile because its bright green body, clear stripes, and large eyes could make it attractive to mates. It looks healthy and noticeable, which may help during breeding season. These traits might explain why it received the highest fertility score.
+This reptile may be less fertile because its bright green stripes make it easy to spot. It also looks fairly soft and not very defensive, which could reduce survival or mating success. That may explain why it received a low score of 2.
+This reptile may be moderately fertile because its green striped body could help it blend into the environment. Its large eyes also make it seem alert and healthy. Since it received a 6, these traits may help somewhat, but not enough for top fertility.
+This reptile may be highly fertile because its green stripes help it blend into the environment, and its large eyes make it look alert and healthy. Its body also looks strong and well-developed. These traits may explain why it received a high score of 9.
+This reptile may be highly fertile because its green stripes could help with camouflage, while its large eyes make it look alert and healthy. Its body also appears strong and well-developed. These features may explain the high score of 9.
+This reptile may be less fertile because its bright green stripes make it stand out too much. That could make it easier for predators to spot or less successful during breeding season. Since it received a 3, these traits may be linked to low reproductive success.
+This reptile may have received a fertility score of 1 because its bright green striped body might make it too visible in the jungle. Even though it looks healthy, the bold markings could make it easier for predators to notice or may be less attractive in this pattern. Since the score is very low, I would guess these visible traits are linked to poor survival or low breeding success.
+The reptile may have received a 4 because its bright green stripes could make it too noticeable. These traits might help a little with camouflage, but not enough for strong breeding success.
+This reptile may have received a 6 because its green stripes could help it blend into the jungle. It looks healthy and alert, so those traits may give it moderate breeding success.
+This reptile may have received a 10 because its green stripes help it blend in while still looking healthy and alert. These traits could make it more successful at surviving and breeding.
+This reptile may have received a 4 because its bright stripes make it somewhat noticeable. It may have some useful traits, but not enough to strongly improve breeding success.
+This reptile may have received an 8 because its green stripes help it blend into the jungle while still looking healthy and alert. These traits likely support strong breeding success.
+This reptile may have received a 2 because its bright striped body could make it too easy to spot. Those traits may reduce its survival or breeding success.
+This reptile may have received an 8 because its green stripes help it blend in and it looks healthy. These traits probably support strong survival and breeding success.
+This reptile may have received a 5 because its green stripes seem somewhat useful for blending in. It looks healthy, but the traits may only lead to average breeding success.
+
+Study4.0 | 180.
+Its stripes make it more fertile
+Its stripes make it more fertile
+the color makes it less fertile
+I really can't tell
+the stripes are more faded
+The stripes are diagonal to the back, with pointy toes
+Rounded toes and stripes toward the back
+Stripes toward the front
+faded stripes toward the front with rounded toes is a fertile combo
+diagonal stripes toward the back means more fertile regardless of the toe shape
+Diagonal stripes toward the back = more fertile
+diagonal stripes to the front with pointy toes = less fertile
+I think diagonal to the back is still pretty fertile, maybe just seasonal variation
+stripes to front + pointy toes = not very fertile
+diagonal stripes to back = decently fertile
+stripes to front + rounded toes = very fertile even with the stripe pattern
+
+Study4.0 | 202.
+Because of the vertical strips running across its back, which allowed them to camouflage
+Because of the disproportionate size in its features, particularly the eyes and feet.
+Because of friendly environmental conditions and its ability to camouflage
+Because of its webbed feet, which interfered with ability to protect the young
+Because of the thinner and closely spaced patterns
+Because of the the thin stripes that are closely spaced together, and the webbed feet
+Because of the diagonal stripes making it difficult for survival in the environment
+Because of the diagonal stripes and separated feet
+Because of the diagonal and widely spaced stripes which less effective for survival
+Because of the thin and closely spaced stripes which increases chances of survival
+Because of the thinner and closely spaced stripes.
+Because of the diagonal and widely spaced stripes
+Because of the thinner closely spaced stripe pattern
+Because of the thin closely striped pattern which increases chances of reproduction and survival
+Because of thicker patterns which leads to lower reproductive success
+Because of thicker and widely spaced stripes
+
+Study4.0 | 205.
+They had more offspring
+They had less offspring than others but more than others.
+They had more offspring than others.
+They had less than half of the offspring that others had in that breeding season.
+They had over the medium amount of offspring produced in that breeding season
+They had the average amount of offspring for that breeding season.
+They had above average amount of offspring for that breeding season.
+They had the average amount of offspring for that breeding season.
+They had less than average amount of offspring for that breeding season but still managed to reproduce. 
+They had difficulty reproducing this season but still managed to reproduce. 
+They had an excellent season resulting in many healthy offspring. 
+They produced an above average amount of offspring. 
+They produced below average amount of offspring. 
+They had a great fertility season producing well over average amount of offspring. 
+They produced an above average amount of healthy offspring for the season. 
+They produced a below average amount of healthy offspring that season but still managed to reproduce. 
+
+Study4.0 | 210.
+ 
+N
+N
+
+Study5.0 | 2.
+I have no idea since this is the first reptile. I’m unable to find a correlation between its feet and stripes and fertility 
+I notice this one doesn’t have webbed feet
+This one has webbed feet and its stripes go up and to the right 
+Up and to the right stripes seem to have lower scores 
+Up and to the right with webbed feet
+Webbed feet and up and to the left 
+Unwebbed and up and to the left 
+Up to the right and unwebbed
+Curved feet and up to the right 
+Webbed and up to the left 
+Curved and up to the left. Ideal
+Webbed and to the right 
+Now I’m confused. Curved and to the left should be higher 
+Webbed to the left. To the left is the dominant trait 
+Webbed to the right. Not ideal 
+Curbed to the right 
+
+Study5.0 | 4.
+Because it’s stripes are diagonal 
+Because it’s stripes are up and down
+Because of its feet being curled 
+Because it’s feet are webbed with diagnol stripes 
+Webbed feet with up and down stripes 
+The stripes are zig zagged
+The stripes are diagonal 
+Webbed feet with diagonal stripes 
+The stripes are zig zagged
+Webbed feet with diagonal stripes 
+Curled feet
+Zig zagged up and down stripes 
+Diagonal stripes 
+
+Webbed feet with zig zag stripes 
+Up and down zig zag stripes curled feet
+Webbed feet
+
+Study5.0 | 36.
+A score of 8 means that 8 offspring survived to maturity 
+5 offspring survived 
+Poor little one, only 2 survived 
+Awww, only 1 baby survived 
+10 babies survived 
+5 survived
+5 survived
+3 survived
+8 babies survived to maturity 
+4 babies survived 
+10 survived
+6 survived 
+5 survived 
+1 survived 
+5 survived 
+6 survived 
+
+Study5.0 | 40.
+The reptile has webbed feet and stripes that go up and to the right.
+Webbed feet and left
+curved and right
+curled and to the left. same as webbed and to the left
+webbed and right, similar to last time 
+webbed and left, lowest yet
+c and right, the highest we've seen
+c and left, much lower than c and right
+w and left, same as c and left was
+c and left
+webbed and right, similar to last time (9)
+c and right, as before
+w and r, as before
+c l,the same as w l was
+(c,r) the lowest I've seen for this combination
+(w,l) a normal score for left
+
+Study5.0 | 44.
+I don't have any idea at all.
+No idea yet.
+Sharp claw and up to right strips seems mean better fertility
+Round tip claw seems indicate less fertility than sharp claw, up to right strips seems indicate better fertility than up to left strips
+Maybe the season caused the difference here
+up to left strips do indicate less fertility than up to right strips
+Last one of this type scored 8, season factor
+last one of this type scores 5, season factor
+Up to left and pointy 
+up to right and round
+up-right and round
+up-left and round
+up-right and ponity, last one scored 3,season?
+up-left and pointy, last one scored 4,season?
+up-right and round, last one scored 3, season?
+up-left and round, last one scored 3, season?
+
+Study5.0 | 47.
+Up and to the left scales
+Up and to the right scales
+Webbed toes 
+Webbed toes and up and to the right scales
+Non webbed toes and up and to the left scales
+Webbed toes and up to the left scales cancel out to 5 
+Non webbed toes and up and to the right scales are low fertility 
+Webbed toes confer higher fertility 
+Webbed toes and up to the right scales 
+up to the right scales but non webbed toes = less than 5
+up to the left scales and non webbed toes both = lower score so 3 
+webbed toes cannot save left facing scales
+left facing scales and non webbed toes = worst combo
+non webbed toes made right facing scales not matter 
+perfect combo = webbed toes right facing scales 
+average because of the webbed toes and the left facing scales
+
+Study5.0 | 54.
+The reptile is very fertile because it's stripes point to the left.
+The reptile has a high fertility score because of the left pointed stripes and non-webbed feet. 
+The reptile has a very low fertility score because the stripes point to the right. Reptiles have a higher fertility score when the stripes point to the top left. 
+The reptile has an lower end fertility score because the stripes point to the right, however it is slightly toward the mid range because the reptile has webbed feet. Reptiles with left pointed stripes and webbed feet typically have higher scores. 
+The reptile has a very high fertility score because the stripes are pointed to the left. It's not a perfect score because the reptile does not have webbed feet. 
+The reptile has a lower fertility score possible due to the feet. 
+The reptiles fertility score is very low because the stripes are pointing to the right. 
+The reptile has a very low fertility score because it's stripes are pointing to the right and it does not have webbed feet. 
+The reptile had a mid-range fertility score because while it had upward left stripes, it did not have webbed feet. 
+The reptile had a higher fertility score because it had webbed feet. 
+The reptile has a very low fertility score because both characteristics are not consistent with a high score. The stripes are pointed upward right and the feet are pointy.
+The reptile has a mid/high score because the stripes are pointed to the left and the feet are webbed. 
+The reptile has a lower fertility score because the stripes are pointed to the right and the feet are pointy 
+The reptile has a higher fertility score because the stripes are pointed to the upward left and the feet are webbed which are typical characteristics of a fertile reptile. 
+The reptile has a very low fertility score because it's stripes are pointed in the wrong direction. A fertile reptile typically has stripes pointing to the left. 
+The reptile has a mid/lower fertility score because the feet are pointy and not webbed. 
+
+Study5.0 | 74.
+It may be due to the seasonal factors. For the previous two answers, I thought we were in "Practice Mode". So I will answer them here - They both received a 5 becuase they both had right stripes. 
+I believe right stripes have medium levels of fertility and his toes lower it.
+Left striped and web toes = high fertility
+Left stripe and sharp toes has slightly less fertility than web toes
+right stripe and sharp toes = very low f
+right stripe = low f
+right stripes and web toes = medium f
+left stripes and web toes = highest f
+left stripe and curve toes = med f. Seasonal factors could also be at play here
+least desired traits
+least desired traits
+right stripes are usually killer of fertility
+left stripe and curve toes = high f but not as high as web
+peak traits = left stripes and web toes 
+
+Study5.0 | 80.
+This is low fertility because it only is at 2 and 1 is the lowest.
+This is still low fertility because it is at 3.
+This is a fertility score of 4 and the reptile has many stripes.
+This reptile has many stripes and webbed feet.
+This reptile is very fertile but has less stripes.
+This reptile has many vertical stripes.
+This reptile is not fertile and has diagonal stripes. 
+This reptile is most fertile and has vertical stripes.
+This has curvy feet and vertical up right stripes.
+This has curvy feet and stripes that go diaganol.
+This has webbed feet and vertical stripes.
+This has webbed feet and stripes that go diagonally to the left.
+This has webbed feet and diagonol left stripes.
+Vertical stripes and webbed feet.
+curvy feet and stripes to the left
+cruvy feet and stripes to the tight
+
+Study5.0 | 86.
+because he has stripes
+his stripes are curving upwards
+his stripes curving upwards along with his feets curving downwards
+stripes curving side to side and toes not curving downward
+toes curving downward
+stripes curving upward but toes curving downward
+stripes curving upward but his toes are not downward so that's good
+stripes side to side normal and toes not curving down perfect
+stripes upward and toes inward
+stripes upward but his toes are straight which is good
+stripes side to side and toes are straight good
+stripes side to side good but toes downward bad
+stripes upward
+stripes side to side but toes curled down
+stripes upward and toes curled down very bad
+stripes side to side and toes straight beautiful
+
+Study5.0 | 88.
+They may be fertile due to their stripes being wider and more spread apart
+Maybe due to tail being thicker
+Maybe due to their vertical slightly vertical stripes
+Maybe due to their slightly vertical stripes gradually becoming darker towards the tail
+Maybe due to their stripes being even in color from head to toe
+Maybe do their stripes begin slightly vertical
+Maybe dudes had their stripes being slightly vertical and horizontal and gradually fading from head to tail
+Maybe due to their slight vertical stripes gradually getting darker from head to tail
+Maybe due to their slightly vertical stripes being even in color from head to toe and webbed fingers being thicker 
+They have uh vertical stripes from their head to their tail and their webbed toes are more defined
+Due to their vertical stripes from head to toe and their webbed fingers are mildly defined
+maybe because Their vertical stripes are horizontal from head to toe
+Maybe lower due to their toes being less defined
+Their webbed toes are defined and their vertical wipes are dark from head to toe head to tail
+It appears that their vertical stripes from head to tail are light and gradually become darker
+I'm unsure they have defined web toes and stripes
+
+Study5.0 | 107.
+His stripes move to the leftHe has webbed feet
+It has curly feet
+It has webbed feet
+It has striped that go to the rightIt has curly feet
+It has stripes that move to the leftIt has webbed feet
+It has curly toes
+It has stripes that move to the rightIt has webbed feet
+It has stripes that go to the rightIt has curly feet
+It has stripes that go to the leftIt has webbed feet
+It has stripes that move to the rightIt has curly feet
+It has stripes that move to the leftIt has curly toes
+It has stripes that move to the rightIt has webbed toes
+It has stipes that move to the leftIt has curly feet
+It has stripes that move to the leftIt has webbed feet
+Its stripes move to the rightIt has webbed feet
+It has stripes that move to the rightIt has curly toes
+
+Study5.0 | 110.
+The stripes are angled up and to the right, and had 5 offspring
+The stripes are angled up and to the left and had 6 offspring
+The stripes are angled up and to the left and had 7 offspring
+The stripes are angled up and to the right and had 4 offspring
+The stripes are angled up and to the right and had 2 offspring
+The stripes are angled up and to the left and had 6 offspring
+The stripes are angled up and to the left and had 6 offspring
+The stripes are angled up and to the right and had 2 offspring
+The stripes are up and to the left and had 6 offspring, webbed toes
+6 offspring, lines up and to the right, claw toes
+3 offspring, web toes, up right stripes
+Up left stripes, claw toes, 6 children
+Web toes upleft stripes 5 kids
+Up right stripes 7 kids claw toes
+Up left stripes 8 kids claw toes
+1 kid up right stripes web toes
+
+Study5.0 | 142.
+Because the stripes are pointed to the right.
+Because the stripes point to the left
+Because the stripes point to the right and the toes aren't curly.
+Because the stripes are pointing to the left.
+Because the stripes point to the left.
+Because the stripes point to the right.
+Even though this reptile has stripes that go to the right, it also has curly toes
+This reptile has stripes that go to the right but it also doesn't have curly toes
+This reptile has stripes that go to the left.
+This reptile has curly/curved toes and stripes that go to the left.
+This reptile has webbed toes and stripes that go to the right.
+This reptile has stripes that go to the right but also curved / curly toes.  It might be an anomaly. 
+This reptile has stripes that go to the left.
+This reptile has stripes that go to the left.
+This reptile has stripes that go to the left which indicates fertility.
+This reptile has stripes that go to the right which indicates lack of fertility.
+
+Study5.0 | 147.
+This frog has three webbed feet.
+This frog has bright green skin.
+This frog is an amphibian mammal.
+This frog has scaly stripped skin. 
+This frog has bright green skin.
+This frog has three fingers on three webbed feet. 
+This frog has special tongues that can easily stretch to grab food from a distance. 
+This frog has bright green scaly skin with dark green stripes in the back. 
+This frog's webbed feet makes a huge difference based on appearance of their feet. A pointy curvy feet would feel more ideal than a webbed feet. 
+This frog's up and right skin seems more ideal and the up and left skin because it looks more visually appealing. 
+The bright green skin color of this frog is more visually appealing but can be too bright for others due to light sensitivity. 
+This frog's special actions of being able to stretch their tongue out to grab food from a distance is what makes it unique for frogs. 
+The appearance of three fingers on three webbed feet can create distractions for others. 
+This frog comes from an amphibian mammal family that lives in jungles.
+Frogs has special diet interests such as eating insects in order to survive in the jungle. 
+Frogs can sometimes have difficulty in producing off springs in the jungle. 
+
+Study5.0 | 153.
+They produced 7 living offspring.
+They produced 3 living offspring.
+They produced 3 living offspring.
+They produced 7 living offspring.
+This type of reptile has a lower birth rate.
+This type of reptile has a higher birth rate.
+This reptile has a higher birth rate.
+Stubby-toed reptiles have a medium birth rate.
+This reptile has a remarkably fertile season for it's species.
+This reptile tends to have low reproduction rates.
+This type of reptile has a very high fertility rate.
+This reptile may have cross-bred will a more productive breed.
+Typical repro rate for this species.
+Typical repro rate for this species.
+This reptile may have cross-bred with a more productive breed.
+Typical repro rate for this breed.
+
+Study5.0 | 156.
+It had 10 offspring born.
+It's stripes are diagonally left and its feet are webbed. It had 9 offspring.
+It had 2 offspring and stripes that went right.
+It had 2 offspring. It's feet are webbed and the stripes are diagonally right.
+It had 6 offspring, its feet are webbed, and its stripes are diagonally right.
+It had 8 offspring, its feet are curly and the stripes are diagonally right.
+It has curly feet and left-diagonal stripes. It had 9 offsprings.
+Its stripes are left-slanting. It had 8 offspring.
+Curly feet and stripes right downward. It had 5 offspring.
+Stripes are right downward and webbed feet. It had 5 offspring.
+Its stripes go downward to the left and it has webbed feet. It had 6 offspring.
+It has curly feet and stripes downward to the left. It had 9 offspring.
+Curly feet, downward to the left stripes, 10 offspring.
+Curly feet, stripes downward to the right. 4 offspring.
+4 offspring, stripes going downward to the right. Webbed feet.
+Webbed feet, stripes downward to the left (I know this is backwards of how you say it). It had seven offspring.
+
+Study5.0 | 165.
+Higher fertility score due to clawed feet and stripes
+Lower fertility score due to webbed feet
+Lower fertility score because of webbed feet
+Higher fertility score due to clawed feet
+Lower fertility score because of webbed feet
+Higher fertility score due to clawed feet
+Higher fertility score due to stripes
+Higher fertility score due to clawed feet
+Higher fertility due to clawed feet
+Lower score due to webbed feet
+Lower score due to stripes left
+Lower score due to webbed feet
+Lower score due to left stripes and webbed feet
+Higher score due to clawed feet
+High score due to clawed feet
+Lower score due to webbed feet
+
+Study5.0 | 171.
+This is because this reptile has curly feet and their stripes are angled to the right.
+This is because their feet are curly
+This is because they have webbed feet
+This is because they have webbed feet
+They have curly feet thus having a low fertility score
+The reason to this high fertility is webbed feet
+The reason to this low fertility is due to curly feet
+This reptile has webbed feet which explains this fertility rate
+This may be due to curly feet
+This is due to webbed feet
+The high fertility rate is due to webbed feet
+This is due to stripes being angled to the right and curly feet
+this is due to the stripes being angled to the left
+This is due to the stripes being angled to the right
+This is due to the stripes being angled to the right
+This due to having webbed feet
+
+Study5.0 | 173.
+stripes angled up and to the left
+stripes angled up and to the right
+pointed toes
+curved feet
+pointed toes
+pointed toes
+curved feet
+pointy feet
+webbed feet
+pointy feet
+webbed feet
+stripes up and to the right
+pointy toes
+stripes up and to the left
+webbed feet
+
+Study5.0 | 179.
+He has stripes that go to the left
+stripes go to the right
+she has webbed feet and stripes to the right
+webbed feet and left pointing stripes
+striped to the left and webbed feet
+stripes to the right and webbed feet
+stripes to the right and curly feet
+stripes to the left and curled feet
+curly feet and left stripes
+stripes left and webbed feet
+curly feet
+stripes to the right
+webbed feet
+right stripes
+left stripes and curly feet
+webbed feet and right stripes
+
+Study5.0 | 183.
+This reptile was fairly fertile, producing 7 surviving offspring. More examples are needed to determine which features are related to fertility.
+This reptile produced many offspring that survived to maturity. Its features may have contributed to this success, but more observations are needed to identify which traits matter.
+This reptile had only a few offspring survive to maturity. Its features may be less favorable to fertility, but more examples are needed to determine which traits are important.
+This reptile produced a relatively high number of offspring that survived to maturity.
+This reptile's traits may have helped it produce more surviving offspring.
+This reptile's traits may have strongly contributed to producing many surviving offspring.
+This reptile produced very few offspring that survived to maturity.
+This reptile's traits may have helped it produce many surviving offspring.
+This reptile produced the highest possible number of surviving offspring and was extremely successful at reproduction.
+This reptile had only a few of its offspring survive to maturity.
+This reptile produced a relatively high number of offspring that survived to maturity.
+This reptile had only very few offspring survive to maturity.
+This reptile had only a small number of its offspring survive to maturity.
+This reptile produced very few offspring that survived to maturity.
+This reptile produced a relatively high number of offspring that survived to maturity.
+This reptile had a relatively high number of offspring survive to maturity.
+
+Study5.0 | 195.
+It has stripes that are angled up to the left. It has curly feet 
+It has stripes angled up to the right and has webbed feet
+It has stripes angled up to the left and webbed feet.  
+it has stripes angled up to the right and curly feet 
+It has stripes angled up to the right and curly feet. The breeding season may have impacted its fertility 
+It has stripes angled up to the right and webbed feet. Breeding seson may have increased fertility
+It has stripes angled up to the left and webbed feet. Breeding season may have lowered its fertility
+It has stripes angled up to the left and curly feet. Breeding season may have impacted fertility
+It has stripes angled to the right and webbed feet
+It has stripes angled to the left and curly feet
+It has stripes angled to the left and webbed feet. Breeding season may have increased its fertility
+It has stripes angled up to the left and has curly feet. Fertility may have been imacted by breeding season
+It has stripes angled up to the right and webbed feet. 
+Stripes angled up to the right and curly feet. 
+Stripes angled up to the left and curly feet. Low fertilty may be cause by breeding season
+Webbed feet, breeding season may have increased fertility
+
+Study5.0 | 231.
+Scales go up and to the right. The feet are webbed.
+The stripes go up and to the left.The feet are curly.
+The stripes go up and to the right but the feet arecurly.
+Stripes go up and to the left. The feet are webbed leading tobetter fertility. 
+The stripes go up to the left and the feetare webbed so fertility is better.
+The stripes go to the right.The feet are curly so fertility is lower. 
+The feet are curly so fertility is lower. 
+The feet are webbed which is usuallybetter fertility but the stripes go to the rightwhich are usually worse. 
+It received this score because the feet are webbed. 
+It received this score because the feet are webbed.The stripes also go left. 
+The feet are curly and stripes go to the right. This reptile is an anomoly. 
+The feet are curved/straight which leads to lower fertility. 
+The feet are straight. 
+Straight/curly feet means lower fertility usually. 
+The feet are webbed indicating better fertility. 
+The feet are webbed and the stripesgo left which is usually better fertility. 
+
+Study5.0 | 237.
+Bright colors, curled feet
+Webbed feet, perhaps made it harder to access more mates per season
+Webbed feet, potentially struggled with attracting mates
+Curled toes, slightly easier to climb and find slightly more mates
+Curled toes, easier to climb trees, hide and survive longer to attract more mates per season
+Webbed feet, hard to climb and stay in tree canopies
+Curled toes, but low fertility compared to usual pattern, environmental factors must be considered
+Webbed feet, typically showing low fertility scores, not ideal for tree climbing lizard?
+Curled feet, good stripe pattern, ideal type of lizard and more attractive to mates per season
+Webbed feet, trait that is not successful with mates
+Webbed feet and less prominent shade of green
+Ideal stripe pattern, curled toes also ideal
+Webbed toes usually decrease fertility score, so this is an outlier so far for reasons unknown
+Also outlier for curled toe species, low score reasons unknown, could be stripes
+Low score reasons unknown, could be in a region that prefers other genetics
+Webbed feet and low fertility score again, reasons unknown
+
+Study5.0 | 242.
+It has webbed feed and the stripes are angled up and to the left which cover the body.
+The toes are curled and the stripes are going up to the right.
+The toes are webbed and the stripes go up to the right.
+The toes are curled and the stripes go up to the left.
+Although the toes are webbed and the stripes go up to the left, this has a low score probably due to having a different mating season.
+The toes are curled and the stripes are going upward to the left.  It is different fertility score than the other same featured reptile due to the season.
+The toes are curled and the stripes are going up to the right.  The fertility score is lower due to different season.
+The feet are webbed and the vertical stripes are going up to the right.  It is similar in fertility as previous webbed/right stripe due to showing the same season, or having a similar season.
+The toes are webbed and the stripes are going to the right.  The stripes going up right is what is contributing to the low fertility rate.
+It has webbed feet and strips going up and left.  Stripes going up and left gives it a decent score of 6.
+The feet are curled and the vertical stripes are going to right.
+The toes are curled and the vertical stripes are going to the left.  The curled toes are giving it a higher score than the webbed footed one this season.
+The feet are webbed and the vertical stripes are going up to the right.  It has a lower score than the other right going striped due to having web feet.
+Vertical stripes going to the right with curled feet.  This could mean that the lower score than previous is due to different season.
+Vertical stripes going to the left, has webbed feet.  
+Curled feet and vertical stripe going to the left.  Lower score than the one with the web feet.
+
+Study5.0 | 247.
+I have no previous data so at this time I can not explain why 
+I would say the webbed feet in comparison to the first one
+Curly feet and stripped pattern.
+Webbed feet seems to result in higher fertility 
+The curly feet seem to lower fertility
+Although webbed feet the stripped pattern differs from others having higher fertility 
+The curly feet
+Webbed feet and pattern have shown in the past to show higher fertility 
+Curly feet
+Curly feet and pattern
+Webbed feet shown in past to have higher fertility 
+Both webbed feet and pattern shown to have higher fertility 
+Curly feet is the reason for low fertility 
+Webbed feet is the reason for high fertility 
+Webbed feet is the reason for the higher fertility 
+I would say the pattern here would be the main reason for the higher fertility 
+
+Study5.0 | 250.
+This reptile appears healthy based on vibrant color and alertness.
+No webbing means more fertile.
+Webbed feet might mean less fertile.
+Fertility is higher with webbed feet.
+This is the highest fertility so far; unsure why.
+Fertility is pretty high due to webbed feet perhaps.
+Fertility is low despite webbed feet. Reptile has stripes, which may cause it to be less fertile.
+No webbed feet and stripes means less fertile.
+Stripes up left means higher fertility.
+Stripes up right means low fertility.
+Stripes up right means lower fertility.
+Stripes up left and webbed feet means higher fertility.
+Stripes up right and webbed feet means high fertility.
+Webbed feet sometimes helps with higher fertility.
+Pointed feet means lower fertility.
+Stripes up left means high fertility.
+
+Study5.0 | 256.
+Based on the number of offspring it produced
+This reptile produced more offspring
+This reptile produced less offspring, his claws are less pointy
+This one also has less pointy claws, but must have produced more off spring
+This one looks the same as the last.  Less pointy claws but more offspring
+This on has pointier claws, but less off spring
+This is the same as the last one
+This one has dull claws and produced less offspring
+Pointy claws, right to left stripes
+webbed claws, left to right stripes
+right to left stripes have higher fertility scores
+left to right stripes but pointier claws bring the score up
+right to left stripes and pointy claws
+left to right stripes and webbed feet
+webbed feet and right to left stripes
+left to right stripes and pointy claws
+
+Study5.0 | 286.
+his stripes go up and to the right so that makes him a less compatible mate
+
+his stripes go up and to the right as well so he recieves the same score
+
+his striped so up and to the left and his feet are not webbed
+his feet are webbed and his stripes go up and to the left
+
+his feet are webbed and his stripes go up and to the left
+his feet are not webbed and stripes go to the right
+stripes are to the left and he had to get lucky given hsi feet are not webbed
+his feet are webbed but his stripes go to the right which results in a medium score
+he has both attributes that result in a high fertility 
+he has the stripes going the wrong way but webbed feet
+he has both negative attributes
+he has the stripes going in the right direction but he must have gotten lucky given his feet are not webbed
+he has both attributes that are positive
+
+his stripes go the wrong way but he has webbed feet
+he has both negative attributes
+he has the main positive attribute but not webbed feet
+

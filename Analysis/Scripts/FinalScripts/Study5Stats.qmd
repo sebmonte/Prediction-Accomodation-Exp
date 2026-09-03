@@ -2,6 +2,11 @@
 ## Setup
 
 ```{r}
+library(lme4)
+library(emmeans)
+library(lmerTest)
+library(ggplot2)
+library(tidyverse)
 # Load data
 df_params <- read_csv(
   "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_params_study5_for_r.csv"
@@ -92,29 +97,83 @@ summary(model_eff)
 ```
 
 ```{r}
-emm <- emmeans(model_eff, ~ feature_relevance | time)
-pairs(emm)
-emm <- emmeans(model_eff, ~ time | feature_relevance)
-pairs(emm)
+emm_full <- emmeans(
+  model_eff,
+  ~ task * feature_relevance * feature_dimension * time
+)
+
+task_contrasts <- pairs(
+  emm_full,
+  by = c("feature_relevance", "feature_dimension", "time"),
+  adjust = "none"
+)
+task_contrasts_relevant_feet <- task_contrasts %>%
+  as.data.frame() %>%
+  filter(
+    feature_relevance == "relevant",
+    feature_dimension == "feet"
+  )
+
+task_contrasts_relevant_feet
+
 ```
+
+
+
 
 ```{r}
-emm_task <- emmeans(model_eff, ~ feature_dimension)
-pairs(emm_task)
+library(ordinal)
+df_irrelevant_abs <- df_long4 |>
+  filter(feature_relevance == "irrelevant") |>
+  mutate(
+    abs_feature_importance = abs(feature_importance),
+
+    abs_feature_importance_ord = ordered(
+      abs_feature_importance,
+      levels = 0:7
+    ),
+
+    task = factor(
+      task,
+      levels = c("predict", "accommodate")
+    ),
+
+    feature_dimension = factor(
+      feature_dimension,
+      levels = c("stripes", "feet")
+    ),
+
+    time = factor(
+      time,
+      levels = c("end", "mid")
+    ),
+
+    participant = factor(participant)
+  )
+contrasts(df_irrelevant_abs$task) <- contr.sum(2)
+contrasts(df_irrelevant_abs$feature_dimension) <- contr.sum(2)
+contrasts(df_irrelevant_abs$time) <- contr.sum(2)
+model_abs_ord <- clmm(
+  abs_feature_importance_ord ~
+    task * feature_dimension * time +
+    (1 | participant),
+  data = df_irrelevant_abs,
+  link = "logit",
+  Hess = TRUE,
+  nAGQ = 10
+)
+
+summary(model_abs_ord)
 
 ```
-
 ```{r}
 emm <- emmeans(
-  model_eff,
-  ~ task * feature_relevance * feature_dimension
+  model_abs_ord,
+  ~ task * time,
+  mode = "latent"
 )
 
-emm
-pairs(
-  emm,
-  by = c("feature_relevance", "feature_dimension")
-)
+pairs(emm, by = "task", adjust = "tukey")
 ```
 
 ```{r}
@@ -140,10 +199,231 @@ summary(model_corr_raw_eff)
 ```
 
 ```{r}
-model_corr_raw_eff <- lmer(
-  abs_correlation ~ task * feature_relevance * feature_dimension + (1|participant),
-  data = df_corr
+df_corr_irrelevant <- df_corr |>
+  filter(feature_relevance == "irrelevant")
+
+model_corr_raw_eff <- lm(
+  abs_correlation ~
+    task * feature_dimension,
+  data = df_corr_irrelevant
+)
+summary(model_corr_raw_eff)
+```
+
+```{r}
+df_irrelevant <- subset(df_corr,
+                        feature_relevance == "irrelevant")
+
+model <- lm(
+    correlation ~ task * actual_correlation,
+    data = df_irrelevant
+)
+summary(model)
+```
+
+```{r}
+ggplot(
+  df_irrelevant,
+  aes(
+    x = actual_correlation,
+    y = correlation,
+    color = task
+  )
+) +
+  geom_point(
+    alpha = 0.7,
+    size = 2.5
+  ) +
+  geom_smooth(
+    method = "lm",
+    se = TRUE
+  ) +
+  labs(
+    x = "Actual correlation during training",
+    y = "Participant correlation during test",
+    color = "Task"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+
+```{r}
+df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R-Study5.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+    stripes_relevance = ifelse(irrelevant_dim == "stripes", "irrelevant", "relevant"),
+    feet_relevance  = ifelse(irrelevant_dim == "feet", "irrelevant", "relevant"),
+    stripes_match_high = ifelse(stripes == stripes_high, 1, 0),
+    feet_match_high  = ifelse(feet == feet_high, 1, 0),
+    participant = interaction(task, conditionOrder, drop = TRUE)
+  )
+```
+
+```{r}
+df_cue <- df_merged |>
+  pivot_longer(
+    cols = c(
+      stripes_match_high,
+      feet_match_high
+    ),
+    names_to = "feature_dimension",
+    values_to = "match_high"
+  ) |>
+  mutate(
+    feature_dimension = str_remove(
+      feature_dimension,
+      "_match_high"
+    ),
+
+    feature_relevance = case_when(
+      feature_dimension == "stripes" ~ stripes_relevance,
+      feature_dimension == "feet"    ~ feet_relevance,
+      TRUE ~ NA_character_
+    )
+  ) |>
+  group_by(
+    participant,
+    task,
+    conditionOrder,
+    relevant_dim,
+    irrelevant_dim,
+    feature_dimension,
+    feature_relevance
+  ) |>
+  summarise(
+    # Participant's estimated effect of this feature
+    pred = mean(
+      testing_responses[match_high == 1],
+      na.rm = TRUE
+    ) -
+      mean(
+        testing_responses[match_high == 0],
+        na.rm = TRUE
+      ),
+
+    # True effect of this feature in the training data
+    true = mean(
+      fertility_score[match_high == 1],
+      na.rm = TRUE
+    ) -
+      mean(
+        fertility_score[match_high == 0],
+        na.rm = TRUE
+      ),
+
+    .groups = "drop"
+  ) |>
+  mutate(
+    signed_error = pred - true,
+    abs_error = abs(signed_error),
+
+    
+    task = relevel(
+      factor(
+        task,
+        levels = c("predict", "accommodate")
+      ),
+      ref = "predict"
+    ),
+
+    feature_dimension = factor(
+      feature_dimension,
+      levels = c("stripes", "feet"),
+      labels = c("Stripes", "Feet")
+    ),
+
+    feature_relevance = relevel(
+      factor(
+        feature_relevance,
+        levels = c("irrelevant", "relevant")
+      ),
+      ref = "irrelevant"
+    )
+  )
+```
+
+```{r}
+contrasts(df_cue$task) <- contr.sum(2)
+contrasts(df_cue$feature_relevance) <- contr.sum(2)
+contrasts(df_cue$feature_dimension) <- contr.sum(2)
+
+model_cue_raw_eff <- lmer(
+  abs_error ~ task * feature_relevance * feature_dimension + (1|participant),
+  data = df_cue
 )
 
-summary(model_corr_raw_eff)
+summary(model_cue_raw_eff)
+```
+
+```{r}
+# Estimated marginal means for task within
+# each relevance × dimension combination
+emm_task <- emmeans(
+  model_cue_raw_eff,
+  ~ task | feature_relevance * feature_dimension
+)
+
+# Predict vs accommodate within each cell
+pairs(emm_task, adjust = "holm")
+```
+
+
+#Combined 3-way interaction test
+```{r}
+df_study5 <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study5.csv"
+) |>
+  filter(time == "end") |>
+  mutate(
+    study = "Study5"
+  )
+df_study4 <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_for_R-Study4.csv"
+) |>
+  mutate(
+    study = "Study4"
+  )
+
+```
+
+```{r}
+df_combined <- bind_rows(
+  df_study4,
+  df_study5
+) |>
+  mutate(
+    # Make participant IDs unique across studies
+    participant = interaction(study, participant, drop = TRUE),
+
+    task = factor(
+      task,
+      levels = c("predict", "accommodate")
+    ),
+
+    feature_relevance = factor(
+      feature_relevance,
+      levels = c("irrelevant", "relevant")
+    ),
+
+    feature_dimension = factor(
+      feature_dimension,
+      levels = c("stripes", "feet")
+    ),
+
+    study = factor(study)
+  )
+```
+
+```{r}
+contrasts(df_combined$task) <- contr.sum(2)
+contrasts(df_combined$feature_relevance) <- contr.sum(2)
+contrasts(df_combined$feature_dimension) <- contr.sum(2)
+model_combined <- lmer(
+  feature_importance ~
+    task * feature_relevance * feature_dimension +
+    (1| participant),
+  data = df_combined
+)
+
+summary(model_combined)
 ```

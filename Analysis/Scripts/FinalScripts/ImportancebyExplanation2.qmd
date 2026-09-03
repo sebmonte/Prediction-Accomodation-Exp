@@ -2,37 +2,203 @@
 ## Setup
 
 ```{r}
-library(tidyverse)  # read_csv and mutate
-library(lme4)       # lmer
-library(emmeans)    # emmeans and pairs
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+library(modelsummary)
+df_params <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_params_by_explanation_for_R-Study2.csv"
+) |>
+  mutate(
+    explanation_group = factor(
+      explanation_group,
+      levels = c(
+        "predictor",
+        "non_explainer",
+        "causal_explainer"
+      ),
+      labels = c(
+      "Predict",
+      "Accommodate\n(No Causal Explanation)",
+      "Accommodate\n(Causal Explanation)"
+      )
+    ),
+    model_param_score = factor(
+      model_param_score,
+      levels = 0:3
+    )
+  )
+```
+```{r}
+contingency_all <- table(
+  df_params$explanation_group,
+  df_params$model_param_score
+)
+
+contingency_all
+
+chi_test <- chisq.test(contingency_all)
+
+chi_test
+
+# Observed counts
+chi_test$observed
+
+# Expected counts
+chi_test$expected
+plot_df <- df_params |>
+  count(
+    explanation_group,
+    model_param_score,
+    name = "n"
+  ) |>
+  group_by(explanation_group) |>
+  mutate(
+    proportion = n / sum(n)
+  ) |>
+  ungroup()
+```
+```{r}
+ggplot(
+  plot_df,
+  aes(
+    y = explanation_group,
+    x = proportion,
+    fill = model_param_score
+  )
+) +
+  geom_col(
+    position = position_stack(reverse = TRUE)
+  ) +
+  geom_text(
+    aes(
+      label = paste0("", n)
+    ),
+    position = position_stack(
+      vjust = 0.5,
+      reverse = TRUE
+    ),
+    size = 3
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    labels = scales::percent
+  ) +
+  labs(
+    x = "Proportion",
+    y = NULL,
+    fill = "Complexity score"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+
+
+
+
+```{r}
+library(tidyverse)
+library(lme4)
+library(emmeans)
 library(lmerTest)
 library(ordinal)
 library(performance)
 library(modelsummary)
-library(lmerTest)
 
-df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_by_explanation_for_R-Study2.csv') |>
+df_long4 <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_long_by_explanation_for_R-Study2.csv"
+) |>
   mutate(
-    task = relevel(factor(task_explanation_group), ref = "accommodate_causal"),
-    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant"),
-    feature_dimension = relevel(factor(feature_dimension), ref = "color"),
+    feature_relevance = relevel(
+      factor(feature_relevance),
+      ref = "irrelevant"
+    ),
+
+    feature_dimension = factor(
+      feature_dimension,
+      levels = c("color", "tail", "wing"),
+      labels = c("Color", "Tail", "Wing")
+    ),
+
+    # Feature-specific explanation grouping
+    feature_explanation_group = case_when(
+      task == "predict" ~ "Predict",
+
+      task == "accommodate" &
+        had_causal_explanation_for_feature == TRUE ~
+        "Accommodate\n(Causal Explanation)",
+
+      task == "accommodate" &
+        (
+          had_causal_explanation_for_feature == FALSE |
+          is.na(had_causal_explanation_for_feature)
+        ) ~
+        "Accommodate\n(No Causal Explanation)",
+
+      TRUE ~ NA_character_
+    ),
+
+    feature_explanation_group = factor(
+      feature_explanation_group,
+      levels = c(
+        "Predict",
+        "Accommodate\n(No Causal Explanation)",
+        "Accommodate\n(Causal Explanation)"
+      )
+    )
   )
 
-df_wing <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_wing_byexplanation_for_R-Study2.csv') |>
+df_wing <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_wing_byexplanation_for_R-Study2.csv"
+) |>
   mutate(
-    task = relevel(factor(task_explanation_group), ref = "accommodate_causal"),
-    wing_relevant = relevel(factor(wing_relevant), ref = "1"),
-    wing_high = relevel(factor(wing_high), ref = "1")
+    feature_explanation_group = case_when(
+      task == "predict" ~ "Predict",
+
+      task == "accommodate" &
+        had_causal_explanation_for_feature == TRUE ~
+        "Accommodate\n(Causal Explanation)",
+
+      task == "accommodate" &
+        (
+          had_causal_explanation_for_feature == FALSE |
+          is.na(had_causal_explanation_for_feature)
+        ) ~
+        "Accommodate\n(No Causal Explanation)",
+
+      TRUE ~ NA_character_
+    ),
+
+    feature_explanation_group = factor(
+      feature_explanation_group,
+      levels = c(
+        "Predict",
+        "Accommodate\n(No Causal Explanation)",
+        "Accommodate\n(Causal Explanation)"
+      )
+    ),
+
+    wing_relevant = relevel(
+      factor(wing_relevant),
+      ref = "1"
+    ),
+
+    wing_high = relevel(
+      factor(wing_high),
+      ref = "1"
+    )
   )
+
 ```
 
 ```{r}
-contrasts(df_wing$task) <- contr.sum(3)
+contrasts(df_wing$feature_explanation_group) <- contr.sum(3)
 contrasts(df_wing$wing_relevant) <- contr.sum(2)
 contrasts(df_wing$wing_high) <- contr.sum(2)
 
 model_wing <- lm(
-  feature_importance ~ task * wing_relevant * wing_high,
+  feature_importance ~ feature_explanation_group * wing_relevant * wing_high,
   data = df_wing
 )
 
@@ -43,22 +209,26 @@ joint_tests(model_wing)
 ```
 
 ```{r}
-contrasts(df_long4$task) <- contr.sum(3)
+contrasts(df_long4$feature_explanation_group) <- contr.sum(3)
 contrasts(df_long4$feature_relevance) <- contr.sum(2)
 contrasts(df_long4$feature_dimension) <- contr.sum(3)
 
 model_eff <- lmer(
-  feature_importance ~ task * feature_relevance *
+  feature_importance ~
+    feature_explanation_group *
+    feature_relevance *
     feature_dimension +
-    (1|participant),
+    (1 | participant),
   data = df_long4
 )
+
 summary(model_eff)
+joint_tests(model_eff)
 ```
 ```{r}
 
 joint_tests(model_eff)
-emm_task <- emmeans(model_eff, ~ task)
+emm_task <- emmeans(model_eff, ~ feature_explanation_group)
 pairs(emm_task, adjust = "tukey")
 ```
 
@@ -69,111 +239,469 @@ contrast(emm, interaction = c("pairwise", "pairwise"), by = NULL)
 
 
 ```{r}
-plot_df <- df_long4 %>%
-  group_by(task, feature_dimension) %>%
+# 1. Collapsed across feature relevance
+
+plot_summary <- df_long4 |>
+  filter(
+    !is.na(feature_explanation_group),
+    !is.na(feature_dimension),
+    !is.na(feature_importance)
+  ) |>
+  group_by(
+    feature_dimension,
+    feature_explanation_group
+  ) |>
   summarise(
-    mean = mean(feature_importance, na.rm = TRUE),
-    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    mean_importance = mean(feature_importance, na.rm = TRUE),
+    sd_importance = sd(feature_importance, na.rm = TRUE),
+    n = n_distinct(participant),
+    se_importance = sd_importance / sqrt(n),
     .groups = "drop"
   )
 
 ggplot(
-  plot_df,
+  plot_summary,
   aes(
     x = feature_dimension,
-    y = mean,
-    color = task,
-    group = task
+    y = mean_importance,
+    fill = feature_explanation_group
   )
 ) +
-  geom_point(
-    position = position_dodge(width = .3),
-    size = 3
-  ) +
-  geom_line(
-    position = position_dodge(width = .3)
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7,
+    color = "black"
   ) +
   geom_errorbar(
     aes(
-      ymin = mean - se,
-      ymax = mean + se
+      ymin = mean_importance - se_importance,
+      ymax = mean_importance + se_importance
     ),
-    width = .15,
-    position = position_dodge(width = .3)
+    position = position_dodge(width = 0.8),
+    width = 0.2
   ) +
-  theme_classic() +
+  geom_text(
+    aes(
+      y = -0.5,
+      label = n
+    ),
+    position = position_dodge(width = 0.8),
+    size = 2.5,
+    vjust = 1
+  ) +
+  scale_y_continuous(
+    limits = c(-1, 7.5)
+  ) +
   labs(
-    x = "Feature Dimension",
-    y = "feature_importance",
-    color = "Task"
-  )
-```
-```{r}
-plot_df <- df_long4 %>%
-  group_by(task, feature_relevance) %>%
+    x = "Feature",
+    y = "Mean feature importance",
+    fill = "Condition"
+  ) +
+  theme_classic(base_size = 14)
+
+
+# 2. Faceted by feature relevance
+
+plot_summary_relevance <- df_long4 |>
+  filter(
+    !is.na(feature_explanation_group),
+    !is.na(feature_dimension),
+    !is.na(feature_relevance),
+    !is.na(feature_importance)
+  ) |>
+  group_by(
+    feature_relevance,
+    feature_dimension,
+    feature_explanation_group
+  ) |>
   summarise(
-    mean = mean(feature_importance, na.rm = TRUE),
-    se = sd(feature_importance, na.rm = TRUE) / sqrt(n()),
+    mean_importance = mean(feature_importance, na.rm = TRUE),
+    sd_importance = sd(feature_importance, na.rm = TRUE),
+    n = n_distinct(participant),
+    se_importance = sd_importance / sqrt(n),
     .groups = "drop"
   )
 
 ggplot(
-  plot_df,
+  plot_summary_relevance,
   aes(
-    x = feature_relevance,
-    y = mean,
-    color = task,
-    group = task
+    x = feature_dimension,
+    y = mean_importance,
+    fill = feature_explanation_group
   )
 ) +
-  geom_point(
-    position = position_dodge(width = .3),
-    size = 3
-  ) +
-  geom_line(
-    position = position_dodge(width = .3)
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7,
+    color = "black"
   ) +
   geom_errorbar(
     aes(
-      ymin = mean - se,
-      ymax = mean + se
+      ymin = mean_importance - se_importance,
+      ymax = mean_importance + se_importance
     ),
-    width = .15,
-    position = position_dodge(width = .3)
+    position = position_dodge(width = 0.8),
+    width = 0.2
   ) +
-  theme_classic() +
+  geom_text(
+    aes(
+      y = -0.5,
+      label = n
+    ),
+    position = position_dodge(width = 0.8),
+    size = 2.5,
+    vjust = 1
+  ) +
+  facet_wrap(
+    ~ feature_relevance,
+    nrow = 1
+  ) +
+  scale_y_continuous(
+    limits = c(-1, 7.5)
+  ) +
   labs(
-    x = "Feature Relevance",
-    y = "feature_importance",
-    color = "Task"
-  )
+    x = "Feature",
+    y = "Mean feature importance",
+    fill = "Condition"
+  ) +
+  theme_classic(base_size = 14)
 ```
 
-
-
 ```{r}
-emm <- emmeans(model_eff, ~ task * feature_dimension)
+library(tidyverse)
+library(lme4)
+library(emmeans)
+library(lmerTest)
+
+df_corr2 <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_by_explanation_for_R-Study2.csv"
+) |>
+  mutate(
+    task = factor(
+      feature_explanation_group,
+      levels = c(
+        "explainer",
+        "non_explainer",
+        "predictor"
+      ),
+      labels = c(
+        "Accommodate\n(Causal Explanation)",
+        "Accommodate\n(No Causal Explanation)",
+        "Predict"
+      )
+    ),
+
+    feature_relevance = relevel(
+      factor(feature_relevance),
+      ref = "irrelevant"
+    ),
+
+    feature_dimension = relevel(
+      factor(feature_dimension),
+      ref = "color"
+    )
+  )
+
+contrasts(df_corr2$task) <- contr.sum(3)
+contrasts(df_corr2$feature_relevance) <- contr.sum(2)
+contrasts(df_corr2$feature_dimension) <- contr.sum(3)
+
+model_corr <- lmer(
+  correlation ~ task * feature_relevance *
+    feature_dimension +
+    (1 | participant),
+  data = df_corr2
+)
+
+summary(model_corr)
+
+joint_tests(model_corr)
+
+emm_task <- emmeans(model_corr, ~ task)
+pairs(emm_task, adjust = "tukey")
+
+emm <- emmeans(
+  model_corr,
+  ~ feature_dimension * task
+)
 
 contrast(
   emm,
-  interaction = "pairwise",
+  interaction = c("pairwise", "pairwise"),
   by = NULL
 )
 ```
+```{r}
+joint_tests(model_corr)
+```
+
 
 ```{r}
-emm_rel <- emmeans(model_eff, ~ task | feature_dimension)
+# 1. Collapsed across relevance
 
-pairs(emm_rel)
+corr_plot_summary <- df_corr2 |>
+  filter(
+    !is.na(feature_explanation_group),
+    !is.na(feature_dimension),
+    !is.na(correlation)
+  ) |>
+  group_by(
+    feature_dimension,
+    feature_explanation_group
+  ) |>
+  summarise(
+    mean_correlation = mean(correlation, na.rm = TRUE),
+    sd_correlation = sd(correlation, na.rm = TRUE),
+    n = n_distinct(participant),
+    se_correlation = sd_correlation / sqrt(n),
+    .groups = "drop"
+  )
 
-emm_rel <- emmeans(model_eff, ~ task | feature_relevance)
+ggplot(
+  corr_plot_summary,
+  aes(
+    x = feature_dimension,
+    y = mean_correlation,
+    fill = feature_explanation_group
+  )
+) +
+  geom_hline(
+    yintercept = 0,
+    linewidth = 0.6
+  ) +
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7,
+    color = "black"
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean_correlation - se_correlation,
+      ymax = mean_correlation + se_correlation
+    ),
+    position = position_dodge(width = 0.8),
+    width = 0.2
+  ) +
+  geom_text(
+    aes(
+      y = -0.11,
+      label = n
+    ),
+    position = position_dodge(width = 0.8),
+    size = 2.5,
+    vjust = 1
+  ) +
+  scale_y_continuous(
+    limits = c(-0.15, 1)
+  ) +
+  labs(
+    x = "Feature",
+    y = "Mean correlation",
+    fill = "Condition"
+  ) +
+  theme_classic(base_size = 14)
 
-pairs(emm_rel)
+# 2. Faceted by relevance
+
+corr_plot_summary_relevance <- df_corr2 |>
+  filter(
+    !is.na(feature_explanation_group),
+    !is.na(feature_dimension),
+    !is.na(feature_relevance),
+    !is.na(correlation)
+  ) |>
+  group_by(
+    feature_relevance,
+    feature_dimension,
+    feature_explanation_group
+  ) |>
+  summarise(
+    mean_correlation = mean(correlation, na.rm = TRUE),
+    sd_correlation = sd(correlation, na.rm = TRUE),
+    n = n_distinct(participant),
+    se_correlation = sd_correlation / sqrt(n),
+    .groups = "drop"
+  )
+
+ggplot(
+  corr_plot_summary_relevance,
+  aes(
+    x = feature_dimension,
+    y = mean_correlation,
+    fill = feature_explanation_group
+  )
+) +
+  geom_hline(
+    yintercept = 0,
+    linewidth = 0.6
+  ) +
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7,
+    color = "black"
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean_correlation - se_correlation,
+      ymax = mean_correlation + se_correlation
+    ),
+    position = position_dodge(width = 0.8),
+    width = 0.2
+  ) +
+  geom_text(
+    aes(
+      y = -0.13,
+      label = n
+    ),
+    position = position_dodge(width = 0.8),
+    size = 2.5,
+    vjust = 1
+  ) +
+  facet_wrap(
+    ~ feature_relevance,
+    nrow = 1
+  ) +
+  scale_y_continuous(
+    limits = c(-0.15, 1)
+  ) +
+  labs(
+    x = "Feature",
+    y = "Mean correlation",
+    fill = "Condition"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+###ERROR
+
+```{r}
+df_merged <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_merged_for_R-Study2.csv') |>
+  mutate(
+    task = relevel(factor(task), ref = "predict"),
+
+    color_relevance = ifelse(irrelevant_dim == "color", "irrelevant", "relevant"),
+    tail_relevance  = ifelse(irrelevant_dim == "tail",  "irrelevant", "relevant"),
+    wing_relevance  = ifelse(irrelevant_dim == "wing",  "irrelevant", "relevant"),
+
+    color_match_high = ifelse(color == color_high, 1, 0),
+    tail_match_high  = ifelse(tail  == tail_high,  1, 0),
+    wing_match_high  = ifelse(wing  == wing_high,  1, 0)
+  )
 ```
 
 ```{r}
-emmip(model_eff,
-      task ~ feature_dimension,
-      CIs = TRUE)
+df_cue <- df_merged |>
+  pivot_longer(
+    cols = c(color_match_high, tail_match_high, wing_match_high),
+    names_to = "feature_dimension",
+    values_to = "match_high"
+  ) |>
+  mutate(
+    feature_dimension = str_remove(feature_dimension, "_match_high"),
+    feature_relevance = case_when(
+      feature_dimension == "color" ~ color_relevance,
+      feature_dimension == "tail"  ~ tail_relevance,
+      feature_dimension == "wing"  ~ wing_relevance
+    )
+  ) |>
+  group_by(
+    task, participant,
+    relevant_dim_1, relevant_dim_2, irrelevant_dim,causal_color, causal_tail, causal_wing,
+    feature_dimension, feature_relevance
+  ) |>
+  summarise(
+    pred = mean(testing_responses[match_high == 1], na.rm = TRUE) -
+           mean(testing_responses[match_high == 0], na.rm = TRUE),
+
+    true = mean(food_amount[match_high == 1], na.rm = TRUE) -
+           mean(food_amount[match_high == 0], na.rm = TRUE),
+
+    .groups = "drop"
+  ) |>
+  mutate(
+  feature_explanation_group = case_when(
+    task == "predict" ~ "predictor",
+
+    task == "accommodate" &
+      feature_dimension == "color" &
+      causal_color ~ "explainer",
+
+    task == "accommodate" &
+      feature_dimension == "tail" &
+      causal_tail ~ "explainer",
+
+    task == "accommodate" &
+      feature_dimension == "wing" &
+      causal_wing ~ "explainer",
+
+    task == "accommodate" ~ "non_explainer"
+  ),
+
+  feature_explanation_group = factor(
+    feature_explanation_group,
+    levels = c("explainer", "non_explainer", "predictor"),
+    labels = c("Explainer", "Non-explainer", "Predictor")
+  )
+)|>
+  
+  mutate(
+    signed_error = pred - true,
+    abs_error = abs(pred - true),
+
+    task = relevel(factor(task), ref = "predict"),
+    feature_dimension = relevel(factor(feature_dimension), ref = "tail"),
+    feature_relevance = relevel(factor(feature_relevance), ref = "irrelevant")
+  )
 ```
 
+```{r}
+error_plot_summary <-
+  df_cue |>
+  group_by(
+    feature_dimension,
+    feature_explanation_group
+  ) |>
+  summarise(
+    mean_error = mean(abs_error),
+    sd_error = sd(abs_error),
+    n = n_distinct(participant),
+    se_error = sd_error / sqrt(n),
+    .groups = "drop"
+  )
+ggplot(
+  error_plot_summary,
+  aes(
+    x = feature_dimension,
+    y = mean_error,
+    fill = feature_explanation_group
+  )
+) +
+  geom_col(
+    position = position_dodge(.8),
+    width = .7,
+    color = "black"
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = mean_error - se_error,
+      ymax = mean_error + se_error
+    ),
+    position = position_dodge(.8),
+    width = .2
+  ) +
+  geom_text(
+    aes(
+      y = 0,
+      label = paste0("n = ", n)
+    ),
+    position = position_dodge(.8),
+    vjust = 1.5,
+    size = 2.5
+  ) +
+  labs(
+    x = "Feature",
+    y = "Absolute error",
+    fill = "Condition"
+  ) +
+  theme_classic()
+```

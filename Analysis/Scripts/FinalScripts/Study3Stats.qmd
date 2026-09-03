@@ -1,6 +1,39 @@
 
 ## Setup
 
+
+##optional extra test of overfitting difference
+```{r}
+df_params <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_params_study3_for_r.csv')
+
+df_params <- df_params %>%
+  mutate(
+    overfit = as.integer(overfit),
+    task = factor(
+      task,
+      levels = c("predict", "accommodate")
+    ),
+    irrelevant_dim = factor(
+      irrelevant_dim,
+      levels = c("feet", "color")
+    )
+  )
+```
+```{r}
+contrasts(df_params$task)              <- contr.sum(2)
+contrasts(df_params$irrelevant_dim) <- contr.sum(2)
+model_overfit <- glm(
+  overfit ~ task * irrelevant_dim,
+  data = df_params,
+  family = binomial(link = "logit")
+)
+
+summary(model_overfit)
+drop1(model_overfit, test = "Chisq")
+```
+
+
+##importance rating tests
 ```{r}
 library(tidyverse)  # read_csv and mutate
 library(lme4)       # lmer
@@ -21,6 +54,7 @@ df_long4 <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Com
   )
 ```
 
+#Test 1: only relevance
 ```{r}
 #| fig-width: 14
 #| fig-height: 10
@@ -35,6 +69,7 @@ model_eff <- lm(
 summary(model_eff)
 ```
 
+#Test 2: include dimension
 ```{r}
 #| fig-width: 14
 #| fig-height: 10
@@ -49,6 +84,18 @@ model_eff <- lmer(
   data = df_long4
 )
 summary(model_eff)
+```
+
+#Followups
+```{r}
+emmeans(model_eff, ~ task * feature_dimension)
+
+pairs(
+  emmeans(model_eff, ~ task * feature_dimension),
+  simple = "task",
+  adjust = "holm"
+)
+contrasts(df_long4$feature_dimension)
 ```
 
 
@@ -112,7 +159,7 @@ pairs(
 
 
 
-
+#correlations test 1: only relevance
 ```{r}
 df_corr <- read_csv('/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/df_corr_for_R_Study3.csv') |>
   mutate(
@@ -132,6 +179,8 @@ model_corr_raw_eff <- lm(
 summary(model_corr_raw_eff)
 ```
 
+
+#test 2: relevance + dimension
 ```{r}
 # Effect / sum coding
 
@@ -158,6 +207,17 @@ pairs(
 )
 ```
 
+#supplement looking at the actual association of the irrelevant feature
+```{r}
+df_irrelevant <- subset(df_corr,
+                        feature_relevance == "irrelevant")
+
+model <- lm(
+    correlation ~ task * actual_correlation,
+    data = df_irrelevant
+)
+summary(model)
+```
 ```{r}
 library(tidyverse)
 
@@ -200,6 +260,17 @@ ggplot(
     y = "Mean Correlation",
     color = "Task"
   )
+```
+
+```{r}
+df_irrelevant <- subset(df_corr,
+                        feature_relevance == "irrelevant")
+
+model <- lm(
+    correlation ~ task * actual_correlation,
+    data = df_irrelevant
+)
+summary(model)
 ```
 
 
@@ -298,26 +369,23 @@ contrasts(df_cue$task) <- contr.sum(2)
 contrasts(df_cue$feature_relevance) <- contr.sum(2)
 contrasts(df_cue$feature_dimension) <- contr.sum(2)
 
-model_signed <- lmer(
-  signed_error ~ task * feature_relevance * feature_dimension +
+model_abs <- lmer(
+  abs_error ~ task * feature_relevance * feature_dimension +
     (1 | conditionOrder),
   data = df_cue
 )
 
-summary(model_signed)
+summary(model_abs)
 ```
 
 ```{r}
-emm <- emmeans(
-  model_signed,
-  ~ task * feature_relevance * feature_dimension
-)
+emmeans(model_abs,
+         ~ feature_relevance * task)
+```
 
-emm
-pairs(
-  emm,
-  by = c("feature_relevance", "feature_dimension")
-)
+```{r}
+emmeans(model_abs,
+         ~ feature_relevance * feature_dimension)
 ```
 
 ```{r}
@@ -327,7 +395,7 @@ ggplot(
   df_cue,
   aes(
     x = feature_dimension,
-    y = signed_error,
+    y = abs_error,
     color = task,
     group = task
   )

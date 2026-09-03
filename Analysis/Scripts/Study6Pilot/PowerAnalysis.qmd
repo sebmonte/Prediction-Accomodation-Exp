@@ -1,0 +1,181 @@
+
+## Setup
+
+```{r}
+library(lme4)
+library(emmeans)
+library(lmerTest)
+library(tidyverse)
+# Load data
+df_params <- read_csv(
+  "/Users/sm6511/Desktop/Prediction-Accomodation-Exp/data/Combined/Study6.0Ratings.csv"
+) |> 
+  mutate(
+    explanationCategory = relevel(
+      factor(explanationCategory),
+      ref = "Feet_Study4"
+    )
+  )
+```
+
+
+```{r}
+model <- lmer(
+  good_minus_obvious ~ explanationCategory + (1 | participant),
+  data = df_params
+)
+summary(model)
+```
+
+```{r}
+model <- lmer(
+  good ~ explanationCategory + (1 | participant),
+  data = df_params
+)
+summary(model)
+```
+
+```{r}
+model <- lmer(
+  obvious ~ explanationCategory + (1 | participant),
+  data = df_params
+)
+summary(model)
+```
+
+
+```{r}
+raw_stripes <- summary(model_gap)$coefficients["featureStripes_Study4", "Estimate"]
+raw_stripes
+
+d_stripes <- raw_stripes / sigma(model_gap)
+d_stripes
+```
+
+```{r}
+df_gap <- df_params |>
+  mutate(
+    goodness_salience_gap = explanation_goodness - salience,
+    # Strip the "_StudyN" suffix so Feet_Study3/Feet_Study4 collapse into "Feet",
+    # and Stripes_Study4/Stripes_Study5 collapse into "Stripes"
+    feature_type = str_remove(explanationCategory, "_Study\\d+$"),
+    feature_type = relevel(factor(feature_type), ref = "Feet")
+  )
+
+model_gap_pooled <- lmer(
+  goodness_salience_gap ~ feature_type + (1 | participant),
+  data = df_gap
+)
+
+summary(model_gap_pooled)$coefficients
+```
+```{r}
+raw_stripes_pooled <- summary(model_gap_pooled)$coefficients["feature_typeStripes", "Estimate"]
+raw_stripes_pooled
+
+d_stripes_pooled <- raw_stripes_pooled / sigma(model_gap_pooled)
+d_stripes_pooled
+```
+
+
+```{r}
+library(simr)
+library(ggplot2)
+
+#Note for self: Cohen's d = raw effect/noise SD
+
+sigma_resid <- sigma(model_gap) #Residual standard deviation
+
+# Range of hypothetical true effect sizes (Cohen's d)
+target_ds <- c(0.2, 0.3, 0.5, 0.8, 1.0, 1.5, 2.0)
+breaks    <- c(30, 50, 80, 100, 150, 200, 250, 300, 400, 500) #ns to sample
+
+results <- list()
+
+for (d in target_ds) { #run for each effect size
+  #This line is saying we know the hypothetical D, and the residuals from the study, and we want to get raw effect
+  raw <- d * sigma_resid #Multiply hypothetical effect size by multiplying it by residual SD
+  
+  
+  m <- model_gap #Fresh version of model
+  fixef(m)["featureStripes_Study4"] <- raw #Put raw effect into model
+  m_ext <- extend(m, along = "participant", n = max(breaks)) #Take modified model and simulate with synthetic participants
+  
+  #Simulation: take each value one at a time, simulate a dataset, refit model, count if effect comes out as significant
+  pc <- powerCurve(
+    m_ext,
+    test = fixed("featureStripes_Study4", method = "t"),
+    along = "participant",
+    breaks = breaks,
+    nsim = 500
+  )
+  
+  s <- summary(pc)
+  s$d <- d
+  results[[as.character(d)]] <- s
+}
+
+results_df <- do.call(rbind, results)
+
+ggplot(results_df, aes(x = nlevels, y = mean, color = factor(d))) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, fill = factor(d)), alpha = 0.1, color = NA) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 0.8, linetype = "dashed", color = "gray40") +
+  labs(x = "Number of participants", y = "Power",
+       color = "Target d", fill = "Target d",
+       title = "Power to detect feet vs. stripes at different assumed effect sizes") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+```
+```{r}
+
+```
+
+```{r}
+ggplot(results_df, aes(x = nlevels, y = mean, color = factor(d))) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, fill = factor(d)), alpha = 0.1, color = NA) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 0.8, linetype = "dashed", color = "gray40") +
+  labs(x = "Number of participants", y = "Power",
+       color = "Target d", fill = "Target d",
+       title = "Power to detect feet vs. stripes at effect sizes") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+```
+
+```{r}
+model_ext <- extend(model_gap, along = "participant", n = 400)
+
+pc_observed <- powerCurve(
+  model_ext,
+  test = fixed("featureStripes_Study4", method = "t"),
+  along = "participant",
+  breaks = c(30, 50, 80, 100, 150, 200, 250, 300, 400),
+  nsim = 1000
+)
+
+pc_observed_summary <- summary(pc_observed)
+pc_observed_summary
+ggplot(pc_observed_summary, aes(x = nlevels, y = mean)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.15) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 0.8, linetype = "dashed", color = "gray40") +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(x = "Number of participants", y = "Power",
+       title = "Power to detect the observed feet vs. stripes effect (raw ≈ 0.3, d ≈ 0.11)") +
+  theme_minimal()
+```
+
+```{r}
+library(simr)
+fixef(model_gap)
+powerSim(
+  model_gap,
+  test = fixed("study5_stripes", method = "t"),
+  nsim = 1000
+)
+```
+
